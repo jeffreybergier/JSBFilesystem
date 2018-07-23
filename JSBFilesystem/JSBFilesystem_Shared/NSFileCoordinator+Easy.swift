@@ -121,7 +121,9 @@ internal extension NSFileCoordinator {
             c.coordinate(writingItemAt: destination, options: [], error: errorPointer, byAccessor: { url in
                 guard coordinatorError == nil else { return }
                 do {
-                    try FileManager.default.moveItem(at: source, to: destination)
+                    let fm = FileManager.default
+                    try fm.createDirectory(at: destination.deletingLastPathComponent(), withIntermediateDirectories: true, attributes: nil)
+                    try fm.moveItem(at: source, to: destination)
                 } catch {
                     moveError = error
                 }
