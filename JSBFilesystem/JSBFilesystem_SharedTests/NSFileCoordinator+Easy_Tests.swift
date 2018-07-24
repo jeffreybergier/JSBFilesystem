@@ -140,5 +140,160 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
             XCTFail(String(describing: error))
         }
     }
+
+    func testAscendingAlphabeticalSort() {
+        let dirURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+            .appendingPathComponent(UUID, isDirectory: true)
+            .appendingPathComponent(UUID, isDirectory: true)
+        do {
+            let count = 100
+            let fm = FileManager.default
+            try fm.createDirectory(at: dirURL, withIntermediateDirectories: true, attributes: nil)
+            for i in 0 ..< count {
+                let file = "\(i).file"
+                let url = dirURL.appendingPathComponent(file)
+                let data = Data(file.utf8)
+                try data.write(to: url)
+            }
+            let urls = try NSFileCoordinator.JSB_directoryContentsURLsAndModificationDates(ofDirectoryURL: dirURL,
+                                                                                           sortedBy: .localizedNameKey,
+                                                                                           ascending: true)
+            XCTAssert(urls.count == count)
+            XCTAssert(urls.first!.0.lastPathComponent == "0.file")
+            XCTAssert(urls.last!.0.lastPathComponent == "99.file")
+        } catch {
+            XCTFail(String(describing: error))
+        }
+    }
+
+    func testDescendingAlphabeticalSort() {
+        let dirURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+            .appendingPathComponent(UUID, isDirectory: true)
+            .appendingPathComponent(UUID, isDirectory: true)
+        do {
+            let count = 100
+            let fm = FileManager.default
+            try fm.createDirectory(at: dirURL, withIntermediateDirectories: true, attributes: nil)
+            for i in 0 ..< count {
+                let file = "\(i).file"
+                let url = dirURL.appendingPathComponent(file)
+                let data = Data(file.utf8)
+                try data.write(to: url)
+            }
+            let urls = try NSFileCoordinator.JSB_directoryContentsURLsAndModificationDates(ofDirectoryURL: dirURL,
+                                                                                           sortedBy: .localizedNameKey,
+                                                                                           ascending: false)
+            XCTAssert(urls.count == count)
+            XCTAssert(urls.last!.0.lastPathComponent == "0.file")
+            XCTAssert(urls.first!.0.lastPathComponent == "99.file")
+        } catch {
+            XCTFail(String(describing: error))
+        }
+    }
+
+    func testAscendingCreationDateSort() {
+        let dirURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+            .appendingPathComponent(UUID, isDirectory: true)
+            .appendingPathComponent(UUID, isDirectory: true)
+        do {
+            let count = 100
+            let fm = FileManager.default
+            try fm.createDirectory(at: dirURL, withIntermediateDirectories: true, attributes: nil)
+            for i in 0 ..< count {
+                let file = "\(i).file"
+                let url = dirURL.appendingPathComponent(file)
+                let data = Data(file.utf8)
+                try data.write(to: url)
+            }
+            let urls = try NSFileCoordinator.JSB_directoryContentsURLsAndModificationDates(ofDirectoryURL: dirURL,
+                                                                                           sortedBy: .creationDateKey,
+                                                                                           ascending: true)
+            XCTAssert(urls.count == count)
+            XCTAssert(urls.first!.0.lastPathComponent == "0.file")
+            XCTAssert(urls.last!.0.lastPathComponent == "99.file")
+        } catch {
+            XCTFail(String(describing: error))
+        }
+    }
+
+    func testDescendingCreationDateSort() {
+        let dirURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+            .appendingPathComponent(UUID, isDirectory: true)
+            .appendingPathComponent(UUID, isDirectory: true)
+        do {
+            let count = 100
+            let fm = FileManager.default
+            try fm.createDirectory(at: dirURL, withIntermediateDirectories: true, attributes: nil)
+            for i in 0 ..< count {
+                let file = "\(i).file"
+                let url = dirURL.appendingPathComponent(file)
+                let data = Data(file.utf8)
+                try data.write(to: url)
+            }
+            let urls = try NSFileCoordinator.JSB_directoryContentsURLsAndModificationDates(ofDirectoryURL: dirURL,
+                                                                                           sortedBy: .creationDateKey,
+                                                                                           ascending: false)
+            XCTAssert(urls.count == count)
+            XCTAssert(urls.last!.0.lastPathComponent == "0.file")
+            XCTAssert(urls.first!.0.lastPathComponent == "99.file")
+        } catch {
+            XCTFail(String(describing: error))
+        }
+    }
+
+    func testAscendingModificationDateSort() {
+        let dirURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+            .appendingPathComponent(UUID, isDirectory: true)
+            .appendingPathComponent(UUID, isDirectory: true)
+        do {
+            let count = 100
+            let fm = FileManager.default
+            try fm.createDirectory(at: dirURL, withIntermediateDirectories: true, attributes: nil)
+            for i in 0 ..< count {
+                let file = "\(i).file"
+                let url = dirURL.appendingPathComponent(file)
+                let data = Data(file.utf8)
+                try data.write(to: url)
+            }
+            let modURL = dirURL.appendingPathComponent("10.file")
+            let data = Data("MODIFIED".utf8)
+            try data.write(to: modURL)
+            let urls = try NSFileCoordinator.JSB_directoryContentsURLsAndModificationDates(ofDirectoryURL: dirURL,
+                                                                                           sortedBy: .contentModificationDateKey,
+                                                                                           ascending: true)
+            XCTAssert(urls.count == count)
+            XCTAssert(urls.last!.0.lastPathComponent == "10.file")
+        } catch {
+            XCTFail(String(describing: error))
+        }
+    }
+
+    func testDescendingModificationDateSort() {
+        let dirURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+            .appendingPathComponent(UUID, isDirectory: true)
+            .appendingPathComponent(UUID, isDirectory: true)
+        do {
+            let count = 100
+            let fm = FileManager.default
+            try fm.createDirectory(at: dirURL, withIntermediateDirectories: true, attributes: nil)
+            for i in 0 ..< count {
+                let file = "\(i).file"
+                let url = dirURL.appendingPathComponent(file)
+                let data = Data(file.utf8)
+                try data.write(to: url)
+            }
+            let modURL = dirURL.appendingPathComponent("10.file")
+            let data = Data("MODIFIED".utf8)
+            try data.write(to: modURL)
+            let urls = try NSFileCoordinator.JSB_directoryContentsURLsAndModificationDates(ofDirectoryURL: dirURL,
+                                                                                           sortedBy: .contentModificationDateKey,
+                                                                                           ascending: false)
+            XCTAssert(urls.count == count)
+            XCTAssert(urls.first!.0.lastPathComponent == "10.file")
+        } catch {
+            XCTFail(String(describing: error))
+        }
+    }
+
 }
 
