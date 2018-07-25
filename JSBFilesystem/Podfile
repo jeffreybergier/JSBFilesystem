@@ -1,0 +1,25 @@
+# Uncomment the next line to define a global platform for your project
+
+target 'JSBFilesystem_iOS' do
+	platform :ios, '11.0'
+  	use_frameworks!
+
+	pod 'IGListKit', '~> 3.0'
+
+  	target 'JSBFilesystem_iOSTests' do
+    	inherit! :search_paths
+    	# Pods for testing
+  	end
+end
+
+target 'JSBFilesystem_macOS' do
+	platform :osx, '10.13'
+  	use_frameworks!
+
+	pod 'IGListKit', '~> 3.0'
+
+  	target 'JSBFilesystem_macOSTests' do
+    	inherit! :search_paths
+    	# Pods for testing
+  	end
+end
