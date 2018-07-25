@@ -12,11 +12,24 @@ public struct Directory {
     public let url: URL
     public let sort: Sort
 
-    public init(base: FileManager.SearchPathDirectory, appendingPathComponent appended: String?, sort: Sort, createIfNeeded: Bool = true) throws {
+    public init(base: FileManager.SearchPathDirectory,
+                appendingPathComponent appended: String?,
+                sort: Sort = Sort.default,
+                createIfNeeded: Bool = true) throws
+    {
         let fm = FileManager.default
         let baseURL = fm.urls(for: base, in: .userDomainMask).first!
         let url = appended != nil ? baseURL.appendingPathComponent(appended!, isDirectory: true) : baseURL
         try self.init(url: url, sort: sort, createIfNeeded: createIfNeeded)
+    }
+
+    public func subDirectory(withPathComponent pathComponent: String,
+                             sort: Sort = Sort.default,
+                             createIfNeeded: Bool = true) throws -> Directory
+    {
+        let url = self.url.appendingPathComponent(pathComponent)
+        let subdirectory = try Directory(url: url, sort: sort, createIfNeeded: createIfNeeded)
+        return subdirectory
     }
 
     private init(url: URL, sort: Sort, createIfNeeded: Bool) throws {
@@ -35,12 +48,6 @@ public struct Directory {
         case (false, _, false): // directory does not exist but we were asked not to create it. Throw error
             throw NSError(domain: "", code: 0, userInfo: nil)
         }
-    }
-
-    public func subDirectory(withPathComponent pathComponent: String, sort: Sort, createIfNeeded: Bool = true) throws -> Directory {
-        let url = self.url.appendingPathComponent(pathComponent)
-        let subdirectory = try Directory(url: url, sort: sort, createIfNeeded: createIfNeeded)
-        return subdirectory
     }
 
     public func count() throws -> Int {
@@ -81,5 +88,6 @@ public struct Directory {
                 }
             }
         }
+        public static let `default` =  Sort(by: .name, ascending: true)
     }
 }

@@ -159,8 +159,8 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
                                                                                            sortedBy: .localizedNameKey,
                                                                                            ascending: true)
             XCTAssert(urls.count == count)
-            XCTAssert(urls.first!.0.lastPathComponent == "0.file")
-            XCTAssert(urls.last!.0.lastPathComponent == "99.file")
+            XCTAssert(urls.first!.fileURL.lastPathComponent == "0.file")
+            XCTAssert(urls.last!.fileURL.lastPathComponent == "99.file")
         } catch {
             XCTFail(String(describing: error))
         }
@@ -184,8 +184,8 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
                                                                                            sortedBy: .localizedNameKey,
                                                                                            ascending: false)
             XCTAssert(urls.count == count)
-            XCTAssert(urls.last!.0.lastPathComponent == "0.file")
-            XCTAssert(urls.first!.0.lastPathComponent == "99.file")
+            XCTAssert(urls.last!.fileURL.lastPathComponent == "0.file")
+            XCTAssert(urls.first!.fileURL.lastPathComponent == "99.file")
         } catch {
             XCTFail(String(describing: error))
         }
@@ -209,8 +209,8 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
                                                                                            sortedBy: .creationDateKey,
                                                                                            ascending: true)
             XCTAssert(urls.count == count)
-            XCTAssert(urls.first!.0.lastPathComponent == "0.file")
-            XCTAssert(urls.last!.0.lastPathComponent == "99.file")
+            XCTAssert(urls.first!.fileURL.lastPathComponent == "0.file")
+            XCTAssert(urls.last!.fileURL.lastPathComponent == "99.file")
         } catch {
             XCTFail(String(describing: error))
         }
@@ -234,8 +234,8 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
                                                                                            sortedBy: .creationDateKey,
                                                                                            ascending: false)
             XCTAssert(urls.count == count)
-            XCTAssert(urls.last!.0.lastPathComponent == "0.file")
-            XCTAssert(urls.first!.0.lastPathComponent == "99.file")
+            XCTAssert(urls.last!.fileURL.lastPathComponent == "0.file")
+            XCTAssert(urls.first!.fileURL.lastPathComponent == "99.file")
         } catch {
             XCTFail(String(describing: error))
         }
@@ -262,7 +262,7 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
                                                                                            sortedBy: .contentModificationDateKey,
                                                                                            ascending: true)
             XCTAssert(urls.count == count)
-            XCTAssert(urls.last!.0.lastPathComponent == "10.file")
+            XCTAssert(urls.last!.fileURL.lastPathComponent == "10.file")
         } catch {
             XCTFail(String(describing: error))
         }
@@ -289,7 +289,7 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
                                                                                            sortedBy: .contentModificationDateKey,
                                                                                            ascending: false)
             XCTAssert(urls.count == count)
-            XCTAssert(urls.first!.0.lastPathComponent == "10.file")
+            XCTAssert(urls.first!.fileURL.lastPathComponent == "10.file")
         } catch {
             XCTFail(String(describing: error))
         }
