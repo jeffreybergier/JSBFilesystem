@@ -10,15 +10,17 @@ import Foundation
 public struct Directory {
 
     public let url: URL
+    public let sort: Sort
 
-    public init(base: FileManager.SearchPathDirectory, appendingPathComponent appended: String?, createIfNeeded: Bool = true) throws {
+    public init(base: FileManager.SearchPathDirectory, appendingPathComponent appended: String?, sort: Sort, createIfNeeded: Bool = true) throws {
         let fm = FileManager.default
         let baseURL = fm.urls(for: base, in: .userDomainMask).first!
         let url = appended != nil ? baseURL.appendingPathComponent(appended!, isDirectory: true) : baseURL
-        try self.init(url: url, createIfNeeded: createIfNeeded)
+        try self.init(url: url, sort: sort, createIfNeeded: createIfNeeded)
     }
 
-    private init(url: URL, createIfNeeded: Bool) throws {
+    private init(url: URL, sort: Sort, createIfNeeded: Bool) throws {
+        self.sort = sort
         let (isExisting, isDirectory) = try NSFileCoordinator.JSB_fileExistsAndIsDirectory(at: url)
         switch (isExisting, isDirectory, createIfNeeded) {
         case (true, true, _): // file exists, and is a directory, we're done
@@ -35,9 +37,9 @@ public struct Directory {
         }
     }
 
-    public func subDirectory(withPathComponent pathComponent: String, createIfNeeded: Bool = true) throws -> Directory {
+    public func subDirectory(withPathComponent pathComponent: String, sort: Sort, createIfNeeded: Bool = true) throws -> Directory {
         let url = self.url.appendingPathComponent(pathComponent)
-        let subdirectory = try Directory(url: url, createIfNeeded: createIfNeeded)
+        let subdirectory = try Directory(url: url, sort: sort, createIfNeeded: createIfNeeded)
         return subdirectory
     }
 
@@ -46,8 +48,8 @@ public struct Directory {
         return count
     }
 
-    public func subfileData(atIndex index: Int, sort: Sort) throws -> URL {
-        let url = try self.subfileURL(atIndex: index, sort: sort)
+    public func subfileData(atIndex index: Int) throws -> URL {
+        let url = try self.subfileURL(atIndex: index)
         let (fileExists, isDirectory) = try NSFileCoordinator.JSB_fileExistsAndIsDirectory(at: url)
         guard fileExists && !isDirectory else {
             throw NSError(domain: "", code: 0, userInfo: nil)
@@ -55,9 +57,11 @@ public struct Directory {
         return url
     }
 
-    public func subfileURL(atIndex index: Int, sort: Sort) throws -> URL {
-        let tupleArray = try NSFileCoordinator.JSB_directoryContentsURLsAndModificationDates(ofDirectoryURL: self.url, sortedBy: sort.by.resourceValue, ascending: sort.ascending)
-        let urls = tupleArray.map({ return $0.0 })
+    public func subfileURL(atIndex index: Int) throws -> URL {
+        let tupleArray = try NSFileCoordinator.JSB_directoryContentsURLsAndModificationDates(ofDirectoryURL: self.url,
+                                                                                             sortedBy: self.sort.by.resourceValue,
+                                                                                             ascending: sort.ascending)
+        let urls = tupleArray.map({ return $0.fileURL as URL })
         return urls[index]
     }
 
@@ -78,51 +82,4 @@ public struct Directory {
             }
         }
     }
-}
-
-class DirectoryObserver: NSObject, NSFilePresenter {
-
-    var presentedItemURL: URL? { return self.url }
-    var presentedItemOperationQueue: OperationQueue { return .main }
-
-    let url: URL
-    let sort: Directory.Sort
-    private var lastState = [(URL, Date)]()
-
-    init(directoryURL url: URL, sort: Directory.Sort) {
-        self.url = url
-        self.sort = sort
-        super.init()
-    }
-
-    private func updateState() {
-        do {
-            self.lastState = try NSFileCoordinator.JSB_directoryContentsURLsAndModificationDates(ofDirectoryURL: self.url, sortedBy: self.sort.by.resourceValue, ascending: self.sort.ascending)
-            print("Updated State")
-        } catch {
-            print("Update State Error: \(error)")
-        }
-    }
-
-    func presentedItemDidChange() {
-        print("presentedItemDidChange")
-        self.updateState()
-    }
-
-    //    func accommodatePresentedSubitemDeletion(at url: URL, completionHandler: @escaping (Error?) -> Void) {
-    //        print("accommodatePresentedSubitemDeletion(at url: \(url)")
-    //        completionHandler(NSError(domain: "WaterMe", code: 2, userInfo: nil))
-    //    }
-    //
-    //    func presentedSubitemDidAppear(at url: URL) {
-    //        print("presentedSubitemDidAppear(at url: \(url)")
-    //    }
-    //
-    //    func presentedSubitem(at oldURL: URL, didMoveTo newURL: URL) {
-    //        print("presentedSubitem(at oldURL: \(oldURL), didMoveTo newURL: \(newURL)")
-    //    }
-    //
-    //    func presentedSubitemDidChange(at url: URL) {
-    //        print("presentedSubitemDidChange(at url: \(url)")
-    //    }
 }

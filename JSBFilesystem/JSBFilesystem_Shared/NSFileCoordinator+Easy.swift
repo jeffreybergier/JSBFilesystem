@@ -1,4 +1,23 @@
 import Foundation
+import IGListKit
+
+internal class FileURLDiffer: ListDiffable {
+    internal let fileURL: NSURL
+    internal let modificationDate: NSDate
+    init(fileURL: NSURL, modificationDate: NSDate) {
+        self.fileURL = fileURL
+        self.modificationDate = modificationDate
+    }
+    func diffIdentifier() -> NSObjectProtocol {
+        return self.fileURL
+    }
+    func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
+        guard let rhs = object as? FileURLDiffer else { fatalError() }
+        let urlIsEqual = self.fileURL == rhs.fileURL
+        let modDateIsEqual = self.modificationDate == rhs.modificationDate
+        return urlIsEqual && modDateIsEqual
+    }
+}
 
 internal extension NSFileCoordinator {
 
@@ -162,7 +181,10 @@ internal extension NSFileCoordinator {
     }
 
     /// Only supports URLResourceKey.localizedNameKey, .contentModificationDateKey, .creationDateKey
-    internal class func JSB_directoryContentsURLsAndModificationDates(ofDirectoryURL url: URL, sortedBy: URLResourceKey, ascending: Bool) throws -> [(URL, Date)] {
+    internal class func JSB_directoryContentsURLsAndModificationDates(ofDirectoryURL url: URL,
+                                                                      sortedBy: URLResourceKey,
+                                                                      ascending: Bool) throws -> [FileURLDiffer]
+    {
         let fm = FileManager.default
         let fileList = try fm.contentsOfDirectory(at: url, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles])
         var errorPointer: NSErrorPointer = nil
@@ -215,7 +237,7 @@ internal extension NSFileCoordinator {
                 fatalError("Only supports URLResourceKey.localizedNameKey, .contentModificationDateKey, .creationDateKey")
             }
         } as NSArray
-        let tupleArray = sortedURLs.map() { url -> (URL, Date) in
+        let differs = sortedURLs.map() { url -> FileURLDiffer in
             let url = url as! NSURL
             var ptr: AnyObject!
             do {
@@ -224,11 +246,11 @@ internal extension NSFileCoordinator {
                 readError = error
             }
             let date = ptr as! NSDate
-            return (url as URL, date as Date)
+            return FileURLDiffer(fileURL: url, modificationDate: date)
         }
         if let error = readError {
             throw error
         }
-        return tupleArray
+        return differs
     }
 }
