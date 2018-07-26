@@ -32,7 +32,7 @@ public struct Directory {
         return subdirectory
     }
 
-    private init(url: URL, sort: Sort, createIfNeeded: Bool) throws {
+    internal init(url: URL, sort: Sort, createIfNeeded: Bool) throws {
         self.sort = sort
         let (isExisting, isDirectory) = try NSFileCoordinator.JSB_fileExistsAndIsDirectory(at: url)
         switch (isExisting, isDirectory, createIfNeeded) {

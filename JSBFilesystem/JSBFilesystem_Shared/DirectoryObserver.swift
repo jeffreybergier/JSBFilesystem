@@ -13,7 +13,7 @@ public class DirectoryObserver: NSObject, NSFilePresenter {
     public var presentedItemOperationQueue: OperationQueue { return self.operationQueue }
 
     public let directory: Directory
-    public var changesOcurred: ((CollectionUpdate) -> Void)?
+    public var changesOcurred: ((Changes) -> Void)?
 
     private var lastState = [FileURLDiffer]()
     private let operationQueue: OperationQueue = {
@@ -25,6 +25,7 @@ public class DirectoryObserver: NSObject, NSFilePresenter {
     public init(directory: Directory) {
         self.directory = directory
         super.init()
+        self.forceUpdate()
         NSFileCoordinator.addFilePresenter(self)
     }
 
@@ -36,7 +37,8 @@ public class DirectoryObserver: NSObject, NSFilePresenter {
                                                                                                  ascending: self.directory.sort.ascending)
             self.lastState = rhs
             let diff = ListDiff(oldArray: lhs, newArray: rhs, option: .equality).forBatchUpdates()
-            self.changesOcurred?(CollectionUpdate(indexSetResult: diff))
+            guard let changes = Changes(indexSetResult: diff) else { return }
+            self.changesOcurred?(changes)
         } catch {
             print("Update State Error: \(error)")
         }
@@ -51,44 +53,41 @@ public class DirectoryObserver: NSObject, NSFilePresenter {
     }
 }
 
-public enum CollectionUpdate {
-    case noChanges, changes(Changes)
-    public struct Changes {
-        public var insertions: IndexSet
-        public var deletions: IndexSet
-        public var updates: IndexSet
-        public var moves: [Move]
-        public struct Move {
-            public var from: Int
-            public var to: Int
-        }
+public struct Changes {
+    public var insertions: IndexSet
+    public var deletions: IndexSet
+    public var updates: IndexSet
+    public var moves: [Move]
+    public struct Move {
+        public var from: Int
+        public var to: Int
     }
 }
 
-fileprivate extension CollectionUpdate {
-    fileprivate init(indexSetResult r: ListIndexSetResult) {
+fileprivate extension Changes {
+    /// returns NIL if IGListKit says there are no changes
+    fileprivate init?(indexSetResult r: ListIndexSetResult) {
         switch r.hasChanges {
         case true:
-            let change = Changes(insertions: r.inserts,
-                                 deletions: r.deletes,
-                                 updates: r.updates,
-                                 moves: CollectionUpdate.Changes.Move.moves(from: r.moves))
-            self = .changes(change)
+            self.insertions = r.inserts
+            self.deletions = r.deletes
+            self.updates = r.updates
+            self.moves = Changes.Move.moves(from: r.moves)
         case false:
-            self = .noChanges
+            return nil
         }
     }
 }
 
-fileprivate extension CollectionUpdate.Changes.Move {
+fileprivate extension Changes.Move {
     fileprivate init(move: ListMoveIndex) {
         self.from = move.from
         self.to = move.to
     }
 
-    fileprivate static func moves(from moves: [ListMoveIndex]) -> [CollectionUpdate.Changes.Move] {
+    fileprivate static func moves(from moves: [ListMoveIndex]) -> [Changes.Move] {
         return moves.map() { move in
-            return CollectionUpdate.Changes.Move(from: move.from, to: move.to)
+            return Changes.Move(from: move.from, to: move.to)
         }
     }
 }
