@@ -57,6 +57,30 @@
     }
 }
 
++ (BOOL)JSBFS_recursivelyDeleteDirectoryOrFileAtURL:(NSURL*)url
+                                              error:(NSError**)errorPtr;
+{
+    NSError*__autoreleasing* outerError = nil;
+    NSError*__autoreleasing* innerError = nil;
+    NSFileCoordinator* c = [[NSFileCoordinator alloc] init];
+    [c coordinateWritingItemAtURL:url
+                          options:NSFileCoordinatorWritingForDeleting
+                            error:outerError
+                       byAccessor:^(NSURL * _Nonnull newURL)
+     {
+         [[NSFileManager defaultManager] trashItemAtURL:url resultingItemURL:nil error:innerError];
+     }];
+    if (outerError != NULL) {
+        errorPtr = outerError;
+        return NO;
+    } else if (innerError != NULL) {
+        errorPtr = innerError;
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
 @end
 
 @implementation JSBFSDoubleBool

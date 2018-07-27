@@ -25,7 +25,10 @@
                                      error:(NSError* _Nullable*)errorPtr
                                      NS_SWIFT_NAME(JSBFS_readData(from:));
 
-+ (BOOL)JSBFS_recursivelyDeleteDirectoryOrFileAtURL:(NSURL*)url error:(NSError**)errorPtr;
++ (BOOL)JSBFS_recursivelyDeleteDirectoryOrFileAtURL:(NSURL* _Nonnull)url
+                                              error:(NSError* _Nullable*)errorPtr
+                                              NS_SWIFT_NAME(JSBFS_recursivelyDeleteDirectoryOrFile(at:));
+
 + (BOOL)JSBFS_moveFileOrDirectoryFromSourceURL:(NSURL*)sourceURL toDestinationURL:(NSURL*)destinationURL error:(NSError**)errorPtr;
 + (BOOL)JSBFS_createDirectoryAtURL:(NSURL*)url error:(NSError**)errorPtr;
 + (NSInteger)JSBFS_fileCountInDirectoryURL:(NSURL*)directoryURL error:(NSError**)errorPtr;

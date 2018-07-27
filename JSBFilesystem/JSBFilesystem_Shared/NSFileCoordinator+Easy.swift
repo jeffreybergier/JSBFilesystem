@@ -63,28 +63,6 @@ internal extension NSFileCoordinator {
         }
     }
 
-    internal class func JSB_delete(at url: URL) throws {
-        var errorPointer: NSErrorPointer = nil
-        var coordinatorError: Error? { return errorPointer?.pointee }
-        var writeError: Error?
-        let c = NSFileCoordinator()
-        c.coordinate(writingItemAt: url, options: .forDeleting, error: errorPointer, byAccessor: { url in
-            guard coordinatorError == nil else { return }
-            do {
-                try FileManager.default.trashItem(at: url, resultingItemURL:  nil)
-            } catch {
-                writeError = error
-            }
-        })
-        if let error = coordinatorError {
-            throw error
-        } else if let error = writeError {
-            throw error
-        } else {
-            return
-        }
-    }
-
     internal class func JSB_move(from source: URL, to destination: URL) throws {
         var errorPointer: NSErrorPointer = nil
         var coordinatorError: Error? { return errorPointer?.pointee }
