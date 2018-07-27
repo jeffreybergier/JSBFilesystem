@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import Filesystem
+@testable import JSBFilesystem
 
 class DirectoryObserver_BasicTests: XCTestCase {
 

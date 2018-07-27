@@ -9,6 +9,29 @@
 
 @implementation NSFileCoordinator (JSBFS)
 
++ (BOOL)JSBFS_writeData:(NSData*)data toURL:(NSURL*)url error:(NSError**)errorPtr;
+{
+    NSError*__autoreleasing* coordinationError = nil;
+    NSError*__autoreleasing* writeError = nil;
+    NSFileCoordinator* c = [[NSFileCoordinator alloc] init];
+    [c coordinateWritingItemAtURL:url
+                          options:NSFileCoordinatorWritingForReplacing
+                            error:coordinationError
+                       byAccessor:^(NSURL * _Nonnull newURL)
+    {
+        [data writeToURL:url options:NSDataWritingAtomic error:writeError];
+    }];
+    if (coordinationError != NULL) {
+        errorPtr = coordinationError;
+        return NO;
+    } else if (writeError != NULL) {
+        errorPtr = writeError;
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
 @end
 
 @implementation JSBFSDoubleBool

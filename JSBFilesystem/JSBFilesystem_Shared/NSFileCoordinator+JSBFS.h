@@ -16,7 +16,7 @@
 
 @interface NSFileCoordinator (JSBFS)
 
-+ (BOOL)JSBFS_writeData:(NSData*)data toURL:(NSURL*)url error:(NSError**)errorPtr;
++ (BOOL)JSBFS_writeData:(NSData* __nonnull)data toURL:(NSURL* __nonnull)url error:(NSError * _Nullable *)errorPtr NS_SWIFT_NAME(JSBFS_write(_:to:));
 + (NSData*)JSBFS_readDataFromURL:(NSURL*)url error:(NSError**)errorPtr;
 + (BOOL)JSBFS_recursivelyDeleteDirectoryOrFileAtURL:(NSURL*)url error:(NSError**)errorPtr;
 + (BOOL)JSBFS_moveFileOrDirectoryFromSourceURL:(NSURL*)sourceURL toDestinationURL:(NSURL*)destinationURL error:(NSError**)errorPtr;
@@ -30,26 +30,3 @@
                                                              error:(NSError**)error;
 
 @end
-
-
-/*
-internal extension NSFileCoordinator {
-
-    internal class func JSB_write(data: Data, to url: URL) throws
-
-    internal class func JSB_createDirectory(at url: URL) throws
-
-    internal class func JSB_read(from url: URL) throws -> Data
-
-    internal class func JSB_fileExistsAndIsDirectory(at url: URL) throws -> (Bool, Bool)
-
-    internal class func JSB_delete(at url: URL) throws
-
-    internal class func JSB_move(from source: URL, to destination: URL) throws
-
-    internal class func JSB_fileCountInDirectory(at url: URL) throws -> Int
-
-    /// Only supports URLResourceKey.localizedNameKey, .contentModificationDateKey, .creationDateKey
-    internal class func JSB_directoryContentsURLsAndModificationDates(ofDirectoryURL url: URL, sortedBy: URLResourceKey, ascending: Bool) throws -> [FileURLDiffer]
-}
-*/

@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import Filesystem
+import JSBFilesystem
 
 class Directory_BasicTests: XCTestCase {
 

@@ -6,6 +6,6 @@
 //
 
 import XCTest
-@testable import Filesystem
+@testable import JSBFilesystem
 
 

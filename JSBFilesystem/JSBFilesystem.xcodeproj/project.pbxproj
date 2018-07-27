@@ -10,14 +10,14 @@
 		2B77E64194F37B365A44A248 /* Pods_JSBFilesystem_iOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BC946EA0491B73B6610E1AA /* Pods_JSBFilesystem_iOSTests.framework */; };
 		47E34FDE23F234DCC599630F /* Pods_JSBFilesystem_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F86858E846F13A0B854BE976 /* Pods_JSBFilesystem_iOS.framework */; };
 		4F7C9784CC252606ACC0E409 /* Pods_JSBFilesystem_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 068ADDDC01019D59E69A1884 /* Pods_JSBFilesystem_macOS.framework */; };
-		5026372E210BBD8E000B1139 /* JSBFSFileComparison.h in Headers */ = {isa = PBXBuildFile; fileRef = 5026372C210BBD8E000B1139 /* JSBFSFileComparison.h */; };
-		5026372F210BBD8E000B1139 /* JSBFSFileComparison.h in Headers */ = {isa = PBXBuildFile; fileRef = 5026372C210BBD8E000B1139 /* JSBFSFileComparison.h */; };
+		5026372E210BBD8E000B1139 /* JSBFSFileComparison.h in Headers */ = {isa = PBXBuildFile; fileRef = 5026372C210BBD8E000B1139 /* JSBFSFileComparison.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5026372F210BBD8E000B1139 /* JSBFSFileComparison.h in Headers */ = {isa = PBXBuildFile; fileRef = 5026372C210BBD8E000B1139 /* JSBFSFileComparison.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50263730210BBD8E000B1139 /* JSBFSFileComparison.m in Sources */ = {isa = PBXBuildFile; fileRef = 5026372D210BBD8E000B1139 /* JSBFSFileComparison.m */; };
 		50263731210BBD8E000B1139 /* JSBFSFileComparison.m in Sources */ = {isa = PBXBuildFile; fileRef = 5026372D210BBD8E000B1139 /* JSBFSFileComparison.m */; };
-		50DAE976210647BD006208E3 /* Filesystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50DAE96C210647BD006208E3 /* Filesystem.framework */; };
+		50DAE976210647BD006208E3 /* JSBFilesystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50DAE96C210647BD006208E3 /* JSBFilesystem.framework */; };
 		50DAE97B210647BD006208E3 /* JSBFilesystem_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DAE97A210647BD006208E3 /* JSBFilesystem_iOSTests.swift */; };
 		50DAE97D210647BD006208E3 /* JSBFilesystem_iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 50DAE96F210647BD006208E3 /* JSBFilesystem_iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		50DAE992210647DC006208E3 /* Filesystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50DAE989210647DC006208E3 /* Filesystem.framework */; };
+		50DAE992210647DC006208E3 /* JSBFilesystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50DAE989210647DC006208E3 /* JSBFilesystem.framework */; };
 		50DAE997210647DC006208E3 /* JSBFilesystem_macOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DAE996210647DC006208E3 /* JSBFilesystem_macOSTests.swift */; };
 		50DAE999210647DC006208E3 /* JSBFilesystem_macOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 50DAE98B210647DC006208E3 /* JSBFilesystem_macOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50DAE9A221064919006208E3 /* Type1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DAE9A121064919006208E3 /* Type1.swift */; };
@@ -36,8 +36,10 @@
 		50DAE9EE21081CBE006208E3 /* DirectoryObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DAE9EC21081C9B006208E3 /* DirectoryObserver.swift */; };
 		50DAE9F02108F91C006208E3 /* DirectoryObserver_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DAE9EF2108F91C006208E3 /* DirectoryObserver_Tests.swift */; };
 		50DAE9F12108F91C006208E3 /* DirectoryObserver_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DAE9EF2108F91C006208E3 /* DirectoryObserver_Tests.swift */; };
-		50F3BEA5210B708B003D5869 /* NSFileCoordinator+JSBFS.h in Headers */ = {isa = PBXBuildFile; fileRef = 50F3BEA3210B708B003D5869 /* NSFileCoordinator+JSBFS.h */; };
-		50F3BEA6210B708B003D5869 /* NSFileCoordinator+JSBFS.h in Headers */ = {isa = PBXBuildFile; fileRef = 50F3BEA3210B708B003D5869 /* NSFileCoordinator+JSBFS.h */; };
+		50DE58F6210BC58F005609A0 /* JSBFilesystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 50DE58F5210BC58F005609A0 /* JSBFilesystem.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		50DE58F7210BC58F005609A0 /* JSBFilesystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 50DE58F5210BC58F005609A0 /* JSBFilesystem.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		50F3BEA5210B708B003D5869 /* NSFileCoordinator+JSBFS.h in Headers */ = {isa = PBXBuildFile; fileRef = 50F3BEA3210B708B003D5869 /* NSFileCoordinator+JSBFS.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		50F3BEA6210B708B003D5869 /* NSFileCoordinator+JSBFS.h in Headers */ = {isa = PBXBuildFile; fileRef = 50F3BEA3210B708B003D5869 /* NSFileCoordinator+JSBFS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50F3BEA7210B708B003D5869 /* NSFileCoordinator+JSBFS.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F3BEA4210B708B003D5869 /* NSFileCoordinator+JSBFS.m */; };
 		50F3BEA8210B708B003D5869 /* NSFileCoordinator+JSBFS.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F3BEA4210B708B003D5869 /* NSFileCoordinator+JSBFS.m */; };
 		97DEC1ED98D30F41AE14733A /* Pods_JSBFilesystem_macOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 752803D52F4B16094DE45F8B /* Pods_JSBFilesystem_macOSTests.framework */; };
@@ -68,13 +70,13 @@
 		4713884A62E1A1C05C04F26F /* Pods-JSBFilesystem_macOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JSBFilesystem_macOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-JSBFilesystem_macOSTests/Pods-JSBFilesystem_macOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		5026372C210BBD8E000B1139 /* JSBFSFileComparison.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSBFSFileComparison.h; sourceTree = "<group>"; };
 		5026372D210BBD8E000B1139 /* JSBFSFileComparison.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSBFSFileComparison.m; sourceTree = "<group>"; };
-		50DAE96C210647BD006208E3 /* Filesystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Filesystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		50DAE96C210647BD006208E3 /* JSBFilesystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JSBFilesystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		50DAE96F210647BD006208E3 /* JSBFilesystem_iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSBFilesystem_iOS.h; sourceTree = "<group>"; };
 		50DAE970210647BD006208E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50DAE975210647BD006208E3 /* JSBFilesystem_iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JSBFilesystem_iOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		50DAE97A210647BD006208E3 /* JSBFilesystem_iOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSBFilesystem_iOSTests.swift; sourceTree = "<group>"; };
 		50DAE97C210647BD006208E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		50DAE989210647DC006208E3 /* Filesystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Filesystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		50DAE989210647DC006208E3 /* JSBFilesystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JSBFilesystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		50DAE98B210647DC006208E3 /* JSBFilesystem_macOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSBFilesystem_macOS.h; sourceTree = "<group>"; };
 		50DAE98C210647DC006208E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50DAE991210647DC006208E3 /* JSBFilesystem_macOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JSBFilesystem_macOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +90,7 @@
 		50DAE9B12107DCC1006208E3 /* Directory_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Directory_Tests.swift; sourceTree = "<group>"; };
 		50DAE9EC21081C9B006208E3 /* DirectoryObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryObserver.swift; sourceTree = "<group>"; };
 		50DAE9EF2108F91C006208E3 /* DirectoryObserver_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryObserver_Tests.swift; sourceTree = "<group>"; };
+		50DE58F5210BC58F005609A0 /* JSBFilesystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSBFilesystem.h; sourceTree = "<group>"; };
 		50F3BEA3210B708B003D5869 /* NSFileCoordinator+JSBFS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSFileCoordinator+JSBFS.h"; sourceTree = "<group>"; };
 		50F3BEA4210B708B003D5869 /* NSFileCoordinator+JSBFS.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSFileCoordinator+JSBFS.m"; sourceTree = "<group>"; };
 		752803D52F4B16094DE45F8B /* Pods_JSBFilesystem_macOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JSBFilesystem_macOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,7 +115,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50DAE976210647BD006208E3 /* Filesystem.framework in Frameworks */,
+				50DAE976210647BD006208E3 /* JSBFilesystem.framework in Frameworks */,
 				2B77E64194F37B365A44A248 /* Pods_JSBFilesystem_iOSTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -129,7 +132,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50DAE992210647DC006208E3 /* Filesystem.framework in Frameworks */,
+				50DAE992210647DC006208E3 /* JSBFilesystem.framework in Frameworks */,
 				97DEC1ED98D30F41AE14733A /* Pods_JSBFilesystem_macOSTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -170,9 +173,9 @@
 		50DAE96D210647BD006208E3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				50DAE96C210647BD006208E3 /* Filesystem.framework */,
+				50DAE96C210647BD006208E3 /* JSBFilesystem.framework */,
 				50DAE975210647BD006208E3 /* JSBFilesystem_iOSTests.xctest */,
-				50DAE989210647DC006208E3 /* Filesystem.framework */,
+				50DAE989210647DC006208E3 /* JSBFilesystem.framework */,
 				50DAE991210647DC006208E3 /* JSBFilesystem_macOSTests.xctest */,
 			);
 			name = Products;
@@ -218,6 +221,7 @@
 			isa = PBXGroup;
 			children = (
 				50DAE9A121064919006208E3 /* Type1.swift */,
+				50DE58F5210BC58F005609A0 /* JSBFilesystem.h */,
 				50DAE9A821064B44006208E3 /* NSFileCoordinator+Easy.swift */,
 				50F3BEA3210B708B003D5869 /* NSFileCoordinator+JSBFS.h */,
 				50F3BEA4210B708B003D5869 /* NSFileCoordinator+JSBFS.m */,
@@ -259,6 +263,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				50DAE97D210647BD006208E3 /* JSBFilesystem_iOS.h in Headers */,
+				50DE58F6210BC58F005609A0 /* JSBFilesystem.h in Headers */,
 				5026372E210BBD8E000B1139 /* JSBFSFileComparison.h in Headers */,
 				50F3BEA5210B708B003D5869 /* NSFileCoordinator+JSBFS.h in Headers */,
 			);
@@ -269,6 +274,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				50DAE999210647DC006208E3 /* JSBFilesystem_macOS.h in Headers */,
+				50DE58F7210BC58F005609A0 /* JSBFilesystem.h in Headers */,
 				5026372F210BBD8E000B1139 /* JSBFSFileComparison.h in Headers */,
 				50F3BEA6210B708B003D5869 /* NSFileCoordinator+JSBFS.h in Headers */,
 			);
@@ -293,7 +299,7 @@
 			);
 			name = JSBFilesystem_iOS;
 			productName = JSBFilesystem_iOS;
-			productReference = 50DAE96C210647BD006208E3 /* Filesystem.framework */;
+			productReference = 50DAE96C210647BD006208E3 /* JSBFilesystem.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		50DAE974210647BD006208E3 /* JSBFilesystem_iOSTests */ = {
@@ -332,7 +338,7 @@
 			);
 			name = JSBFilesystem_macOS;
 			productName = JSBFilesystem_macOS;
-			productReference = 50DAE989210647DC006208E3 /* Filesystem.framework */;
+			productReference = 50DAE989210647DC006208E3 /* JSBFilesystem.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		50DAE990210647DC006208E3 /* JSBFilesystem_macOSTests */ = {
@@ -694,7 +700,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.saturdayapps.JSBFilesystem-iOS";
-				PRODUCT_NAME = Filesystem;
+				PRODUCT_NAME = JSBFilesystem;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -770,7 +776,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.saturdayapps.JSBFilesystem-iOS";
-				PRODUCT_NAME = Filesystem;
+				PRODUCT_NAME = JSBFilesystem;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -1000,7 +1006,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.saturdayapps.JSBFilesystem-macOS";
-				PRODUCT_NAME = Filesystem;
+				PRODUCT_NAME = JSBFilesystem;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -1077,7 +1083,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.saturdayapps.JSBFilesystem-macOS";
-				PRODUCT_NAME = Filesystem;
+				PRODUCT_NAME = JSBFilesystem;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;

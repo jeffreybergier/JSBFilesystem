@@ -24,27 +24,27 @@ internal class FileURLDiffer: NSObject, ListDiffable {
 
 internal extension NSFileCoordinator {
 
-    internal class func JSB_write(data: Data, to url: URL) throws {
-        var errorPointer: NSErrorPointer = nil
-        var coordinatorError: Error? { return errorPointer?.pointee }
-        var writeError: Error?
-        let c = NSFileCoordinator()
-        c.coordinate(writingItemAt: url, options: .forReplacing, error: errorPointer, byAccessor: { url in
-            guard coordinatorError == nil else { return }
-            do {
-                try data.write(to: url)
-            } catch {
-                writeError = error
-            }
-        })
-        if let error = coordinatorError {
-            throw error
-        } else if let error = writeError {
-            throw error
-        } else {
-            return
-        }
-    }
+//    internal class func JSB_write(data: Data, to url: URL) throws {
+//        var errorPointer: NSErrorPointer = nil
+//        var coordinatorError: Error? { return errorPointer?.pointee }
+//        var writeError: Error?
+//        let c = NSFileCoordinator()
+//        c.coordinate(writingItemAt: url, options: .forReplacing, error: errorPointer, byAccessor: { url in
+//            guard coordinatorError == nil else { return }
+//            do {
+//                try data.write(to: url)
+//            } catch {
+//                writeError = error
+//            }
+//        })
+//        if let error = coordinatorError {
+//            throw error
+//        } else if let error = writeError {
+//            throw error
+//        } else {
+//            return
+//        }
+//    }
 
     internal class func JSB_createDirectory(at url: URL) throws {
         var errorPointer: NSErrorPointer = nil

@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import Filesystem
+@testable import JSBFilesystem
 
 class NSFileCoordinator_Easy_BasicTests: XCTestCase {
 
@@ -19,7 +19,7 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
         let data = Data(string.utf8)
         let url = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID)
         do {
-            try NSFileCoordinator.JSB_write(data: data, to: url)
+            try NSFileCoordinator.JSBFS_write(data, to: url)
             let dataFromDisk = try Data(contentsOf: url)
             let stringFromDisk = String(data: dataFromDisk, encoding: .utf8)
             XCTAssertNotNil(stringFromDisk)
