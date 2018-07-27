@@ -13,7 +13,26 @@ public class DirectoryObserver: NSObject, NSFilePresenter {
     public var presentedItemOperationQueue: OperationQueue { return self.operationQueue }
 
     public let directory: Directory
-    public var changesOcurred: ((Changes) -> Void)?
+    private var _changesOcurred: ((Changes) -> Void)?
+    /// Registers intent to be updated to filesystem changes
+    /// NSFilePresenters are strongly held by the system
+    /// You must set this to NIL when done with this object or else memory will leak
+    /// When this is set, the internal state is forcefully updated
+    /// So that subsequent changes can be correctly found
+    public var changesOcurred: ((Changes) -> Void)? {
+        get { return _changesOcurred }
+        set {
+            // empty internal state
+            _changesOcurred = nil
+            NSFileCoordinator.removeFilePresenter(self)
+            self.lastState = []
+            // repopulate state if needed
+            guard let newValue = newValue else { return }
+            self.forceUpdate()
+            _changesOcurred = newValue
+            NSFileCoordinator.addFilePresenter(self)
+        }
+    }
 
     private var lastState = [FileURLDiffer]()
     private let operationQueue: OperationQueue = {
@@ -25,8 +44,6 @@ public class DirectoryObserver: NSObject, NSFilePresenter {
     public init(directory: Directory) {
         self.directory = directory
         super.init()
-        self.forceUpdate()
-        NSFileCoordinator.addFilePresenter(self)
     }
 
     public func forceUpdate() {
@@ -36,7 +53,7 @@ public class DirectoryObserver: NSObject, NSFilePresenter {
                                                                                                  sortedBy: self.directory.sort.by.resourceValue,
                                                                                                  ascending: self.directory.sort.ascending)
             self.lastState = rhs
-            let diff = ListDiff(oldArray: lhs, newArray: rhs, option: .equality).forBatchUpdates()
+            let diff = ListDiff(oldArray: lhs, newArray: rhs, option: .equality)
             guard let changes = Changes(indexSetResult: diff) else { return }
             self.changesOcurred?(changes)
         } catch {
@@ -46,10 +63,6 @@ public class DirectoryObserver: NSObject, NSFilePresenter {
 
     public func presentedItemDidChange() {
         self.forceUpdate()
-    }
-
-    deinit {
-        NSFileCoordinator.removeFilePresenter(self)
     }
 }
 

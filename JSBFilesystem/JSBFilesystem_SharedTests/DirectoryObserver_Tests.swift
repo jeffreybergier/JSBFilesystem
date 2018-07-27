@@ -21,6 +21,8 @@ class DirectoryObserver_BasicTests: XCTestCase {
     var dirURL: URL!
     var observer: DirectoryObserver!
     var fm: FileManager { return FileManager.default }
+    let timeout: TimeInterval = 2
+    let delay: TimeInterval = 0.5
 
     override func setUp() {
         super.setUp()
@@ -45,7 +47,8 @@ class DirectoryObserver_BasicTests: XCTestCase {
 
     override func tearDown() {
         super.tearDown()
-        try! fm.removeItem(at: self.dirURL)
+        self.observer.changesOcurred = nil
+        try! self.fm.removeItem(at: self.dirURL)
     }
 
     func testAddFileDiff() {
@@ -61,12 +64,12 @@ class DirectoryObserver_BasicTests: XCTestCase {
             XCTAssert(changes.moves.isEmpty)
             expectation.fulfill()
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
             let newData = Data("This was added".utf8)
             try! newData.write(to: self.dirURL.appendingPathComponent("075.file"))
             try! newData.write(to: self.dirURL.appendingPathComponent("175.file"))
         }
-        self.wait(for: [expectation], timeout: 1.5)
+        self.wait(for: [expectation], timeout: timeout)
     }
 
     func testDeleteFileDiff() {
@@ -82,10 +85,50 @@ class DirectoryObserver_BasicTests: XCTestCase {
             XCTAssert(changes.moves.isEmpty)
             expectation.fulfill()
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
             try! self.fm.removeItem(at: self.dirURL.appendingPathComponent("75.file"))
             try! self.fm.removeItem(at: self.dirURL.appendingPathComponent("25.file"))
         }
-        self.wait(for: [expectation], timeout: 1.5)
+        self.wait(for: [expectation], timeout: timeout)
+    }
+
+    func testChangeFileDiff() {
+        let expectation = XCTestExpectation(description: "Change closure will be called, diff will show 1 added item")
+        let dir = try! Directory(url: self.dirURL, sort: Directory.Sort.default, createIfNeeded: true)
+        self.observer = DirectoryObserver(directory: dir)
+        self.observer.changesOcurred = { changes in
+            XCTAssert(changes.updates.count == 2)
+            XCTAssert(changes.updates.first! == 18)
+            XCTAssert(changes.updates.last! == 73)
+            XCTAssert(changes.deletions.isEmpty)
+            XCTAssert(changes.insertions.isEmpty)
+            XCTAssert(changes.moves.isEmpty)
+            expectation.fulfill()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            let newData = Data("This was added".utf8)
+            try! newData.write(to: self.dirURL.appendingPathComponent("75.file"))
+            try! newData.write(to: self.dirURL.appendingPathComponent("25.file"))
+        }
+        self.wait(for: [expectation], timeout: timeout)
+    }
+
+    func testMoveFileDiff() {
+        let expectation = XCTestExpectation(description: "Change closure will be called, diff will show 1 added item")
+        let dir = try! Directory(url: self.dirURL, sort: Directory.Sort(by: .modificationDate, ascending: false), createIfNeeded: true)
+        self.observer = DirectoryObserver(directory: dir)
+        self.observer.changesOcurred = { changes in
+            XCTAssert(changes.updates.count == 1)
+            XCTAssert(changes.moves.count == 5)
+            XCTAssert(changes.moves.contains(where: { $0.from == 4 && $0.to == 0 }))
+            XCTAssert(changes.deletions.isEmpty)
+            XCTAssert(changes.insertions.isEmpty)
+            expectation.fulfill()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            let newData = Data("This was added".utf8)
+            try! newData.write(to: self.dirURL.appendingPathComponent("95.file"))
+        }
+        self.wait(for: [expectation], timeout: timeout)
     }
 }

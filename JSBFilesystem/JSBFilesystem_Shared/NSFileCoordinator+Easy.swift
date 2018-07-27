@@ -1,21 +1,24 @@
 import Foundation
 import IGListKit
 
-internal class FileURLDiffer: ListDiffable {
+internal class FileURLDiffer: NSObject, ListDiffable {
     internal let fileURL: NSURL
     internal let modificationDate: NSDate
-    init(fileURL: NSURL, modificationDate: NSDate) {
+    internal init(fileURL: NSURL, modificationDate: NSDate) {
         self.fileURL = fileURL
         self.modificationDate = modificationDate
+        super.init()
     }
-    func diffIdentifier() -> NSObjectProtocol {
+    internal func diffIdentifier() -> NSObjectProtocol {
         return self.fileURL
     }
-    func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
-        guard let rhs = object as? FileURLDiffer else { fatalError() }
-        let urlIsEqual = self.fileURL == rhs.fileURL
-        let modDateIsEqual = self.modificationDate == rhs.modificationDate
-        return urlIsEqual && modDateIsEqual
+    internal func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
+        // test #1 - bail if not the right object type
+        guard let rhs = object as? FileURLDiffer else { return false }
+        // test #2 - bail if the modification dates are different
+        guard self.modificationDate.isEqual(rhs.modificationDate) else { return false }
+        // test #3 - everything has passed so far, just return the final test
+        return self.fileURL.isEqual(rhs.fileURL)
     }
 }
 
@@ -208,8 +211,8 @@ internal extension NSFileCoordinator {
         let sortedURLs: NSArray = unsortedURLs.sortedArray() { (lhs, rhs) -> ComparisonResult in
             let lhs = lhs as! NSURL
             let rhs = rhs as! NSURL
-            var lhsPtr: AnyObject!
-            var rhsPtr: AnyObject!
+            var lhsPtr: AnyObject?
+            var rhsPtr: AnyObject?
             do {
                 try lhs.getResourceValue(&lhsPtr, forKey: sortedBy)
                 try rhs.getResourceValue(&rhsPtr, forKey: sortedBy)
@@ -239,7 +242,7 @@ internal extension NSFileCoordinator {
         } as NSArray
         let differs = sortedURLs.map() { url -> FileURLDiffer in
             let url = url as! NSURL
-            var ptr: AnyObject!
+            var ptr: AnyObject?
             do {
                 try url.getResourceValue(&ptr, forKey: .contentModificationDateKey)
             } catch {
