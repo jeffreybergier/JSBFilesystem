@@ -16,8 +16,15 @@
 
 @interface NSFileCoordinator (JSBFS)
 
-+ (BOOL)JSBFS_writeData:(NSData* __nonnull)data toURL:(NSURL* __nonnull)url error:(NSError * _Nullable *)errorPtr NS_SWIFT_NAME(JSBFS_write(_:to:));
-+ (NSData*)JSBFS_readDataFromURL:(NSURL*)url error:(NSError**)errorPtr;
++ (BOOL)JSBFS_writeData:(NSData* _Nonnull)data
+                  toURL:(NSURL* _Nonnull)url
+                  error:(NSError * _Nullable *)errorPtr
+                  NS_SWIFT_NAME(JSBFS_write(_:to:));
+
++ (NSData* _Nullable)JSBFS_readDataFromURL:(NSURL* _Nonnull)url
+                                     error:(NSError* _Nullable*)errorPtr
+                                     NS_SWIFT_NAME(JSBFS_readData(from:));
+
 + (BOOL)JSBFS_recursivelyDeleteDirectoryOrFileAtURL:(NSURL*)url error:(NSError**)errorPtr;
 + (BOOL)JSBFS_moveFileOrDirectoryFromSourceURL:(NSURL*)sourceURL toDestinationURL:(NSURL*)destinationURL error:(NSError**)errorPtr;
 + (BOOL)JSBFS_createDirectoryAtURL:(NSURL*)url error:(NSError**)errorPtr;

@@ -11,24 +11,49 @@
 
 + (BOOL)JSBFS_writeData:(NSData*)data toURL:(NSURL*)url error:(NSError**)errorPtr;
 {
-    NSError*__autoreleasing* coordinationError = nil;
-    NSError*__autoreleasing* writeError = nil;
+    NSError*__autoreleasing* outerError = nil;
+    NSError*__autoreleasing* innerError = nil;
     NSFileCoordinator* c = [[NSFileCoordinator alloc] init];
     [c coordinateWritingItemAtURL:url
                           options:NSFileCoordinatorWritingForReplacing
-                            error:coordinationError
+                            error:outerError
                        byAccessor:^(NSURL * _Nonnull newURL)
     {
-        [data writeToURL:url options:NSDataWritingAtomic error:writeError];
+        [data writeToURL:url options:NSDataWritingAtomic error:innerError];
     }];
-    if (coordinationError != NULL) {
-        errorPtr = coordinationError;
+    if (outerError != NULL) {
+        errorPtr = outerError;
         return NO;
-    } else if (writeError != NULL) {
-        errorPtr = writeError;
+    } else if (innerError != NULL) {
+        errorPtr = innerError;
         return NO;
     } else {
         return YES;
+    }
+}
+
++ (NSData*)JSBFS_readDataFromURL:(NSURL*)url
+                           error:(NSError**)errorPtr;
+{
+    NSError*__autoreleasing* outerError = nil;
+    NSError*__autoreleasing* innerError = nil;
+    __block NSData* data = nil;
+    NSFileCoordinator* c = [[NSFileCoordinator alloc] init];
+    [c coordinateReadingItemAtURL:url
+                          options:NSFileCoordinatorReadingResolvesSymbolicLink
+                            error:outerError
+                       byAccessor:^(NSURL * _Nonnull newURL)
+    {
+        data = [NSData dataWithContentsOfURL:url options:0 error:innerError];
+    }];
+    if (outerError != NULL) {
+        errorPtr = outerError;
+        return nil;
+    } else if (innerError != NULL) {
+        errorPtr = innerError;
+        return nil;
+    } else {
+        return data;
     }
 }
 

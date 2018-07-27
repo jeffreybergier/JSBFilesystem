@@ -35,7 +35,7 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
         let url = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID)
         do {
             try data.write(to: url)
-            let dataFromDisk = try NSFileCoordinator.JSB_read(from: url)
+            let dataFromDisk = try NSFileCoordinator.JSBFS_readData(from: url)
             let stringFromDisk = String(data: dataFromDisk, encoding: .utf8)
             XCTAssertNotNil(stringFromDisk)
             XCTAssert(stringFromDisk == string)
