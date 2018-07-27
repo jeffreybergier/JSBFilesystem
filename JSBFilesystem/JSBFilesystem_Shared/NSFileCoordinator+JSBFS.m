@@ -19,7 +19,7 @@
                             error:outerError
                        byAccessor:^(NSURL * _Nonnull newURL)
     {
-        [data writeToURL:url options:NSDataWritingAtomic error:innerError];
+        [data writeToURL:newURL options:NSDataWritingAtomic error:innerError];
     }];
     if (outerError != NULL) {
         errorPtr = outerError;
@@ -91,13 +91,37 @@
     [c coordinateReadingItemAtURL:sourceURL
                           options:0
                  writingItemAtURL:destinationURL
-                          options:NSFileCoordinatorWritingForReplacing
+                          options:NSFileCoordinatorWritingForReplacing << NSFileCoordinatorWritingForMoving
                             error:outerError
                        byAccessor:^(NSURL * _Nonnull newReadingURL, NSURL * _Nonnull newWritingURL)
      {
          NSFileManager* fm = [NSFileManager defaultManager];
          [fm createDirectoryAtURL:[newWritingURL URLByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:innerError];
          [fm moveItemAtURL:newReadingURL toURL:newWritingURL error:innerError];
+     }];
+    if (outerError != NULL) {
+        errorPtr = outerError;
+        return NO;
+    } else if (innerError != NULL) {
+        errorPtr = innerError;
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
++ (BOOL)JSBFS_createDirectoryAtURL:(NSURL* _Nonnull)url
+                             error:(NSError* _Nullable*)errorPtr;
+{
+    NSError*__autoreleasing* outerError = nil;
+    NSError*__autoreleasing* innerError = nil;
+    NSFileCoordinator* c = [[NSFileCoordinator alloc] init];
+    [c coordinateWritingItemAtURL:url
+                          options:NSFileCoordinatorWritingForReplacing
+                            error:outerError
+                       byAccessor:^(NSURL * _Nonnull newURL)
+     {
+         [[NSFileManager defaultManager] createDirectoryAtURL:newURL withIntermediateDirectories:YES attributes:nil error:innerError];
      }];
     if (outerError != NULL) {
         errorPtr = outerError;

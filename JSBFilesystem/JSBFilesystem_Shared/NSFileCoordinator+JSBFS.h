@@ -34,7 +34,10 @@ NS_SWIFT_NAME(JSBFS_recursivelyDeleteDirectoryOrFile(at:));
                           error:(NSError* _Nullable*)errorPtr
 NS_SWIFT_NAME(JSBFS_move(sourceFile:toDestinationFile:));
 
-+ (BOOL)JSBFS_createDirectoryAtURL:(NSURL*)url error:(NSError**)errorPtr;
++ (BOOL)JSBFS_createDirectoryAtURL:(NSURL* _Nonnull)url
+                             error:(NSError* _Nullable*)errorPtr
+NS_SWIFT_NAME(JSBFS_createDirectory(at:));
+
 + (NSInteger)JSBFS_fileCountInDirectoryURL:(NSURL*)directoryURL error:(NSError**)errorPtr;
 + (JSBFSDoubleBool*)JSBFS_fileExistsAndIsDirectoryAtURL:(NSURL*)url error:(NSError**)errorPtr;
 /// Only supports URLResourceKey.localizedNameKey, .contentModificationDateKey, .creationDateKey

@@ -49,7 +49,7 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
             .appendingPathComponent(UUID, isDirectory: true)
             .appendingPathComponent(UUID, isDirectory: true)
         do {
-            try NSFileCoordinator.JSB_createDirectory(at: url)
+            try NSFileCoordinator.JSBFS_createDirectory(at: url)
             var isDirectory: ObjCBool = false
             let isExisting = FileManager.default.fileExists(atPath: url.path, isDirectory: &isDirectory)
             XCTAssert(isExisting && isDirectory.boolValue)

@@ -42,7 +42,7 @@ public struct Directory {
         case (true, false, _): // file exists but is not a directory, throw error
             throw NSError(domain: "", code: 0, userInfo: nil)
         case (false, _, true): // directory does not exist but we were asked to create it
-            try NSFileCoordinator.JSB_createDirectory(at: url)
+            try NSFileCoordinator.JSBFS_createDirectory(at: url)
             self.url = url
             return
         case (false, _, false): // directory does not exist but we were asked not to create it. Throw error
