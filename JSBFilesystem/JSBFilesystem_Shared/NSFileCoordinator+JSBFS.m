@@ -21,14 +21,3 @@
     return self;
 }
 @end
-
-@implementation JSBFSFileComparison
-- (instancetype)initWithFileURL:(NSURL*)fileURL modificationDate:(NSDate*)modificationDate;
-{
-    if (self = [super init]) {
-        _fileURL = fileURL;
-        _modificationDate = modificationDate;
-    }
-    return self;
-}
-@end

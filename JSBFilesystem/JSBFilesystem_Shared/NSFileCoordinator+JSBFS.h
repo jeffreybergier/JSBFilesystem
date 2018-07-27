@@ -6,17 +6,12 @@
 //
 
 @import Foundation;
+#import "JSBFSFileComparison.h"
 
 @interface JSBFSDoubleBool: NSObject
 @property BOOL value1;
 @property BOOL value2;
 - (instancetype)initWithValue1:(BOOL)value1 value2:(BOOL)value2;
-@end
-
-@interface JSBFSFileComparison: NSObject
-@property (readonly, nonatomic, strong) NSURL* fileURL;
-@property (readonly, nonatomic, strong) NSDate* modificationDate;
-- (instancetype)initWithFileURL:(NSURL*)fileURL modificationDate:(NSDate*)modificationDate;
 @end
 
 @interface NSFileCoordinator (JSBFS)
