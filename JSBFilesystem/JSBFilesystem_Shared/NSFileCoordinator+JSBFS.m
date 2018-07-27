@@ -44,7 +44,7 @@
                             error:outerError
                        byAccessor:^(NSURL * _Nonnull newURL)
     {
-        data = [NSData dataWithContentsOfURL:url options:0 error:innerError];
+        data = [NSData dataWithContentsOfURL:newURL options:0 error:innerError];
     }];
     if (outerError != NULL) {
         errorPtr = outerError;
@@ -68,7 +68,36 @@
                             error:outerError
                        byAccessor:^(NSURL * _Nonnull newURL)
      {
-         [[NSFileManager defaultManager] trashItemAtURL:url resultingItemURL:nil error:innerError];
+         [[NSFileManager defaultManager] trashItemAtURL:newURL resultingItemURL:nil error:innerError];
+     }];
+    if (outerError != NULL) {
+        errorPtr = outerError;
+        return NO;
+    } else if (innerError != NULL) {
+        errorPtr = innerError;
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
++ (BOOL)JSBFS_moveSourceFileURL:(NSURL*)sourceURL
+           toDestinationFileURL:(NSURL*)destinationURL
+                          error:(NSError**)errorPtr;
+{
+    NSError*__autoreleasing* outerError = nil;
+    NSError*__autoreleasing* innerError = nil;
+    NSFileCoordinator* c = [[NSFileCoordinator alloc] init];
+    [c coordinateReadingItemAtURL:sourceURL
+                          options:0
+                 writingItemAtURL:destinationURL
+                          options:NSFileCoordinatorWritingForReplacing
+                            error:outerError
+                       byAccessor:^(NSURL * _Nonnull newReadingURL, NSURL * _Nonnull newWritingURL)
+     {
+         NSFileManager* fm = [NSFileManager defaultManager];
+         [fm createDirectoryAtURL:[newWritingURL URLByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:innerError];
+         [fm moveItemAtURL:newReadingURL toURL:newWritingURL error:innerError];
      }];
     if (outerError != NULL) {
         errorPtr = outerError;

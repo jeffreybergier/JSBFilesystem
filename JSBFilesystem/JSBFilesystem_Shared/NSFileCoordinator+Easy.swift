@@ -63,36 +63,6 @@ internal extension NSFileCoordinator {
         }
     }
 
-    internal class func JSB_move(from source: URL, to destination: URL) throws {
-        var errorPointer: NSErrorPointer = nil
-        var coordinatorError: Error? { return errorPointer?.pointee }
-        var moveError: Error?
-        let c = NSFileCoordinator()
-        c.prepare(forReadingItemsAt: [source], options: [], writingItemsAt: [source, destination], options: [.forMoving, .forReplacing], error: errorPointer, byAccessor: { _ in
-            /*
-             In most cases, passing the same reading and writing options to both this method and the contained coordination operations is redundant. For example, it is often appropriate to pass withoutChanges to nested read operations. This method has already triggered a call to savePresentedItemChanges(completionHandler:). The individual read operations do not need to trigger additional calls.
-             */
-            guard coordinatorError == nil else { return }
-            c.coordinate(writingItemAt: destination, options: [], error: errorPointer, byAccessor: { url in
-                guard coordinatorError == nil else { return }
-                do {
-                    let fm = FileManager.default
-                    try fm.createDirectory(at: destination.deletingLastPathComponent(), withIntermediateDirectories: true, attributes: nil)
-                    try fm.moveItem(at: source, to: destination)
-                } catch {
-                    moveError = error
-                }
-            })
-        })
-        if let error = coordinatorError {
-            throw error
-        } else if let error = moveError {
-            throw error
-        } else {
-            return
-        }
-    }
-
     internal class func JSB_fileCountInDirectory(at url: URL) throws -> Int {
         var errorPointer: NSErrorPointer = nil
         var coordinatorError: Error? { return errorPointer?.pointee }

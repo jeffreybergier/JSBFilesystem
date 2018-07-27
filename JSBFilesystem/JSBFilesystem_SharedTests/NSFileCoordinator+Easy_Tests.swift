@@ -113,7 +113,7 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
         do {
             try FileManager.default.createDirectory(at: dir1URL, withIntermediateDirectories: true, attributes: nil)
             try data.write(to: beforeURL)
-            try NSFileCoordinator.JSB_move(from: beforeURL, to: afterURL)
+            try NSFileCoordinator.JSBFS_move(sourceFile: beforeURL, toDestinationFile: afterURL)
             let beforeExists = FileManager.default.fileExists(atPath: beforeURL.path)
             let afterExists = FileManager.default.fileExists(atPath: afterURL.path)
             XCTAssert(beforeExists == false && afterExists == true)

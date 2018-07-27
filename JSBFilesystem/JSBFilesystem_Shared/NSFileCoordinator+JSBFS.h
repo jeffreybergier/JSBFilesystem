@@ -19,17 +19,21 @@
 + (BOOL)JSBFS_writeData:(NSData* _Nonnull)data
                   toURL:(NSURL* _Nonnull)url
                   error:(NSError * _Nullable *)errorPtr
-                  NS_SWIFT_NAME(JSBFS_write(_:to:));
+NS_SWIFT_NAME(JSBFS_write(_:to:));
 
 + (NSData* _Nullable)JSBFS_readDataFromURL:(NSURL* _Nonnull)url
                                      error:(NSError* _Nullable*)errorPtr
-                                     NS_SWIFT_NAME(JSBFS_readData(from:));
+NS_SWIFT_NAME(JSBFS_readData(from:));
 
 + (BOOL)JSBFS_recursivelyDeleteDirectoryOrFileAtURL:(NSURL* _Nonnull)url
                                               error:(NSError* _Nullable*)errorPtr
-                                              NS_SWIFT_NAME(JSBFS_recursivelyDeleteDirectoryOrFile(at:));
+NS_SWIFT_NAME(JSBFS_recursivelyDeleteDirectoryOrFile(at:));
 
-+ (BOOL)JSBFS_moveFileOrDirectoryFromSourceURL:(NSURL*)sourceURL toDestinationURL:(NSURL*)destinationURL error:(NSError**)errorPtr;
++ (BOOL)JSBFS_moveSourceFileURL:(NSURL* _Nonnull)sourceURL
+           toDestinationFileURL:(NSURL* _Nonnull)destinationURL
+                          error:(NSError* _Nullable*)errorPtr
+NS_SWIFT_NAME(JSBFS_move(sourceFile:toDestinationFile:));
+
 + (BOOL)JSBFS_createDirectoryAtURL:(NSURL*)url error:(NSError**)errorPtr;
 + (NSInteger)JSBFS_fileCountInDirectoryURL:(NSURL*)directoryURL error:(NSError**)errorPtr;
 + (JSBFSDoubleBool*)JSBFS_fileExistsAndIsDirectoryAtURL:(NSURL*)url error:(NSError**)errorPtr;
