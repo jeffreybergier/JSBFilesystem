@@ -143,7 +143,7 @@
                                      error:(NSError**)errorPtr;
 {
 
-    __block NSError* outerError = nil;
+    NSError* outerError = nil;
     __block NSError* innerError = nil;
     __block NSArray<NSURL*>* contents = nil;
     NSFileCoordinator* c = [[NSFileCoordinator alloc] init];
@@ -155,7 +155,7 @@
          contents = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:url
                                        includingPropertiesForKeys:nil
                                                           options:NSDirectoryEnumerationSkipsHiddenFiles
-                                                            error:&outerError];
+                                                            error:&innerError];
      }];
     if (outerError != NULL) {
         *errorPtr = outerError;
@@ -194,88 +194,112 @@
     }
 }
 
-+ (NSArray<JSBFSFileComparison*>*)JSBFS_urlComparisonsForFilesInDirectoryURL:(NSURL* _Nonnull)directoryURL
++ (NSArray<JSBFSFileComparison*>*)JSBFS_urlComparisonsForFilesInDirectoryURL:(NSURL* _Nonnull)url
                                                          sortedByResourceKey:(NSURLResourceKey)resourceKey
                                                             orderedAscending:(BOOL)ascending
-                                                                       error:(NSError* _Nullable*)error;
+                                                                       error:(NSError* _Nullable*)errorPtr;
 {
-    return nil;
+    NSError* outerError = nil;
+    __block NSError* innerError = nil;
+    __block NSURL* dirURL = url;
+    __block NSArray<NSURL*>* contents = nil;
+    NSMutableArray<JSBFSFileComparison*>* values = nil;
+    NSFileCoordinator* c = [[NSFileCoordinator alloc] init];
 
-//    /// Only supports URLResourceKey.localizedNameKey, .contentModificationDateKey, .creationDateKey
-//    internal class func JSB_directoryContentsURLsAndModificationDates(ofDirectoryURL url: URL,
-//                                                                      sortedBy: URLResourceKey,
-//                                                                      ascending: Bool) throws -> [FileURLDiffer]
-//    {
-//        let fm = FileManager.default
-//        let fileList = try fm.contentsOfDirectory(at: url, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles])
-//        var errorPointer: NSErrorPointer = nil
-//        var coordinatorError: Error? { return errorPointer?.pointee }
-//        var readError: Error?
-//        let c = NSFileCoordinator()
-//        var unsortedURLs: NSArray!
-//        c.prepare(forReadingItemsAt: [url] + fileList, options: [], writingItemsAt: [], options: [], error: errorPointer, byAccessor: { _ in
-//            guard coordinatorError == nil else { return }
-//            do {
-//                unsortedURLs = try fm.contentsOfDirectory(at: url, includingPropertiesForKeys: [sortedBy], options: [.skipsHiddenFiles]) as NSArray
-//            } catch {
-//                readError = error
-//            }
-//        })
-//        if let error = coordinatorError {
-//            throw error
-//        } else if let error = readError {
-//            throw error
-//        }
-//        let sortedURLs: NSArray = unsortedURLs.sortedArray() { (lhs, rhs) -> ComparisonResult in
-//            let lhs = lhs as! NSURL
-//            let rhs = rhs as! NSURL
-//            var lhsPtr: AnyObject?
-//            var rhsPtr: AnyObject?
-//            do {
-//                try lhs.getResourceValue(&lhsPtr, forKey: sortedBy)
-//                try rhs.getResourceValue(&rhsPtr, forKey: sortedBy)
-//            } catch {
-//                readError = error
-//            }
-//            switch sortedBy {
-//            case .creationDateKey, .contentModificationDateKey:
-//                let lhsDate = lhsPtr as! NSDate
-//                let rhsDate = rhsPtr as! NSDate
-//                if ascending {
-//                    return lhsDate.compare(rhsDate as Date)
-//                } else {
-//                    return rhsDate.compare(lhsDate as Date)
-//                }
-//            case .localizedNameKey:
-//                let lhsName = lhsPtr as! NSString
-//                let rhsName = rhsPtr as! NSString
-//                if ascending {
-//                    return lhsName.localizedCaseInsensitiveCompare(rhsName as String)
-//                } else {
-//                    return rhsName.localizedCaseInsensitiveCompare(lhsName as String)
-//                }
-//            default:
-//                fatalError("Only supports URLResourceKey.localizedNameKey, .contentModificationDateKey, .creationDateKey")
-//            }
-//        } as NSArray
-//        let differs = sortedURLs.map() { url -> FileURLDiffer in
-//            let url = url as! NSURL
-//            var ptr: AnyObject?
-//            do {
-//                try url.getResourceValue(&ptr, forKey: .contentModificationDateKey)
-//            } catch {
-//                readError = error
-//            }
-//            let date = ptr as! NSDate
-//            return FileURLDiffer(fileURL: url, modificationDate: date)
-//        }
-//        if let error = readError {
-//            throw error
-//        }
-//        return differs
-//    }
-//}
+    // Step1: get the list of files in the Directory
+    [c coordinateReadingItemAtURL:dirURL
+                          options:NSFileCoordinatorReadingResolvesSymbolicLink
+                            error:&outerError
+                       byAccessor:^(NSURL* _Nonnull newURL)
+     {
 
+         dirURL = newURL;
+         contents = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:newURL
+                                                   includingPropertiesForKeys:nil
+                                                                      options:NSDirectoryEnumerationSkipsHiddenFiles
+                                                                        error:&innerError];
+     }];
+    // check if that operation failed
+    if (outerError != NULL) {
+        *errorPtr = outerError;
+        return nil;
+    } else if (innerError != NULL || contents == nil) {
+        *errorPtr = innerError;
+        return nil;
+    }
+
+    // Step2: prepare the files to be read
+    [c prepareForReadingItemsAtURLs:contents
+                            options:NSFileCoordinatorReadingResolvesSymbolicLink
+                 writingItemsAtURLs:@[]
+                            options:0
+                              error:&outerError
+                         byAccessor:^(void (^ _Nonnull completionHandler)(void))
+    {
+        contents = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:dirURL
+                                                  includingPropertiesForKeys:@[NSURLLocalizedNameKey, NSURLContentModificationDateKey, NSURLCreationDateKey]
+                                                                     options:NSDirectoryEnumerationSkipsHiddenFiles
+                                                                       error:&innerError];
+        completionHandler();
+    }];
+    // check if that operation failed
+    if (outerError != NULL) {
+        *errorPtr = outerError;
+        return nil;
+    } else if (innerError != NULL || contents == nil) {
+        *errorPtr = innerError;
+        return nil;
+    }
+
+    // Step3: Map into custom objects
+    values = [[NSMutableArray alloc] initWithCapacity:[contents count]];
+    for (NSURL* url in contents) {
+        NSDate* modDate = nil;
+        [url getResourceValue:&modDate forKey:NSURLContentModificationDateKey error:&outerError];
+        if (outerError != NULL || url == nil) { break; }
+        JSBFSFileComparison* value = [[JSBFSFileComparison alloc] initWithFileURL:url modificationDate:modDate];
+        [values addObject:value];
+    }
+    if ([values count] != [contents count]) { return nil; } // something went wrong if the arrays don't match counts
+
+    // Step4: sort according to preference
+    [values sortUsingComparator:^NSComparisonResult(JSBFSFileComparison* _Nonnull lhs, JSBFSFileComparison* _Nonnull rhs) {
+        if ([resourceKey isEqualToString:NSURLLocalizedNameKey]) {
+            NSString* lhsName = nil;
+            NSString* rhsName = nil;
+            BOOL lhsSuccess = [[lhs fileURL] getResourceValue:&lhsName forKey:resourceKey error:&innerError];
+            BOOL rhsSuccess = [[rhs fileURL] getResourceValue:&rhsName forKey:resourceKey error:&innerError];
+            if (innerError || !lhsSuccess || !rhsSuccess || !lhsName || !rhsName) { return NSOrderedSame; }
+            if (ascending) {
+                return [lhsName localizedCaseInsensitiveCompare:rhsName];
+            } else {
+                return [rhsName localizedCaseInsensitiveCompare:lhsName];
+            }
+        } else if ([resourceKey isEqualToString:NSURLContentModificationDateKey] || [resourceKey isEqualToString:NSURLCreationDateKey]) {
+            NSDate* lhsDate = nil;
+            NSDate* rhsDate = nil;
+            BOOL lhsSuccess = [[lhs fileURL] getResourceValue:&lhsDate forKey:resourceKey error:&innerError];
+            BOOL rhsSuccess = [[rhs fileURL] getResourceValue:&rhsDate forKey:resourceKey error:&innerError];
+            if (innerError || !lhsSuccess || !rhsSuccess || !lhsDate || !rhsDate) { return NSOrderedSame; }
+            if (ascending) {
+                return [lhsDate compare:rhsDate];
+            } else {
+                return [rhsDate compare:lhsDate];
+            }
+        } else {
+            @throw [[NSException alloc] initWithName:@"Unsupported NSURLResourceKey" reason:@"This function only supports NSURLLocalizedNameKey, NSURLContentModificationDateKey, NSURLCreationDateKey" userInfo:nil];
+        }
+    }];
+    // last error check
+    if (outerError != NULL) {
+        *errorPtr = outerError;
+        return nil;
+    } else if (innerError != NULL) {
+        *errorPtr = innerError;
+        return nil;
+    } else {
+        return [values copy];
+    }
 }
 
 @end
