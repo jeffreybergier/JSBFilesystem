@@ -26,8 +26,8 @@
     JSBFSFileComparison* lhs = self;
     JSBFSFileComparison* rhs = (JSBFSFileComparison*)object;
     if (![rhs isKindOfClass:[JSBFSFileComparison self]]) { return NO; }
-    if (![[lhs fileURL] isEqualTo:[rhs fileURL]]) { return NO; }
-    if (![[lhs modificationDate] isEqualTo:[rhs modificationDate]]) { return NO; }
+    if (![[lhs fileURL] isEqual:[rhs fileURL]]) { return NO; }
+    if (![[lhs modificationDate] isEqualToDate:[rhs modificationDate]]) { return NO; }
     return YES;
 }
 
