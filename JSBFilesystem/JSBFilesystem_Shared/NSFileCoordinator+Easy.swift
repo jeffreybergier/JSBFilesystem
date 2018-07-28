@@ -24,23 +24,6 @@ internal class FileURLDiffer: NSObject, ListDiffable {
 
 internal extension NSFileCoordinator {
 
-    internal class func JSB_fileExistsAndIsDirectory(at url: URL) throws -> (Bool, Bool) {
-        var errorPointer: NSErrorPointer = nil
-        var coordinatorError: Error? { return errorPointer?.pointee }
-        var fileExists: Bool = false
-        var isDirectory: ObjCBool = false
-        let c = NSFileCoordinator()
-        c.coordinate(readingItemAt: url, options: [.resolvesSymbolicLink], error: errorPointer, byAccessor: { url in
-            guard coordinatorError == nil else { return }
-            fileExists = FileManager.default.fileExists(atPath: url.path, isDirectory: &isDirectory)
-        })
-        if let error = coordinatorError {
-            throw error
-        } else {
-            return (fileExists, isDirectory.boolValue)
-        }
-    }
-
     /// Only supports URLResourceKey.localizedNameKey, .contentModificationDateKey, .creationDateKey
     internal class func JSB_directoryContentsURLsAndModificationDates(ofDirectoryURL url: URL,
                                                                       sortedBy: URLResourceKey,

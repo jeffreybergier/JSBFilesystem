@@ -168,6 +168,32 @@
     }
 }
 
++ (JSBFSDoubleBool*)JSBFS_fileExistsAndIsDirectoryAtURL:(NSURL*)url error:(NSError**)errorPtr;
+{
+    NSError* outerError = nil;
+    __block NSError* innerError = nil;
+    __block JSBFSDoubleBool* value = nil;
+    NSFileCoordinator* c = [[NSFileCoordinator alloc] init];
+    [c coordinateReadingItemAtURL:url
+                          options:NSFileCoordinatorReadingResolvesSymbolicLink
+                            error:&outerError
+                       byAccessor:^(NSURL* _Nonnull newURL)
+     {
+         BOOL isDirectory = NO;
+         BOOL isExisting = [[NSFileManager defaultManager] fileExistsAtPath:[newURL path] isDirectory:&isDirectory];
+         value = [[JSBFSDoubleBool alloc] initWithValue1:isExisting value2:isDirectory];
+     }];
+    if (outerError != NULL) {
+        *errorPtr = outerError;
+        return nil;
+    } else if (innerError != NULL || value == nil) {
+        *errorPtr = innerError;
+        return nil;
+    } else {
+        return value;
+    }
+}
+
 @end
 
 @implementation JSBFSDoubleBool

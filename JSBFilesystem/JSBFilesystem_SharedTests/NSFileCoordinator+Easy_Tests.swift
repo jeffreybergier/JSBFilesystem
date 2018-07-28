@@ -64,7 +64,8 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
             .appendingPathComponent(UUID, isDirectory: true)
         do {
             try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
-            let (isExisting, isDirectory) = try NSFileCoordinator.JSB_fileExistsAndIsDirectory(at: url)
+            let value = try NSFileCoordinator.JSBFS_fileExistsAndIsDirectory(at: url)
+            let (isExisting, isDirectory) = (value.value1, value.value2)
             XCTAssert(isExisting && isDirectory)
         } catch {
             XCTFail(String(describing: error))
@@ -80,7 +81,8 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
         do {
             try FileManager.default.createDirectory(at: dirURL, withIntermediateDirectories: true, attributes: nil)
             try data.write(to: url)
-            let (isExisting, isDirectory) = try NSFileCoordinator.JSB_fileExistsAndIsDirectory(at: url)
+            let value = try NSFileCoordinator.JSBFS_fileExistsAndIsDirectory(at: url)
+            let (isExisting, isDirectory) = (value.value1, value.value2)
             XCTAssert(isExisting == true && isDirectory == false)
         } catch {
             XCTFail(String(describing: error))

@@ -34,7 +34,8 @@ public struct Directory {
 
     internal init(url: URL, sort: Sort, createIfNeeded: Bool) throws {
         self.sort = sort
-        let (isExisting, isDirectory) = try NSFileCoordinator.JSB_fileExistsAndIsDirectory(at: url)
+        let value = try NSFileCoordinator.JSBFS_fileExistsAndIsDirectory(at: url)
+        let (isExisting, isDirectory) = (value.value1, value.value2)
         switch (isExisting, isDirectory, createIfNeeded) {
         case (true, true, _): // file exists, and is a directory, we're done
             self.url = url
@@ -57,8 +58,9 @@ public struct Directory {
 
     public func subfileData(atIndex index: Int) throws -> URL {
         let url = try self.subfileURL(atIndex: index)
-        let (fileExists, isDirectory) = try NSFileCoordinator.JSB_fileExistsAndIsDirectory(at: url)
-        guard fileExists && !isDirectory else {
+        let value = try NSFileCoordinator.JSBFS_fileExistsAndIsDirectory(at: url)
+        let (isExisting, isDirectory) = (value.value1, value.value2)
+        guard isExisting && !isDirectory else {
             throw NSError(domain: "", code: 0, userInfo: nil)
         }
         return url
