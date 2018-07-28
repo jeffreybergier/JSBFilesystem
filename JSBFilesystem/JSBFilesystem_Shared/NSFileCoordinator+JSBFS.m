@@ -11,21 +11,22 @@
 
 + (BOOL)JSBFS_writeData:(NSData*)data toURL:(NSURL*)url error:(NSError**)errorPtr;
 {
-    NSError*__autoreleasing* outerError = nil;
-    NSError*__autoreleasing* innerError = nil;
+    NSError* outerError = nil;
+    __block NSError* innerError = nil;
+    __block BOOL innerSuccess = NO;
     NSFileCoordinator* c = [[NSFileCoordinator alloc] init];
     [c coordinateWritingItemAtURL:url
                           options:NSFileCoordinatorWritingForReplacing
-                            error:outerError
+                            error:&outerError
                        byAccessor:^(NSURL * _Nonnull newURL)
     {
-        [data writeToURL:newURL options:NSDataWritingAtomic error:innerError];
+        innerSuccess = [data writeToURL:newURL options:NSDataWritingAtomic error:&innerError];
     }];
     if (outerError != NULL) {
-        errorPtr = outerError;
+        *errorPtr = outerError;
         return NO;
-    } else if (innerError != NULL) {
-        errorPtr = innerError;
+    } else if (innerError != NULL || !innerSuccess) {
+        *errorPtr = innerError;
         return NO;
     } else {
         return YES;
@@ -35,22 +36,22 @@
 + (NSData*)JSBFS_readDataFromURL:(NSURL*)url
                            error:(NSError**)errorPtr;
 {
-    NSError*__autoreleasing* outerError = nil;
-    NSError*__autoreleasing* innerError = nil;
+    NSError* outerError = nil;
+    __block NSError* innerError = nil;
     __block NSData* data = nil;
     NSFileCoordinator* c = [[NSFileCoordinator alloc] init];
     [c coordinateReadingItemAtURL:url
                           options:NSFileCoordinatorReadingResolvesSymbolicLink
-                            error:outerError
+                            error:&outerError
                        byAccessor:^(NSURL * _Nonnull newURL)
     {
-        data = [NSData dataWithContentsOfURL:newURL options:0 error:innerError];
+        data = [NSData dataWithContentsOfURL:newURL options:0 error:&innerError];
     }];
     if (outerError != NULL) {
-        errorPtr = outerError;
+        *errorPtr = outerError;
         return nil;
-    } else if (innerError != NULL) {
-        errorPtr = innerError;
+    } else if (innerError != NULL || data == nil) {
+        *errorPtr = innerError;
         return nil;
     } else {
         return data;
@@ -60,21 +61,21 @@
 + (BOOL)JSBFS_recursivelyDeleteDirectoryOrFileAtURL:(NSURL*)url
                                               error:(NSError**)errorPtr;
 {
-    NSError*__autoreleasing* outerError = nil;
-    NSError*__autoreleasing* innerError = nil;
+    NSError* outerError = nil;
+    __block NSError* innerError = nil;
     NSFileCoordinator* c = [[NSFileCoordinator alloc] init];
     [c coordinateWritingItemAtURL:url
                           options:NSFileCoordinatorWritingForDeleting
-                            error:outerError
+                            error:&outerError
                        byAccessor:^(NSURL * _Nonnull newURL)
      {
-         [[NSFileManager defaultManager] trashItemAtURL:newURL resultingItemURL:nil error:innerError];
+         [[NSFileManager defaultManager] trashItemAtURL:newURL resultingItemURL:nil error:&innerError];
      }];
     if (outerError != NULL) {
-        errorPtr = outerError;
+        *errorPtr = outerError;
         return NO;
     } else if (innerError != NULL) {
-        errorPtr = innerError;
+        *errorPtr = innerError;
         return NO;
     } else {
         return YES;
@@ -85,25 +86,28 @@
            toDestinationFileURL:(NSURL*)destinationURL
                           error:(NSError**)errorPtr;
 {
-    NSError*__autoreleasing* outerError = nil;
-    NSError*__autoreleasing* innerError = nil;
+    NSError* outerError = nil;
+    __block NSError* innerError = nil;
+    __block BOOL innerSuccess = NO;
     NSFileCoordinator* c = [[NSFileCoordinator alloc] init];
     [c coordinateReadingItemAtURL:sourceURL
                           options:0
                  writingItemAtURL:destinationURL
                           options:NSFileCoordinatorWritingForReplacing << NSFileCoordinatorWritingForMoving
-                            error:outerError
+                            error:&outerError
                        byAccessor:^(NSURL * _Nonnull newReadingURL, NSURL * _Nonnull newWritingURL)
      {
          NSFileManager* fm = [NSFileManager defaultManager];
-         [fm createDirectoryAtURL:[newWritingURL URLByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:innerError];
-         [fm moveItemAtURL:newReadingURL toURL:newWritingURL error:innerError];
+         NSURL* parentDir = [newWritingURL URLByDeletingLastPathComponent];
+         innerSuccess = [fm createDirectoryAtURL:parentDir withIntermediateDirectories:YES attributes:nil error:&innerError];
+         if (!innerSuccess || innerError != nil) { return; }
+         innerSuccess = [fm moveItemAtURL:newReadingURL toURL:newWritingURL error:&innerError];
      }];
     if (outerError != NULL) {
-        errorPtr = outerError;
+        *errorPtr = outerError;
         return NO;
-    } else if (innerError != NULL) {
-        errorPtr = innerError;
+    } else if (innerError != NULL || !innerSuccess) {
+        *errorPtr = innerError;
         return NO;
     } else {
         return YES;
@@ -113,21 +117,22 @@
 + (BOOL)JSBFS_createDirectoryAtURL:(NSURL* _Nonnull)url
                              error:(NSError* _Nullable*)errorPtr;
 {
-    NSError*__autoreleasing* outerError = nil;
-    NSError*__autoreleasing* innerError = nil;
+    NSError* outerError = nil;
+    __block NSError* innerError = nil;
+    __block BOOL innerSuccess = NO;
     NSFileCoordinator* c = [[NSFileCoordinator alloc] init];
     [c coordinateWritingItemAtURL:url
                           options:NSFileCoordinatorWritingForReplacing
-                            error:outerError
+                            error:&outerError
                        byAccessor:^(NSURL * _Nonnull newURL)
      {
-         [[NSFileManager defaultManager] createDirectoryAtURL:newURL withIntermediateDirectories:YES attributes:nil error:innerError];
+         innerSuccess = [[NSFileManager defaultManager] createDirectoryAtURL:newURL withIntermediateDirectories:YES attributes:nil error:&innerError];
      }];
     if (outerError != NULL) {
-        errorPtr = outerError;
+        *errorPtr = outerError;
         return NO;
-    } else if (innerError != NULL) {
-        errorPtr = innerError;
+    } else if (innerError != NULL || !innerSuccess) {
+        *errorPtr = innerError;
         return NO;
     } else {
         return YES;
@@ -155,7 +160,7 @@
     if (outerError != NULL) {
         *errorPtr = outerError;
         return 0;
-    } else if (innerError != NULL) {
+    } else if (innerError != NULL || contents == nil) {
         *errorPtr = innerError;
         return 0;
     } else {
