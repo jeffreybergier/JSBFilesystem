@@ -20,12 +20,6 @@
 		50DAE992210647DC006208E3 /* JSBFilesystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50DAE989210647DC006208E3 /* JSBFilesystem.framework */; };
 		50DAE997210647DC006208E3 /* JSBFilesystem_macOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DAE996210647DC006208E3 /* JSBFilesystem_macOSTests.swift */; };
 		50DAE999210647DC006208E3 /* JSBFilesystem_macOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 50DAE98B210647DC006208E3 /* JSBFilesystem_macOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		50DAE9A221064919006208E3 /* Type1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DAE9A121064919006208E3 /* Type1.swift */; };
-		50DAE9A321064919006208E3 /* Type1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DAE9A121064919006208E3 /* Type1.swift */; };
-		50DAE9A621064979006208E3 /* Type1_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DAE9A521064979006208E3 /* Type1_Tests.swift */; };
-		50DAE9A721064979006208E3 /* Type1_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DAE9A521064979006208E3 /* Type1_Tests.swift */; };
-		50DAE9A921064B44006208E3 /* NSFileCoordinator+Easy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DAE9A821064B44006208E3 /* NSFileCoordinator+Easy.swift */; };
-		50DAE9AA21064B44006208E3 /* NSFileCoordinator+Easy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DAE9A821064B44006208E3 /* NSFileCoordinator+Easy.swift */; };
 		50DAE9AC21064C33006208E3 /* NSFileCoordinator+Easy_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DAE9AB21064C33006208E3 /* NSFileCoordinator+Easy_Tests.swift */; };
 		50DAE9AD21064C33006208E3 /* NSFileCoordinator+Easy_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DAE9AB21064C33006208E3 /* NSFileCoordinator+Easy_Tests.swift */; };
 		50DAE9AF2106A077006208E3 /* Directory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DAE9AE2106A077006208E3 /* Directory.swift */; };
@@ -82,9 +76,6 @@
 		50DAE991210647DC006208E3 /* JSBFilesystem_macOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JSBFilesystem_macOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		50DAE996210647DC006208E3 /* JSBFilesystem_macOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSBFilesystem_macOSTests.swift; sourceTree = "<group>"; };
 		50DAE998210647DC006208E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		50DAE9A121064919006208E3 /* Type1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Type1.swift; sourceTree = "<group>"; };
-		50DAE9A521064979006208E3 /* Type1_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Type1_Tests.swift; sourceTree = "<group>"; };
-		50DAE9A821064B44006208E3 /* NSFileCoordinator+Easy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSFileCoordinator+Easy.swift"; sourceTree = "<group>"; };
 		50DAE9AB21064C33006208E3 /* NSFileCoordinator+Easy_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSFileCoordinator+Easy_Tests.swift"; sourceTree = "<group>"; };
 		50DAE9AE2106A077006208E3 /* Directory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Directory.swift; sourceTree = "<group>"; };
 		50DAE9B12107DCC1006208E3 /* Directory_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Directory_Tests.swift; sourceTree = "<group>"; };
@@ -220,9 +211,7 @@
 		50DAE9A0210648DF006208E3 /* JSBFilesystem_Shared */ = {
 			isa = PBXGroup;
 			children = (
-				50DAE9A121064919006208E3 /* Type1.swift */,
 				50DE58F5210BC58F005609A0 /* JSBFilesystem.h */,
-				50DAE9A821064B44006208E3 /* NSFileCoordinator+Easy.swift */,
 				50F3BEA3210B708B003D5869 /* NSFileCoordinator+JSBFS.h */,
 				50F3BEA4210B708B003D5869 /* NSFileCoordinator+JSBFS.m */,
 				5026372C210BBD8E000B1139 /* JSBFSFileComparison.h */,
@@ -236,7 +225,6 @@
 		50DAE9A421064946006208E3 /* JSBFilesystem_SharedTests */ = {
 			isa = PBXGroup;
 			children = (
-				50DAE9A521064979006208E3 /* Type1_Tests.swift */,
 				50DAE9AB21064C33006208E3 /* NSFileCoordinator+Easy_Tests.swift */,
 				50DAE9B12107DCC1006208E3 /* Directory_Tests.swift */,
 				50DAE9EF2108F91C006208E3 /* DirectoryObserver_Tests.swift */,
@@ -553,9 +541,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50DAE9A221064919006208E3 /* Type1.swift in Sources */,
 				50DAE9ED21081C9B006208E3 /* DirectoryObserver.swift in Sources */,
-				50DAE9A921064B44006208E3 /* NSFileCoordinator+Easy.swift in Sources */,
 				50F3BEA7210B708B003D5869 /* NSFileCoordinator+JSBFS.m in Sources */,
 				50263730210BBD8E000B1139 /* JSBFSFileComparison.m in Sources */,
 				50DAE9AF2106A077006208E3 /* Directory.swift in Sources */,
@@ -569,7 +555,6 @@
 				50DAE9AC21064C33006208E3 /* NSFileCoordinator+Easy_Tests.swift in Sources */,
 				50DAE9F02108F91C006208E3 /* DirectoryObserver_Tests.swift in Sources */,
 				50DAE97B210647BD006208E3 /* JSBFilesystem_iOSTests.swift in Sources */,
-				50DAE9A621064979006208E3 /* Type1_Tests.swift in Sources */,
 				50DAE9B22107DCC1006208E3 /* Directory_Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -578,8 +563,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50DAE9A321064919006208E3 /* Type1.swift in Sources */,
-				50DAE9AA21064B44006208E3 /* NSFileCoordinator+Easy.swift in Sources */,
 				50DAE9B02106A077006208E3 /* Directory.swift in Sources */,
 				50F3BEA8210B708B003D5869 /* NSFileCoordinator+JSBFS.m in Sources */,
 				50263731210BBD8E000B1139 /* JSBFSFileComparison.m in Sources */,
@@ -594,7 +577,6 @@
 				50DAE9AD21064C33006208E3 /* NSFileCoordinator+Easy_Tests.swift in Sources */,
 				50DAE9F12108F91C006208E3 /* DirectoryObserver_Tests.swift in Sources */,
 				50DAE997210647DC006208E3 /* JSBFilesystem_macOSTests.swift in Sources */,
-				50DAE9A721064979006208E3 /* Type1_Tests.swift in Sources */,
 				50DAE9B32107DCC1006208E3 /* Directory_Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
