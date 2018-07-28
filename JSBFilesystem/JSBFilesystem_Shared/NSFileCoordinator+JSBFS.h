@@ -43,11 +43,11 @@ NS_SWIFT_NAME(JSBFS_fileCount(inDirectoryURL:));
 + (JSBFSDoubleBool* _Nullable)JSBFS_fileExistsAndIsDirectoryAtURL:(NSURL* _Nonnull)url error:(NSError* _Nullable*)errorPtr
 NS_SWIFT_NAME(JSBFS_fileExistsAndIsDirectory(at:));
 
-
 /// Only supports URLResourceKey.localizedNameKey, .contentModificationDateKey, .creationDateKey
-+ (JSBFSFileComparison*)JSBFS_urlComparisonsForFilesInDirectoryURL:(NSURL*)directoryURL
-                                                          sortedBy:(NSURLResourceKey)resourceKey
-                                                         ascending:(BOOL)ascending
-                                                             error:(NSError**)error;
++ (NSArray<JSBFSFileComparison*>* _Nullable)JSBFS_urlComparisonsForFilesInDirectoryURL:(NSURL* _Nonnull)directoryURL
+                                                         sortedByResourceKey:(NSURLResourceKey)resourceKey
+                                                            orderedAscending:(BOOL)ascending
+                                                                       error:(NSError* _Nullable*)error
+NS_SWIFT_NAME(JSBFS_urlComparisonsForFiles(inDirectory:sortedBy:orderedAscending:));
 
 @end

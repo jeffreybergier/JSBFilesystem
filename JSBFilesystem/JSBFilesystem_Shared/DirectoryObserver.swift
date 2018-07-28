@@ -34,7 +34,7 @@ public class DirectoryObserver: NSObject, NSFilePresenter {
         }
     }
 
-    private var lastState = [FileURLDiffer]()
+    private var lastState = [JSBFSFileComparison]()
     private let operationQueue: OperationQueue = {
         let q = OperationQueue()
         q.qualityOfService = .userInitiated
@@ -49,9 +49,9 @@ public class DirectoryObserver: NSObject, NSFilePresenter {
     public func forceUpdate() {
         do {
             let lhs = self.lastState
-            let rhs = try NSFileCoordinator.JSB_directoryContentsURLsAndModificationDates(ofDirectoryURL: self.directory.url,
-                                                                                                 sortedBy: self.directory.sort.by.resourceValue,
-                                                                                                 ascending: self.directory.sort.ascending)
+            let rhs = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: self.directory.url,
+                                                                         sortedBy: self.directory.sort.by.resourceValue,
+                                                                         orderedAscending: self.directory.sort.ascending)
             self.lastState = rhs
             let diff = ListDiff(oldArray: lhs, newArray: rhs, option: .equality)
             guard let changes = Changes(indexSetResult: diff) else { return }

@@ -67,10 +67,10 @@ public struct Directory {
     }
 
     public func subfileURL(atIndex index: Int) throws -> URL {
-        let tupleArray = try NSFileCoordinator.JSB_directoryContentsURLsAndModificationDates(ofDirectoryURL: self.url,
-                                                                                             sortedBy: self.sort.by.resourceValue,
-                                                                                             ascending: sort.ascending)
-        let urls = tupleArray.map({ return $0.fileURL as URL })
+        let _urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: self.url,
+                                                                       sortedBy: self.sort.by.resourceValue,
+                                                                       orderedAscending: self.sort.ascending)
+        let urls = _urls.map({ return $0.fileURL as URL })
         return urls[index]
     }
 

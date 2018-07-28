@@ -157,9 +157,9 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
                 let data = Data(file.utf8)
                 try data.write(to: url)
             }
-            let urls = try NSFileCoordinator.JSB_directoryContentsURLsAndModificationDates(ofDirectoryURL: dirURL,
-                                                                                           sortedBy: .localizedNameKey,
-                                                                                           ascending: true)
+            let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: dirURL,
+                                                                          sortedBy: .localizedNameKey,
+                                                                          orderedAscending: true)
             XCTAssert(urls.count == count)
             XCTAssert(urls.first!.fileURL.lastPathComponent == "0.file")
             XCTAssert(urls.last!.fileURL.lastPathComponent == "99.file")
@@ -182,9 +182,9 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
                 let data = Data(file.utf8)
                 try data.write(to: url)
             }
-            let urls = try NSFileCoordinator.JSB_directoryContentsURLsAndModificationDates(ofDirectoryURL: dirURL,
-                                                                                           sortedBy: .localizedNameKey,
-                                                                                           ascending: false)
+            let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: dirURL,
+                                                                          sortedBy: .localizedNameKey,
+                                                                          orderedAscending: false)
             XCTAssert(urls.count == count)
             XCTAssert(urls.last!.fileURL.lastPathComponent == "0.file")
             XCTAssert(urls.first!.fileURL.lastPathComponent == "99.file")
@@ -207,9 +207,9 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
                 let data = Data(file.utf8)
                 try data.write(to: url)
             }
-            let urls = try NSFileCoordinator.JSB_directoryContentsURLsAndModificationDates(ofDirectoryURL: dirURL,
-                                                                                           sortedBy: .creationDateKey,
-                                                                                           ascending: true)
+            let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: dirURL,
+                                                                          sortedBy: .creationDateKey,
+                                                                          orderedAscending: true)
             XCTAssert(urls.count == count)
             XCTAssert(urls.first!.fileURL.lastPathComponent == "0.file")
             XCTAssert(urls.last!.fileURL.lastPathComponent == "99.file")
@@ -232,9 +232,9 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
                 let data = Data(file.utf8)
                 try data.write(to: url)
             }
-            let urls = try NSFileCoordinator.JSB_directoryContentsURLsAndModificationDates(ofDirectoryURL: dirURL,
-                                                                                           sortedBy: .creationDateKey,
-                                                                                           ascending: false)
+            let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: dirURL,
+                                                                          sortedBy: .creationDateKey,
+                                                                          orderedAscending: false)
             XCTAssert(urls.count == count)
             XCTAssert(urls.last!.fileURL.lastPathComponent == "0.file")
             XCTAssert(urls.first!.fileURL.lastPathComponent == "99.file")
@@ -260,9 +260,9 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
             let modURL = dirURL.appendingPathComponent("10.file")
             let data = Data("MODIFIED".utf8)
             try data.write(to: modURL)
-            let urls = try NSFileCoordinator.JSB_directoryContentsURLsAndModificationDates(ofDirectoryURL: dirURL,
-                                                                                           sortedBy: .contentModificationDateKey,
-                                                                                           ascending: true)
+            let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: dirURL,
+                                                                          sortedBy: .contentModificationDateKey,
+                                                                          orderedAscending: true)
             XCTAssert(urls.count == count)
             XCTAssert(urls.last!.fileURL.lastPathComponent == "10.file")
         } catch {
@@ -287,9 +287,9 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
             let modURL = dirURL.appendingPathComponent("10.file")
             let data = Data("MODIFIED".utf8)
             try data.write(to: modURL)
-            let urls = try NSFileCoordinator.JSB_directoryContentsURLsAndModificationDates(ofDirectoryURL: dirURL,
-                                                                                           sortedBy: .contentModificationDateKey,
-                                                                                           ascending: false)
+            let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: dirURL,
+                                                                          sortedBy: .contentModificationDateKey,
+                                                                          orderedAscending: false)
             XCTAssert(urls.count == count)
             XCTAssert(urls.first!.fileURL.lastPathComponent == "10.file")
         } catch {
