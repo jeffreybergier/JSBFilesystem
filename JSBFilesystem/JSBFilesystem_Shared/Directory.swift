@@ -51,7 +51,7 @@ public struct Directory {
     }
 
     public func count() throws -> Int {
-        let count = try NSFileCoordinator.JSB_fileCountInDirectory(at: self.url)
+        let count = try NSFileCoordinator.JSBFS_fileCount(inDirectoryURL: url)
         return count
     }
 

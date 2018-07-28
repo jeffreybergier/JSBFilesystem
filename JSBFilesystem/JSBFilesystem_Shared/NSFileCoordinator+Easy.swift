@@ -41,29 +41,6 @@ internal extension NSFileCoordinator {
         }
     }
 
-    internal class func JSB_fileCountInDirectory(at url: URL) throws -> Int {
-        var errorPointer: NSErrorPointer = nil
-        var coordinatorError: Error? { return errorPointer?.pointee }
-        var readError: Error?
-        var count: Int?
-        let c = NSFileCoordinator()
-        c.coordinate(readingItemAt: url, options: [.resolvesSymbolicLink], error: errorPointer, byAccessor: { url in
-            guard coordinatorError == nil else { return }
-            do {
-                count = try FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: [], options: [.skipsHiddenFiles]).count
-            } catch {
-                readError = error
-            }
-        })
-        if let error = coordinatorError {
-            throw error
-        } else if let error = readError {
-            throw error
-        } else {
-            return count!
-        }
-    }
-
     /// Only supports URLResourceKey.localizedNameKey, .contentModificationDateKey, .creationDateKey
     internal class func JSB_directoryContentsURLsAndModificationDates(ofDirectoryURL url: URL,
                                                                       sortedBy: URLResourceKey,

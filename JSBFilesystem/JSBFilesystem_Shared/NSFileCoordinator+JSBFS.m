@@ -134,6 +134,35 @@
     }
 }
 
++ (NSInteger)JSBFS_fileCountInDirectoryURL:(NSURL*)url
+                                     error:(NSError**)errorPtr;
+{
+
+    __block NSError* outerError = nil;
+    __block NSError* innerError = nil;
+    __block NSArray<NSURL*>* contents = nil;
+    NSFileCoordinator* c = [[NSFileCoordinator alloc] init];
+    [c coordinateReadingItemAtURL:url
+                          options:NSFileCoordinatorReadingResolvesSymbolicLink
+                            error:&outerError
+                       byAccessor:^(NSURL* _Nonnull newURL)
+     {
+         contents = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:url
+                                       includingPropertiesForKeys:nil
+                                                          options:NSDirectoryEnumerationSkipsHiddenFiles
+                                                            error:&outerError];
+     }];
+    if (outerError != NULL) {
+        *errorPtr = outerError;
+        return 0;
+    } else if (innerError != NULL) {
+        *errorPtr = innerError;
+        return 0;
+    } else {
+        return [contents count];
+    }
+}
+
 @end
 
 @implementation JSBFSDoubleBool

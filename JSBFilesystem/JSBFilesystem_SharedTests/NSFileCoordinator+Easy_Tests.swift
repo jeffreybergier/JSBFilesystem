@@ -134,7 +134,7 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
                 let url = dirURL.appendingPathComponent("\(i).txt", isDirectory: false)
                 try data.write(to: url)
             }
-            let count = try NSFileCoordinator.JSB_fileCountInDirectory(at: dirURL)
+            let count = try NSFileCoordinator.JSBFS_fileCount(inDirectoryURL: dirURL)
             XCTAssert(count == testCount)
         } catch {
             XCTFail(String(describing: error))

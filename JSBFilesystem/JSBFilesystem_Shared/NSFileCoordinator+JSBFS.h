@@ -38,7 +38,11 @@ NS_SWIFT_NAME(JSBFS_move(sourceFile:toDestinationFile:));
                              error:(NSError* _Nullable*)errorPtr
 NS_SWIFT_NAME(JSBFS_createDirectory(at:));
 
-+ (NSInteger)JSBFS_fileCountInDirectoryURL:(NSURL*)directoryURL error:(NSError**)errorPtr;
++ (NSInteger)JSBFS_fileCountInDirectoryURL:(NSURL* _Nonnull)url
+                                    error:(NSError* _Nullable*)errorPtr
+__attribute__((swift_error(nonnull_error)))
+NS_SWIFT_NAME(JSBFS_fileCount(inDirectoryURL:));
+
 + (JSBFSDoubleBool*)JSBFS_fileExistsAndIsDirectoryAtURL:(NSURL*)url error:(NSError**)errorPtr;
 /// Only supports URLResourceKey.localizedNameKey, .contentModificationDateKey, .creationDateKey
 + (JSBFSFileComparison*)JSBFS_urlComparisonsForFilesInDirectoryURL:(NSURL*)directoryURL
