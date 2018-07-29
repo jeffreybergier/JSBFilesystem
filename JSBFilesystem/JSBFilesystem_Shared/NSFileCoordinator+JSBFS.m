@@ -22,10 +22,10 @@
     {
         innerSuccess = [data writeToURL:newURL options:NSDataWritingAtomic error:&innerError];
     }];
-    if (outerError != NULL) {
+    if (outerError) {
         *errorPtr = outerError;
         return NO;
-    } else if (innerError != NULL || !innerSuccess) {
+    } else if (innerError || !innerSuccess) {
         *errorPtr = innerError;
         return NO;
     } else {
@@ -47,10 +47,10 @@
     {
         data = [NSData dataWithContentsOfURL:newURL options:0 error:&innerError];
     }];
-    if (outerError != NULL) {
+    if (outerError) {
         *errorPtr = outerError;
         return nil;
-    } else if (innerError != NULL || data == nil) {
+    } else if (innerError || !data) {
         *errorPtr = innerError;
         return nil;
     } else {
@@ -69,12 +69,16 @@
                             error:&outerError
                        byAccessor:^(NSURL * _Nonnull newURL)
      {
+        #if TARGET_OS_IPHONE
+         [[NSFileManager defaultManager] removeItemAtURL:newURL error:&innerError];
+        #else
          [[NSFileManager defaultManager] trashItemAtURL:newURL resultingItemURL:nil error:&innerError];
+        #endif
      }];
-    if (outerError != NULL) {
+    if (outerError) {
         *errorPtr = outerError;
         return NO;
-    } else if (innerError != NULL) {
+    } else if (innerError) {
         *errorPtr = innerError;
         return NO;
     } else {
@@ -103,10 +107,10 @@
          if (!innerSuccess || innerError != nil) { return; }
          innerSuccess = [fm moveItemAtURL:newReadingURL toURL:newWritingURL error:&innerError];
      }];
-    if (outerError != NULL) {
+    if (outerError) {
         *errorPtr = outerError;
         return NO;
-    } else if (innerError != NULL || !innerSuccess) {
+    } else if (innerError || !innerSuccess) {
         *errorPtr = innerError;
         return NO;
     } else {
@@ -128,10 +132,10 @@
      {
          innerSuccess = [[NSFileManager defaultManager] createDirectoryAtURL:newURL withIntermediateDirectories:YES attributes:nil error:&innerError];
      }];
-    if (outerError != NULL) {
+    if (outerError) {
         *errorPtr = outerError;
         return NO;
-    } else if (innerError != NULL || !innerSuccess) {
+    } else if (innerError || !innerSuccess) {
         *errorPtr = innerError;
         return NO;
     } else {
@@ -157,10 +161,10 @@
                                                           options:NSDirectoryEnumerationSkipsHiddenFiles
                                                             error:&innerError];
      }];
-    if (outerError != NULL) {
+    if (outerError) {
         *errorPtr = outerError;
         return 0;
-    } else if (innerError != NULL || contents == nil) {
+    } else if (innerError || !contents) {
         *errorPtr = innerError;
         return 0;
     } else {
@@ -183,10 +187,10 @@
          BOOL isExisting = [[NSFileManager defaultManager] fileExistsAtPath:[newURL path] isDirectory:&isDirectory];
          value = [[JSBFSDoubleBool alloc] initWithValue1:isExisting value2:isDirectory];
      }];
-    if (outerError != NULL) {
+    if (outerError) {
         *errorPtr = outerError;
         return nil;
-    } else if (innerError != NULL || value == nil) {
+    } else if (innerError || !value) {
         *errorPtr = innerError;
         return nil;
     } else {
@@ -199,77 +203,137 @@
                                                             orderedAscending:(BOOL)ascending
                                                                        error:(NSError* _Nullable*)errorPtr;
 {
+    NSError* error = nil;
+    NSURL* updatedURL = nil;
+    NSArray<NSURL*>* _contents = [self __JSBFS_step1_getFileListAtURL:url newURL:&updatedURL error:&error];
+    if (error || !_contents || !updatedURL) {
+        *errorPtr = error;
+        return nil;
+    }
+    NSArray<NSURL*>* contents = [self __JSBFS_step2_coordinateFilesAtURL:updatedURL error:&error];
+    if (error || !contents) {
+        *errorPtr = error;
+        return nil;
+    }
+    NSMutableArray<JSBFSFileComparison*>* unsorted = [self __JSBFS_step3_mapContents:contents error:&error];
+    if (error || !unsorted) {
+        *errorPtr = error;
+        return nil;
+    }
+    NSArray<JSBFSFileComparison*>* sorted = [self __JSBFS_step4_sortContents:unsorted sortedByResourceKey:resourceKey orderedAscending:ascending error:&error];
+    if (error || !sorted) {
+        *errorPtr = error;
+        return nil;
+    }
+    return sorted;
+}
+
+/// Step1: get the list of files in the Directory
++ (NSArray<NSURL*>*)__JSBFS_step1_getFileListAtURL:(NSURL*)dirURL newURL:(NSURL**)newURL error:(NSError**)errorPtr;
+{
     NSError* outerError = nil;
     __block NSError* innerError = nil;
-    __block NSURL* dirURL = url;
     __block NSArray<NSURL*>* contents = nil;
-    NSMutableArray<JSBFSFileComparison*>* values = nil;
+    __block NSURL* updatedURL = nil;
     NSFileCoordinator* c = [[NSFileCoordinator alloc] init];
-
-    // Step1: get the list of files in the Directory
     [c coordinateReadingItemAtURL:dirURL
                           options:NSFileCoordinatorReadingResolvesSymbolicLink
                             error:&outerError
                        byAccessor:^(NSURL* _Nonnull newURL)
      {
 
-         dirURL = newURL;
+         updatedURL = newURL;
          contents = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:newURL
-                                                   includingPropertiesForKeys:nil
-                                                                      options:NSDirectoryEnumerationSkipsHiddenFiles
-                                                                        error:&innerError];
+                                                  includingPropertiesForKeys:nil
+                                                                     options:NSDirectoryEnumerationSkipsHiddenFiles
+                                                                       error:&innerError];
      }];
+
     // check if that operation failed
-    if (outerError != NULL) {
+    if (outerError) {
         *errorPtr = outerError;
         return nil;
-    } else if (innerError != NULL || contents == nil) {
+    } else if (innerError || !contents || !updatedURL) {
         *errorPtr = innerError;
         return nil;
+    } else {
+        *newURL = updatedURL;
+        return contents;
     }
+}
 
-    // Step2: prepare the files to be read
+/// Step2: prepare the files to be read
++ (NSArray<NSURL*>*)__JSBFS_step2_coordinateFilesAtURL:(NSURL*)dirURL error:(NSError**)errorPtr;
+{
+    NSError* outerError = nil;
+    __block NSError* innerError = nil;
+    __block NSArray<NSURL*>* contents = nil;
+    NSFileCoordinator* c = [[NSFileCoordinator alloc] init];
     [c prepareForReadingItemsAtURLs:contents
                             options:NSFileCoordinatorReadingResolvesSymbolicLink
                  writingItemsAtURLs:@[]
                             options:0
                               error:&outerError
                          byAccessor:^(void (^ _Nonnull completionHandler)(void))
-    {
-        contents = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:dirURL
+     {
+         contents = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:dirURL
                                                   includingPropertiesForKeys:@[NSURLLocalizedNameKey, NSURLContentModificationDateKey, NSURLCreationDateKey]
                                                                      options:NSDirectoryEnumerationSkipsHiddenFiles
                                                                        error:&innerError];
-        completionHandler();
-    }];
+         completionHandler();
+     }];
     // check if that operation failed
-    if (outerError != NULL) {
+    if (outerError) {
         *errorPtr = outerError;
         return nil;
-    } else if (innerError != NULL || contents == nil) {
+    } else if (innerError || !contents) {
         *errorPtr = innerError;
         return nil;
+    } else {
+        return contents;
     }
+}
 
-    // Step3: Map into custom objects
-    values = [[NSMutableArray alloc] initWithCapacity:[contents count]];
+/// Step3: Map into custom objects
++ (NSMutableArray<JSBFSFileComparison*>*)__JSBFS_step3_mapContents:(NSArray<NSURL*>*)contents error:(NSError**)errorPtr;
+{
+    NSError* error = nil;
+    BOOL success = NO;
+    NSMutableArray<JSBFSFileComparison*>* values = [[NSMutableArray alloc] initWithCapacity:[contents count]];
     for (NSURL* url in contents) {
         NSDate* modDate = nil;
-        [url getResourceValue:&modDate forKey:NSURLContentModificationDateKey error:&outerError];
-        if (outerError != NULL || url == nil) { break; }
+        success = [url getResourceValue:&modDate forKey:NSURLContentModificationDateKey error:&error];
+        if (error || !modDate || !success) {
+            *errorPtr = error;
+            break;
+        }
         JSBFSFileComparison* value = [[JSBFSFileComparison alloc] initWithFileURL:url modificationDate:modDate];
         [values addObject:value];
     }
-    if ([values count] != [contents count]) { return nil; } // something went wrong if the arrays don't match counts
+    if ([values count] != [contents count] || error || !success) {
+        *errorPtr = error;
+        return nil;
+    } else {
+        return values;
+    }
+}
 
-    // Step4: sort according to preference
-    [values sortUsingComparator:^NSComparisonResult(JSBFSFileComparison* _Nonnull lhs, JSBFSFileComparison* _Nonnull rhs) {
+/// Step4: sort according to preference
++ (NSArray<JSBFSFileComparison*>*)__JSBFS_step4_sortContents:(NSMutableArray<JSBFSFileComparison*>*)contents
+                                                sortedByResourceKey:(NSURLResourceKey)resourceKey
+                                                   orderedAscending:(BOOL)ascending
+                                                              error:(NSError**)errorPtr;
+{
+    __block NSError* error = nil;
+    __block BOOL lhsSuccess = NO;
+    __block BOOL rhsSuccess = NO;
+    [contents sortUsingComparator:^NSComparisonResult(JSBFSFileComparison* _Nonnull lhs, JSBFSFileComparison* _Nonnull rhs) {
         if ([resourceKey isEqualToString:NSURLLocalizedNameKey]) {
             NSString* lhsName = nil;
             NSString* rhsName = nil;
-            BOOL lhsSuccess = [[lhs fileURL] getResourceValue:&lhsName forKey:resourceKey error:&innerError];
-            BOOL rhsSuccess = [[rhs fileURL] getResourceValue:&rhsName forKey:resourceKey error:&innerError];
-            if (innerError || !lhsSuccess || !rhsSuccess || !lhsName || !rhsName) { return NSOrderedSame; }
+            lhsSuccess = [[lhs fileURL] getResourceValue:&lhsName forKey:resourceKey error:&error];
+            rhsSuccess = [[rhs fileURL] getResourceValue:&rhsName forKey:resourceKey error:&error];
+            if (error || !lhsSuccess || !rhsSuccess || !lhsName || !rhsName) { return NSOrderedSame; }
             if (ascending) {
                 return [lhsName localizedCaseInsensitiveCompare:rhsName];
             } else {
@@ -278,9 +342,9 @@
         } else if ([resourceKey isEqualToString:NSURLContentModificationDateKey] || [resourceKey isEqualToString:NSURLCreationDateKey]) {
             NSDate* lhsDate = nil;
             NSDate* rhsDate = nil;
-            BOOL lhsSuccess = [[lhs fileURL] getResourceValue:&lhsDate forKey:resourceKey error:&innerError];
-            BOOL rhsSuccess = [[rhs fileURL] getResourceValue:&rhsDate forKey:resourceKey error:&innerError];
-            if (innerError || !lhsSuccess || !rhsSuccess || !lhsDate || !rhsDate) { return NSOrderedSame; }
+            lhsSuccess = [[lhs fileURL] getResourceValue:&lhsDate forKey:resourceKey error:&error];
+            rhsSuccess = [[rhs fileURL] getResourceValue:&rhsDate forKey:resourceKey error:&error];
+            if (error || !lhsSuccess || !rhsSuccess || !lhsDate || !rhsDate) { return NSOrderedSame; }
             if (ascending) {
                 return [lhsDate compare:rhsDate];
             } else {
@@ -290,15 +354,11 @@
             @throw [[NSException alloc] initWithName:@"Unsupported NSURLResourceKey" reason:@"This function only supports NSURLLocalizedNameKey, NSURLContentModificationDateKey, NSURLCreationDateKey" userInfo:nil];
         }
     }];
-    // last error check
-    if (outerError != NULL) {
-        *errorPtr = outerError;
-        return nil;
-    } else if (innerError != NULL) {
-        *errorPtr = innerError;
+    if (error || !lhsSuccess || !rhsSuccess) {
+        *errorPtr = error;
         return nil;
     } else {
-        return [values copy];
+        return [contents copy];
     }
 }
 
