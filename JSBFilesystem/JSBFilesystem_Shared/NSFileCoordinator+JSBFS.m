@@ -370,7 +370,9 @@
     if (self = [super init]) {
         _value1 = value1;
         _value2 = value2;
+        return self;
+    } else {
+        @throw [[NSException alloc] initWithName:NSMallocException reason:@"INIT Failed" userInfo:nil];
     }
-    return self;
 }
 @end

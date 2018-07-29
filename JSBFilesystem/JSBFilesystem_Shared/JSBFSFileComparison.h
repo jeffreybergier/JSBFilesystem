@@ -1,5 +1,5 @@
 //
-//  JSBFileComparison.h
+//  JSBFSFileComparison.h
 //  JSBFilesystem
 //
 //  Created by Jeffrey Bergier on 27/07/2018.

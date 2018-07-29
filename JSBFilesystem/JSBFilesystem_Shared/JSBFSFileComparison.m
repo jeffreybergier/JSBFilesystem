@@ -1,6 +1,6 @@
 //
-//  JSBFileComparison.m
-//  JSBFilesystem
+//  JSBFSFileComparison.m
+//  JSBFSFileComparison
 //
 //  Created by Jeffrey Bergier on 27/07/2018.
 //
@@ -14,8 +14,10 @@
     if (self = [super init]) {
         _fileURL = fileURL;
         _modificationDate = modificationDate;
+        return self;
+    } else {
+        @throw [[NSException alloc] initWithName:NSMallocException reason:@"INIT Failed" userInfo:nil];
     }
-    return self;
 }
 - (id<NSObject>)diffIdentifier;
 {
