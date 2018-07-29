@@ -9,9 +9,9 @@
 @import IGListKit;
 
 @interface JSBFSFileComparison: NSObject <IGListDiffable>
-@property (readonly, nonatomic, strong) NSURL* fileURL;
-@property (readonly, nonatomic, strong) NSDate* modificationDate;
-- (instancetype)initWithFileURL:(NSURL*)fileURL modificationDate:(NSDate*)modificationDate;
-- (nonnull id<NSObject>)diffIdentifier;
-- (BOOL)isEqualToDiffableObject:(nullable id<IGListDiffable>)object;
+@property (readonly, nonatomic, strong) NSURL* _Nonnull fileURL;
+@property (readonly, nonatomic, strong) NSDate* _Nonnull modificationDate;
+- (instancetype _Nonnull)initWithFileURL:(NSURL* _Nonnull)fileURL modificationDate:(NSDate* _Nonnull)modificationDate;
+- (id<NSObject> _Nonnull)diffIdentifier;
+- (BOOL)isEqualToDiffableObject:(id<IGListDiffable> _Nullable)object;
 @end

@@ -9,8 +9,8 @@
 #import "JSBFSFileComparison.h"
 
 @interface JSBFSDoubleBool: NSObject
-@property BOOL value1;
-@property BOOL value2;
+@property (readonly, nonatomic) BOOL value1;
+@property (readonly, nonatomic) BOOL value2;
 - (instancetype)initWithValue1:(BOOL)value1 value2:(BOOL)value2;
 @end
 
@@ -45,9 +45,9 @@ NS_SWIFT_NAME(JSBFS_fileExistsAndIsDirectory(at:));
 
 /// Only supports URLResourceKey.localizedNameKey, .contentModificationDateKey, .creationDateKey
 + (NSArray<JSBFSFileComparison*>* _Nullable)JSBFS_urlComparisonsForFilesInDirectoryURL:(NSURL* _Nonnull)url
-                                                         sortedByResourceKey:(NSURLResourceKey)resourceKey
-                                                            orderedAscending:(BOOL)ascending
-                                                                       error:(NSError* _Nullable*)errorPtr
+                                                                   sortedByResourceKey:(NSURLResourceKey)resourceKey
+                                                                      orderedAscending:(BOOL)ascending
+                                                                                 error:(NSError* _Nullable*)errorPtr
 NS_SWIFT_NAME(JSBFS_urlComparisonsForFiles(inDirectory:sortedBy:orderedAscending:));
 
 @end
