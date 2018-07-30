@@ -22,7 +22,7 @@
                                                                                    sortedByResourceKey:[self sortedBy]
                                                                                       orderedAscending:[self orderedAscending]
                                                                                                  error:nil];
-    IGListIndexSetResult* result = IGListDiff(lhs, rhs, 0);
+    IGListIndexSetResult* result = IGListDiff(lhs, rhs, IGListDiffEquality);
     JSBFSDirectoryChanges_Testable* changes = [[JSBFSDirectoryChanges_Testable alloc] initWithIndexSetResult:result];
 
     _internalState = rhs;
