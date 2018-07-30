@@ -47,7 +47,7 @@
                                                                                    sortedByResourceKey:[self sortedBy]
                                                                                       orderedAscending:[self orderedAscending]
                                                                                                  error:nil];
-    IGListIndexSetResult* result = IGListDiff(lhs, rhs, 0);
+    IGListIndexSetResult* result = [IGListDiff(lhs, rhs, 0) resultForBatchUpdates];
     JSBFSDirectoryChanges* changes = [[JSBFSDirectoryChanges alloc] initWithIndexSetResult:result];
 
     [self setInternalState:rhs];

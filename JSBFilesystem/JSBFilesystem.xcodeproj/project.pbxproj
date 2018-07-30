@@ -18,12 +18,16 @@
 		508906EF210F82F60038A1ED /* SmallCategories.h in Headers */ = {isa = PBXBuildFile; fileRef = 508906EC210F82F60038A1ED /* SmallCategories.h */; };
 		508906F0210F82F60038A1ED /* SmallCategories.m in Sources */ = {isa = PBXBuildFile; fileRef = 508906ED210F82F60038A1ED /* SmallCategories.m */; };
 		508906F1210F82F60038A1ED /* SmallCategories.m in Sources */ = {isa = PBXBuildFile; fileRef = 508906ED210F82F60038A1ED /* SmallCategories.m */; };
-		50B2A0DF210D43AF00A805A4 /* JSBFSDirectoryObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 50B2A0DD210D43AF00A805A4 /* JSBFSDirectoryObserver.h */; };
-		50B2A0E0210D43AF00A805A4 /* JSBFSDirectoryObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 50B2A0DD210D43AF00A805A4 /* JSBFSDirectoryObserver.h */; };
+		508906F4210F86E20038A1ED /* JSBFSDirectoryObserver_Testable.h in Headers */ = {isa = PBXBuildFile; fileRef = 508906F2210F86E20038A1ED /* JSBFSDirectoryObserver_Testable.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		508906F5210F86E20038A1ED /* JSBFSDirectoryObserver_Testable.h in Headers */ = {isa = PBXBuildFile; fileRef = 508906F2210F86E20038A1ED /* JSBFSDirectoryObserver_Testable.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		508906F6210F86E20038A1ED /* JSBFSDirectoryObserver_Testable.m in Sources */ = {isa = PBXBuildFile; fileRef = 508906F3210F86E20038A1ED /* JSBFSDirectoryObserver_Testable.m */; };
+		508906F7210F86E20038A1ED /* JSBFSDirectoryObserver_Testable.m in Sources */ = {isa = PBXBuildFile; fileRef = 508906F3210F86E20038A1ED /* JSBFSDirectoryObserver_Testable.m */; };
+		50B2A0DF210D43AF00A805A4 /* JSBFSDirectoryObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 50B2A0DD210D43AF00A805A4 /* JSBFSDirectoryObserver.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		50B2A0E0210D43AF00A805A4 /* JSBFSDirectoryObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 50B2A0DD210D43AF00A805A4 /* JSBFSDirectoryObserver.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50B2A0E1210D43AF00A805A4 /* JSBFSDirectoryObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B2A0DE210D43AF00A805A4 /* JSBFSDirectoryObserver.m */; };
 		50B2A0E2210D43AF00A805A4 /* JSBFSDirectoryObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B2A0DE210D43AF00A805A4 /* JSBFSDirectoryObserver.m */; };
-		50B2A0E5210D43E300A805A4 /* JSBFSDirectoryChanges.h in Headers */ = {isa = PBXBuildFile; fileRef = 50B2A0E3210D43E300A805A4 /* JSBFSDirectoryChanges.h */; };
-		50B2A0E6210D43E300A805A4 /* JSBFSDirectoryChanges.h in Headers */ = {isa = PBXBuildFile; fileRef = 50B2A0E3210D43E300A805A4 /* JSBFSDirectoryChanges.h */; };
+		50B2A0E5210D43E300A805A4 /* JSBFSDirectoryChanges.h in Headers */ = {isa = PBXBuildFile; fileRef = 50B2A0E3210D43E300A805A4 /* JSBFSDirectoryChanges.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		50B2A0E6210D43E300A805A4 /* JSBFSDirectoryChanges.h in Headers */ = {isa = PBXBuildFile; fileRef = 50B2A0E3210D43E300A805A4 /* JSBFSDirectoryChanges.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50B2A0E7210D43E300A805A4 /* JSBFSDirectoryChanges.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B2A0E4210D43E300A805A4 /* JSBFSDirectoryChanges.m */; };
 		50B2A0E8210D43E300A805A4 /* JSBFSDirectoryChanges.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B2A0E4210D43E300A805A4 /* JSBFSDirectoryChanges.m */; };
 		50DAE976210647BD006208E3 /* JSBFilesystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50DAE96C210647BD006208E3 /* JSBFilesystem.framework */; };
@@ -38,8 +42,6 @@
 		50DAE9B02106A077006208E3 /* Directory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DAE9AE2106A077006208E3 /* Directory.swift */; };
 		50DAE9B22107DCC1006208E3 /* Directory_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DAE9B12107DCC1006208E3 /* Directory_Tests.swift */; };
 		50DAE9B32107DCC1006208E3 /* Directory_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DAE9B12107DCC1006208E3 /* Directory_Tests.swift */; };
-		50DAE9ED21081C9B006208E3 /* DirectoryObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DAE9EC21081C9B006208E3 /* DirectoryObserver.swift */; };
-		50DAE9EE21081CBE006208E3 /* DirectoryObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DAE9EC21081C9B006208E3 /* DirectoryObserver.swift */; };
 		50DAE9F02108F91C006208E3 /* DirectoryObserver_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DAE9EF2108F91C006208E3 /* DirectoryObserver_Tests.swift */; };
 		50DAE9F12108F91C006208E3 /* DirectoryObserver_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DAE9EF2108F91C006208E3 /* DirectoryObserver_Tests.swift */; };
 		50DE58F6210BC58F005609A0 /* JSBFilesystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 50DE58F5210BC58F005609A0 /* JSBFilesystem.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -78,6 +80,8 @@
 		5026372D210BBD8E000B1139 /* JSBFSFileComparison.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSBFSFileComparison.m; sourceTree = "<group>"; };
 		508906EC210F82F60038A1ED /* SmallCategories.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SmallCategories.h; sourceTree = "<group>"; };
 		508906ED210F82F60038A1ED /* SmallCategories.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SmallCategories.m; sourceTree = "<group>"; };
+		508906F2210F86E20038A1ED /* JSBFSDirectoryObserver_Testable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSBFSDirectoryObserver_Testable.h; sourceTree = "<group>"; };
+		508906F3210F86E20038A1ED /* JSBFSDirectoryObserver_Testable.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSBFSDirectoryObserver_Testable.m; sourceTree = "<group>"; };
 		50B2A0DD210D43AF00A805A4 /* JSBFSDirectoryObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSBFSDirectoryObserver.h; sourceTree = "<group>"; };
 		50B2A0DE210D43AF00A805A4 /* JSBFSDirectoryObserver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSBFSDirectoryObserver.m; sourceTree = "<group>"; };
 		50B2A0E3210D43E300A805A4 /* JSBFSDirectoryChanges.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSBFSDirectoryChanges.h; sourceTree = "<group>"; };
@@ -238,6 +242,8 @@
 				5026372D210BBD8E000B1139 /* JSBFSFileComparison.m */,
 				50B2A0DD210D43AF00A805A4 /* JSBFSDirectoryObserver.h */,
 				50B2A0DE210D43AF00A805A4 /* JSBFSDirectoryObserver.m */,
+				508906F2210F86E20038A1ED /* JSBFSDirectoryObserver_Testable.h */,
+				508906F3210F86E20038A1ED /* JSBFSDirectoryObserver_Testable.m */,
 				50B2A0E3210D43E300A805A4 /* JSBFSDirectoryChanges.h */,
 				50B2A0E4210D43E300A805A4 /* JSBFSDirectoryChanges.m */,
 				50DAE9AE2106A077006208E3 /* Directory.swift */,
@@ -279,6 +285,7 @@
 				50DE58F6210BC58F005609A0 /* JSBFilesystem.h in Headers */,
 				50B2A0E5210D43E300A805A4 /* JSBFSDirectoryChanges.h in Headers */,
 				5026372E210BBD8E000B1139 /* JSBFSFileComparison.h in Headers */,
+				508906F4210F86E20038A1ED /* JSBFSDirectoryObserver_Testable.h in Headers */,
 				508906EE210F82F60038A1ED /* SmallCategories.h in Headers */,
 				50F3BEA5210B708B003D5869 /* NSFileCoordinator+JSBFS.h in Headers */,
 			);
@@ -293,6 +300,7 @@
 				50DE58F7210BC58F005609A0 /* JSBFilesystem.h in Headers */,
 				50B2A0E6210D43E300A805A4 /* JSBFSDirectoryChanges.h in Headers */,
 				5026372F210BBD8E000B1139 /* JSBFSFileComparison.h in Headers */,
+				508906F5210F86E20038A1ED /* JSBFSDirectoryObserver_Testable.h in Headers */,
 				508906EF210F82F60038A1ED /* SmallCategories.h in Headers */,
 				50F3BEA6210B708B003D5869 /* NSFileCoordinator+JSBFS.h in Headers */,
 			);
@@ -572,9 +580,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				50B2A0E7210D43E300A805A4 /* JSBFSDirectoryChanges.m in Sources */,
-				50DAE9ED21081C9B006208E3 /* DirectoryObserver.swift in Sources */,
 				508906F0210F82F60038A1ED /* SmallCategories.m in Sources */,
 				50B2A0E1210D43AF00A805A4 /* JSBFSDirectoryObserver.m in Sources */,
+				508906F6210F86E20038A1ED /* JSBFSDirectoryObserver_Testable.m in Sources */,
 				50F3BEA7210B708B003D5869 /* NSFileCoordinator+JSBFS.m in Sources */,
 				50263730210BBD8E000B1139 /* JSBFSFileComparison.m in Sources */,
 				50DAE9AF2106A077006208E3 /* Directory.swift in Sources */,
@@ -600,9 +608,9 @@
 				50DAE9B02106A077006208E3 /* Directory.swift in Sources */,
 				508906F1210F82F60038A1ED /* SmallCategories.m in Sources */,
 				50B2A0E2210D43AF00A805A4 /* JSBFSDirectoryObserver.m in Sources */,
+				508906F7210F86E20038A1ED /* JSBFSDirectoryObserver_Testable.m in Sources */,
 				50F3BEA8210B708B003D5869 /* NSFileCoordinator+JSBFS.m in Sources */,
 				50263731210BBD8E000B1139 /* JSBFSFileComparison.m in Sources */,
-				50DAE9EE21081CBE006208E3 /* DirectoryObserver.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

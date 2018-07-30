@@ -8,7 +8,7 @@
 @import Foundation;
 #import "JSBFSDirectoryChanges.h"
 
-typedef void(^JSBFSDirectoryObserverChangeBlock)(JSBFSDirectoryChanges* changes);
+typedef void(^JSBFSDirectoryObserverChangeBlock)(JSBFSDirectoryChanges* _Nonnull changes);
 
 @interface JSBFSDirectoryObserver : NSObject
 
