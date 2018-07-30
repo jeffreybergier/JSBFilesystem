@@ -6,6 +6,7 @@
 //
 
 #import "JSBFSDirectoryChanges.h"
+#import "SmallCategories.h"
 
 @implementation JSBFSDirectoryChangesMove
 -(instancetype)initWithFromValue:(NSInteger)fromValue toValue:(NSInteger)toValue;
@@ -36,4 +37,16 @@
     }
 }
 
+@end
+
+@implementation JSBFSDirectoryChanges (IGListKit)
+- (instancetype _Nullable)initWithIndexSetResult:(IGListIndexSetResult* _Nonnull)r;
+{
+    if (![r hasChanges]) { return nil; }
+    NSArray<JSBFSDirectoryChangesMove *>* moves = [[r moves] JSBFS_arrayByTransformingArrayContentsWithBlock:^id _Nonnull(IGListMoveIndex* item)
+    {
+        return [[JSBFSDirectoryChangesMove alloc] initWithFromValue:[item from] toValue:[item to]];
+    }];
+    return [self initWithInsertions:[r inserts] deletions:[r deletes] moves:moves];
+}
 @end

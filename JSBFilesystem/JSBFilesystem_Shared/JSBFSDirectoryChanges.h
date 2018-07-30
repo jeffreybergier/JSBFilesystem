@@ -7,7 +7,7 @@
 
 @import IGListKit;
 
-@interface JSBFSDirectoryChangesMove : NSObject
+@interface JSBFSDirectoryChangesMove: NSObject
 
 @property (readonly, nonatomic) NSInteger from;
 @property (readonly, nonatomic) NSInteger to;
@@ -15,7 +15,7 @@
 
 @end
 
-@interface JSBFSDirectoryChanges : NSObject
+@interface JSBFSDirectoryChanges: NSObject
 
 @property (readonly, nonatomic, strong) NSIndexSet* _Nonnull insertions;
 @property (readonly, nonatomic, strong) NSIndexSet* _Nonnull deletions;
@@ -24,4 +24,9 @@
                                  deletions:(NSIndexSet* _Nonnull)deletions
                                      moves:(NSArray<JSBFSDirectoryChangesMove*>* _Nonnull)moves;
 
+@end
+
+@interface JSBFSDirectoryChanges (IGListKit)
+/// Returns NIL if there are no changes
+- (instancetype _Nullable)initWithIndexSetResult:(IGListIndexSetResult* _Nonnull)result;
 @end

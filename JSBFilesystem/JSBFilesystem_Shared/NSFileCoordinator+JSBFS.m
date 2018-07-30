@@ -362,6 +362,27 @@
     }
 }
 
++   (BOOL)JSBFS_executeBlock:(void (^_Nonnull)(void))executionBlock
+whileCoordinatingAccessAtURL:(NSURL* _Nonnull)url
+                       error:(NSError* _Nullable*)errorPtr;
+{
+    __block NSError* error = nil;
+    NSFileCoordinator* c = [[NSFileCoordinator alloc] init];
+    [c coordinateReadingItemAtURL:url
+                          options:NSFileCoordinatorReadingResolvesSymbolicLink
+                            error:&error
+                       byAccessor:^(NSURL* _Nonnull newURL)
+     {
+         executionBlock();
+     }];
+    if (error) {
+        *errorPtr = error;
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
 @end
 
 @implementation JSBFSDoubleBool

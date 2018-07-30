@@ -14,6 +14,10 @@
 		5026372F210BBD8E000B1139 /* JSBFSFileComparison.h in Headers */ = {isa = PBXBuildFile; fileRef = 5026372C210BBD8E000B1139 /* JSBFSFileComparison.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50263730210BBD8E000B1139 /* JSBFSFileComparison.m in Sources */ = {isa = PBXBuildFile; fileRef = 5026372D210BBD8E000B1139 /* JSBFSFileComparison.m */; };
 		50263731210BBD8E000B1139 /* JSBFSFileComparison.m in Sources */ = {isa = PBXBuildFile; fileRef = 5026372D210BBD8E000B1139 /* JSBFSFileComparison.m */; };
+		508906EE210F82F60038A1ED /* SmallCategories.h in Headers */ = {isa = PBXBuildFile; fileRef = 508906EC210F82F60038A1ED /* SmallCategories.h */; };
+		508906EF210F82F60038A1ED /* SmallCategories.h in Headers */ = {isa = PBXBuildFile; fileRef = 508906EC210F82F60038A1ED /* SmallCategories.h */; };
+		508906F0210F82F60038A1ED /* SmallCategories.m in Sources */ = {isa = PBXBuildFile; fileRef = 508906ED210F82F60038A1ED /* SmallCategories.m */; };
+		508906F1210F82F60038A1ED /* SmallCategories.m in Sources */ = {isa = PBXBuildFile; fileRef = 508906ED210F82F60038A1ED /* SmallCategories.m */; };
 		50B2A0DF210D43AF00A805A4 /* JSBFSDirectoryObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 50B2A0DD210D43AF00A805A4 /* JSBFSDirectoryObserver.h */; };
 		50B2A0E0210D43AF00A805A4 /* JSBFSDirectoryObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 50B2A0DD210D43AF00A805A4 /* JSBFSDirectoryObserver.h */; };
 		50B2A0E1210D43AF00A805A4 /* JSBFSDirectoryObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B2A0DE210D43AF00A805A4 /* JSBFSDirectoryObserver.m */; };
@@ -72,6 +76,8 @@
 		4713884A62E1A1C05C04F26F /* Pods-JSBFilesystem_macOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JSBFilesystem_macOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-JSBFilesystem_macOSTests/Pods-JSBFilesystem_macOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		5026372C210BBD8E000B1139 /* JSBFSFileComparison.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSBFSFileComparison.h; sourceTree = "<group>"; };
 		5026372D210BBD8E000B1139 /* JSBFSFileComparison.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSBFSFileComparison.m; sourceTree = "<group>"; };
+		508906EC210F82F60038A1ED /* SmallCategories.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SmallCategories.h; sourceTree = "<group>"; };
+		508906ED210F82F60038A1ED /* SmallCategories.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SmallCategories.m; sourceTree = "<group>"; };
 		50B2A0DD210D43AF00A805A4 /* JSBFSDirectoryObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSBFSDirectoryObserver.h; sourceTree = "<group>"; };
 		50B2A0DE210D43AF00A805A4 /* JSBFSDirectoryObserver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSBFSDirectoryObserver.m; sourceTree = "<group>"; };
 		50B2A0E3210D43E300A805A4 /* JSBFSDirectoryChanges.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSBFSDirectoryChanges.h; sourceTree = "<group>"; };
@@ -224,6 +230,8 @@
 			isa = PBXGroup;
 			children = (
 				50DE58F5210BC58F005609A0 /* JSBFilesystem.h */,
+				508906EC210F82F60038A1ED /* SmallCategories.h */,
+				508906ED210F82F60038A1ED /* SmallCategories.m */,
 				50F3BEA3210B708B003D5869 /* NSFileCoordinator+JSBFS.h */,
 				50F3BEA4210B708B003D5869 /* NSFileCoordinator+JSBFS.m */,
 				5026372C210BBD8E000B1139 /* JSBFSFileComparison.h */,
@@ -271,6 +279,7 @@
 				50DE58F6210BC58F005609A0 /* JSBFilesystem.h in Headers */,
 				50B2A0E5210D43E300A805A4 /* JSBFSDirectoryChanges.h in Headers */,
 				5026372E210BBD8E000B1139 /* JSBFSFileComparison.h in Headers */,
+				508906EE210F82F60038A1ED /* SmallCategories.h in Headers */,
 				50F3BEA5210B708B003D5869 /* NSFileCoordinator+JSBFS.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -284,6 +293,7 @@
 				50DE58F7210BC58F005609A0 /* JSBFilesystem.h in Headers */,
 				50B2A0E6210D43E300A805A4 /* JSBFSDirectoryChanges.h in Headers */,
 				5026372F210BBD8E000B1139 /* JSBFSFileComparison.h in Headers */,
+				508906EF210F82F60038A1ED /* SmallCategories.h in Headers */,
 				50F3BEA6210B708B003D5869 /* NSFileCoordinator+JSBFS.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -563,6 +573,7 @@
 			files = (
 				50B2A0E7210D43E300A805A4 /* JSBFSDirectoryChanges.m in Sources */,
 				50DAE9ED21081C9B006208E3 /* DirectoryObserver.swift in Sources */,
+				508906F0210F82F60038A1ED /* SmallCategories.m in Sources */,
 				50B2A0E1210D43AF00A805A4 /* JSBFSDirectoryObserver.m in Sources */,
 				50F3BEA7210B708B003D5869 /* NSFileCoordinator+JSBFS.m in Sources */,
 				50263730210BBD8E000B1139 /* JSBFSFileComparison.m in Sources */,
@@ -587,6 +598,7 @@
 			files = (
 				50B2A0E8210D43E300A805A4 /* JSBFSDirectoryChanges.m in Sources */,
 				50DAE9B02106A077006208E3 /* Directory.swift in Sources */,
+				508906F1210F82F60038A1ED /* SmallCategories.m in Sources */,
 				50B2A0E2210D43AF00A805A4 /* JSBFSDirectoryObserver.m in Sources */,
 				50F3BEA8210B708B003D5869 /* NSFileCoordinator+JSBFS.m in Sources */,
 				50263731210BBD8E000B1139 /* JSBFSFileComparison.m in Sources */,
