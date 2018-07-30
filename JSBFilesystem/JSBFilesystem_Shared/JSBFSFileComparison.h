@@ -12,6 +12,6 @@
 @property (readonly, nonatomic, strong) NSURL* _Nonnull fileURL;
 @property (readonly, nonatomic, strong) NSDate* _Nonnull modificationDate;
 - (instancetype _Nonnull)initWithFileURL:(NSURL* _Nonnull)fileURL modificationDate:(NSDate* _Nonnull)modificationDate;
-- (id<NSObject> _Nonnull)diffIdentifier;
-- (BOOL)isEqualToDiffableObject:(id<IGListDiffable> _Nullable)object;
+- (id)diffIdentifier;
+- (BOOL)isEqualToDiffableObject:(id)object;
 @end

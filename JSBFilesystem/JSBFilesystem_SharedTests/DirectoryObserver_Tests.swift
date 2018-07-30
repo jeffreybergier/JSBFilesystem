@@ -19,7 +19,7 @@ class DirectoryObserver_BasicTests: XCTestCase {
     }
 
     var dirURL: URL!
-    var observer: JSBFSDirectoryObserver_Testable!
+    var observer: JSBFSDirectoryObserver!
     var fm: FileManager { return FileManager.default }
     let timeout: TimeInterval = 2
     let delay: TimeInterval = 0.5
