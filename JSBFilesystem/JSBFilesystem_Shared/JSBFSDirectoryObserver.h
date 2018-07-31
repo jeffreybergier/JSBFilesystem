@@ -21,11 +21,13 @@ typedef void(^JSBFSDirectoryObserverChangeBlock)(JSBFSDirectoryChanges* _Nonnull
 @property (readonly, nonatomic, strong) NSURL* _Nonnull observedDirectoryURL;
 @property (readonly, nonatomic, strong) NSURLResourceKey _Nonnull sortedBy;
 @property (readonly, nonatomic) BOOL orderedAscending;
+@property (readonly, nonatomic) NSInteger contentsCount;
 
 - (instancetype _Nonnull)initWithDirectoryURL:(NSURL* _Nonnull)url
                           sortedByResourceKey:(NSURLResourceKey _Nonnull)resourceKey
                              orderedAscending:(BOOL)ascending;
 - (void)forceUpdate;
-
+- (NSURL* _Nonnull)urlAtIndex:(NSInteger)index;
+- (NSData* _Nullable)dataAtIndex:(NSInteger)index error:(NSError** _Nullable)errorPtr;
 @end
 
