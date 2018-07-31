@@ -30,6 +30,10 @@
 		50B2A0E6210D43E300A805A4 /* JSBFSDirectoryChanges.h in Headers */ = {isa = PBXBuildFile; fileRef = 50B2A0E3210D43E300A805A4 /* JSBFSDirectoryChanges.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50B2A0E7210D43E300A805A4 /* JSBFSDirectoryChanges.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B2A0E4210D43E300A805A4 /* JSBFSDirectoryChanges.m */; };
 		50B2A0E8210D43E300A805A4 /* JSBFSDirectoryChanges.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B2A0E4210D43E300A805A4 /* JSBFSDirectoryChanges.m */; };
+		50C5D821210FEB9F00A2B21E /* JSBFSUnobservedDirectory.h in Headers */ = {isa = PBXBuildFile; fileRef = 50C5D81F210FEB9F00A2B21E /* JSBFSUnobservedDirectory.h */; };
+		50C5D822210FEB9F00A2B21E /* JSBFSUnobservedDirectory.h in Headers */ = {isa = PBXBuildFile; fileRef = 50C5D81F210FEB9F00A2B21E /* JSBFSUnobservedDirectory.h */; };
+		50C5D823210FEB9F00A2B21E /* JSBFSUnobservedDirectory.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C5D820210FEB9F00A2B21E /* JSBFSUnobservedDirectory.m */; };
+		50C5D824210FEB9F00A2B21E /* JSBFSUnobservedDirectory.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C5D820210FEB9F00A2B21E /* JSBFSUnobservedDirectory.m */; };
 		50DAE976210647BD006208E3 /* JSBFilesystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50DAE96C210647BD006208E3 /* JSBFilesystem.framework */; };
 		50DAE97B210647BD006208E3 /* JSBFilesystem_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DAE97A210647BD006208E3 /* JSBFilesystem_iOSTests.swift */; };
 		50DAE97D210647BD006208E3 /* JSBFilesystem_iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 50DAE96F210647BD006208E3 /* JSBFilesystem_iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -86,6 +90,8 @@
 		50B2A0DE210D43AF00A805A4 /* JSBFSDirectoryObserver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSBFSDirectoryObserver.m; sourceTree = "<group>"; };
 		50B2A0E3210D43E300A805A4 /* JSBFSDirectoryChanges.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSBFSDirectoryChanges.h; sourceTree = "<group>"; };
 		50B2A0E4210D43E300A805A4 /* JSBFSDirectoryChanges.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSBFSDirectoryChanges.m; sourceTree = "<group>"; };
+		50C5D81F210FEB9F00A2B21E /* JSBFSUnobservedDirectory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSBFSUnobservedDirectory.h; sourceTree = "<group>"; };
+		50C5D820210FEB9F00A2B21E /* JSBFSUnobservedDirectory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSBFSUnobservedDirectory.m; sourceTree = "<group>"; };
 		50DAE96C210647BD006208E3 /* JSBFilesystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JSBFilesystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		50DAE96F210647BD006208E3 /* JSBFilesystem_iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSBFilesystem_iOS.h; sourceTree = "<group>"; };
 		50DAE970210647BD006208E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -101,7 +107,6 @@
 		50DAE9AB21064C33006208E3 /* NSFileCoordinator+Easy_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSFileCoordinator+Easy_Tests.swift"; sourceTree = "<group>"; };
 		50DAE9AE2106A077006208E3 /* Directory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Directory.swift; sourceTree = "<group>"; };
 		50DAE9B12107DCC1006208E3 /* Directory_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Directory_Tests.swift; sourceTree = "<group>"; };
-		50DAE9EC21081C9B006208E3 /* DirectoryObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryObserver.swift; sourceTree = "<group>"; };
 		50DAE9EF2108F91C006208E3 /* DirectoryObserver_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryObserver_Tests.swift; sourceTree = "<group>"; };
 		50DE58F5210BC58F005609A0 /* JSBFilesystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSBFilesystem.h; sourceTree = "<group>"; };
 		50F3BEA3210B708B003D5869 /* NSFileCoordinator+JSBFS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSFileCoordinator+JSBFS.h"; sourceTree = "<group>"; };
@@ -240,6 +245,8 @@
 				50F3BEA4210B708B003D5869 /* NSFileCoordinator+JSBFS.m */,
 				5026372C210BBD8E000B1139 /* JSBFSFileComparison.h */,
 				5026372D210BBD8E000B1139 /* JSBFSFileComparison.m */,
+				50C5D81F210FEB9F00A2B21E /* JSBFSUnobservedDirectory.h */,
+				50C5D820210FEB9F00A2B21E /* JSBFSUnobservedDirectory.m */,
 				50B2A0DD210D43AF00A805A4 /* JSBFSDirectoryObserver.h */,
 				50B2A0DE210D43AF00A805A4 /* JSBFSDirectoryObserver.m */,
 				508906F2210F86E20038A1ED /* JSBFSDirectoryObserver_Testable.h */,
@@ -247,7 +254,6 @@
 				50B2A0E3210D43E300A805A4 /* JSBFSDirectoryChanges.h */,
 				50B2A0E4210D43E300A805A4 /* JSBFSDirectoryChanges.m */,
 				50DAE9AE2106A077006208E3 /* Directory.swift */,
-				50DAE9EC21081C9B006208E3 /* DirectoryObserver.swift */,
 			);
 			path = JSBFilesystem_Shared;
 			sourceTree = "<group>";
@@ -281,6 +287,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				50DAE97D210647BD006208E3 /* JSBFilesystem_iOS.h in Headers */,
+				50C5D821210FEB9F00A2B21E /* JSBFSUnobservedDirectory.h in Headers */,
 				50B2A0DF210D43AF00A805A4 /* JSBFSDirectoryObserver.h in Headers */,
 				50DE58F6210BC58F005609A0 /* JSBFilesystem.h in Headers */,
 				50B2A0E5210D43E300A805A4 /* JSBFSDirectoryChanges.h in Headers */,
@@ -296,6 +303,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				50DAE999210647DC006208E3 /* JSBFilesystem_macOS.h in Headers */,
+				50C5D822210FEB9F00A2B21E /* JSBFSUnobservedDirectory.h in Headers */,
 				50B2A0E0210D43AF00A805A4 /* JSBFSDirectoryObserver.h in Headers */,
 				50DE58F7210BC58F005609A0 /* JSBFilesystem.h in Headers */,
 				50B2A0E6210D43E300A805A4 /* JSBFSDirectoryChanges.h in Headers */,
@@ -586,6 +594,7 @@
 				50F3BEA7210B708B003D5869 /* NSFileCoordinator+JSBFS.m in Sources */,
 				50263730210BBD8E000B1139 /* JSBFSFileComparison.m in Sources */,
 				50DAE9AF2106A077006208E3 /* Directory.swift in Sources */,
+				50C5D823210FEB9F00A2B21E /* JSBFSUnobservedDirectory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -611,6 +620,7 @@
 				508906F7210F86E20038A1ED /* JSBFSDirectoryObserver_Testable.m in Sources */,
 				50F3BEA8210B708B003D5869 /* NSFileCoordinator+JSBFS.m in Sources */,
 				50263731210BBD8E000B1139 /* JSBFSFileComparison.m in Sources */,
+				50C5D824210FEB9F00A2B21E /* JSBFSUnobservedDirectory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

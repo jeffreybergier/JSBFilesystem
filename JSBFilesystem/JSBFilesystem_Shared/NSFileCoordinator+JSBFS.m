@@ -6,6 +6,7 @@
 //
 
 #import "NSFileCoordinator+JSBFS.h"
+#import "SmallCategories.h"
 
 @implementation NSFileCoordinator (JSBFS)
 
@@ -388,12 +389,9 @@ whileCoordinatingAccessAtURL:(NSURL* _Nonnull)url
 @implementation JSBFSDoubleBool
 - (instancetype)initWithValue1:(BOOL)value1 value2:(BOOL)value2;
 {
-    if (self = [super init]) {
-        _value1 = value1;
-        _value2 = value2;
-        return self;
-    } else {
-        @throw [[NSException alloc] initWithName:NSMallocException reason:@"INIT Failed" userInfo:nil];
-    }
+    self = [super initThrowWhenNil];
+    self->_value1 = value1;
+    self->_value2 = value2;
+    return self;
 }
 @end

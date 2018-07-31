@@ -11,13 +11,10 @@
 @implementation JSBFSDirectoryChangesMove
 -(instancetype)initWithFromValue:(NSInteger)fromValue toValue:(NSInteger)toValue;
 {
-    if (self = [super init]) {
-        _from = fromValue;
-        _to = toValue;
-        return self;
-    } else {
-        @throw [[NSException alloc] initWithName:NSMallocException reason:@"INIT Failed" userInfo:nil];
-    }
+    self = [super initThrowWhenNil];
+    self->_from = fromValue;
+    self->_to = toValue;
+    return self;
 }
 @end
 
@@ -27,14 +24,11 @@
                                  deletions:(NSIndexSet*)deletions
                                      moves:(NSArray<JSBFSDirectoryChangesMove*>*)moves;
 {
-    if (self = [super init]) {
-        _insertions = insertions;
-        _deletions = deletions;
-        _moves = moves;
-        return self;
-    } else {
-        @throw [[NSException alloc] initWithName:NSMallocException reason:@"INIT Failed" userInfo:nil];
-    }
+    self = [super initThrowWhenNil];
+    self->_insertions = insertions;
+    self->_deletions = deletions;
+    self->_moves = moves;
+    return self;
 }
 
 @end

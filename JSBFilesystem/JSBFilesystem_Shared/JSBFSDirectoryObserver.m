@@ -8,6 +8,7 @@
 #import "JSBFSDirectoryObserver.h"
 #import "NSFileCoordinator+JSBFS.h"
 #import "JSBFSFileComparison.h"
+#import "SmallCategories.h"
 @import IGListKit;
 
 @interface JSBFSDirectoryObserver () <NSFilePresenter> {
@@ -28,20 +29,18 @@
                           sortedByResourceKey:(NSURLResourceKey)resourceKey
                              orderedAscending:(BOOL)ascending;
 {
-    if (self = [super init]) {
-        _orderedAscending = ascending;
-        _sortedBy = resourceKey;
-        _observedDirectoryURL = url;
-        _changesObserved = nil;
-        _internalState = [[NSArray alloc] init];
+    self = [super initThrowWhenNil];
+    self->_orderedAscending = ascending;
+    self->_sortedBy = resourceKey;
+    self->_observedDirectoryURL = url;
+    self->_changesObserved = nil;
+    self->_internalState = [[NSArray alloc] init];
 
-        NSOperationQueue* q = [[NSOperationQueue alloc] init];
-        q.qualityOfService = NSQualityOfServiceUserInitiated;
-        _operationQueue = q;
-        return self;
-    } else {
-        @throw [[NSException alloc] initWithName:NSMallocException reason:@"INIT Failed" userInfo:nil];
-    }
+    NSOperationQueue* q = [[NSOperationQueue alloc] init];
+    q.qualityOfService = NSQualityOfServiceUserInitiated;
+    self->_operationQueue = q;
+
+    return self;
 }
 
 - (void)forceUpdate;

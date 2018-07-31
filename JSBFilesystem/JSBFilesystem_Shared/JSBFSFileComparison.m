@@ -6,18 +6,16 @@
 //
 
 #import "JSBFSFileComparison.h"
+#import "SmallCategories.h"
 
 @implementation JSBFSFileComparison
 
 - (instancetype)initWithFileURL:(NSURL*)fileURL modificationDate:(NSDate*)modificationDate;
 {
-    if (self = [super init]) {
-        _fileURL = fileURL;
-        _modificationDate = modificationDate;
-        return self;
-    } else {
-        @throw [[NSException alloc] initWithName:NSMallocException reason:@"INIT Failed" userInfo:nil];
-    }
+    self = [super initThrowWhenNil];
+    self->_fileURL = fileURL;
+    self->_modificationDate = modificationDate;
+    return self;
 }
 - (id)diffIdentifier;
 {
