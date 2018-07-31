@@ -5,14 +5,14 @@
 //  Created by Jeffrey Bergier on 28/07/2018.
 //
 
-#import "JSBFSDirectoryObserver.h"
+#import "JSBFSObservedDirectory.h"
 #import "NSFileCoordinator+JSBFS.h"
 #import "JSBFSFileComparison.h"
 #import "SmallCategories.h"
 @import IGListKit;
 
-@interface JSBFSDirectoryObserver () <NSFilePresenter> {
-    JSBFSDirectoryObserverChangeBlock _changesObserved;
+@interface JSBFSObservedDirectory () <NSFilePresenter> {
+    JSBFSObservedDirectoryChangeBlock _changesObserved;
 }
 
 @property (readonly, nonatomic, strong) NSOperationQueue* _Nonnull operationQueue;
@@ -20,22 +20,28 @@
 
 @end
 
-@implementation JSBFSDirectoryObserver
+@implementation JSBFSObservedDirectory
 
-@dynamic contentsCount;
 @dynamic changesObserved;
 
-- (instancetype _Nonnull)initWithDirectoryURL:(NSURL*)url
-                          sortedByResourceKey:(NSURLResourceKey)resourceKey
-                             orderedAscending:(BOOL)ascending;
+- (instancetype)initWithDirectoryURL:(NSURL*)url
+                      createIfNeeded:(BOOL)create
+                 sortedByResourceKey:(NSURLResourceKey)resourceKey
+                    orderedAscending:(BOOL)ascending
+                               error:(NSError**)errorPtr;
 {
-    self = [super initThrowWhenNil];
-    self->_orderedAscending = ascending;
-    self->_sortedBy = resourceKey;
-    self->_observedDirectoryURL = url;
+    NSError* error = nil;
+    self = [super initWithDirectoryURL:url
+                        createIfNeeded:create
+                   sortedByResourceKey:resourceKey
+                      orderedAscending:ascending
+                                 error:errorPtr];
+    if (error) {
+        *errorPtr = error;
+        return nil;
+    }
     self->_changesObserved = nil;
     self->_internalState = [[NSArray alloc] init];
-
     NSOperationQueue* q = [[NSOperationQueue alloc] init];
     q.qualityOfService = NSQualityOfServiceUserInitiated;
     self->_operationQueue = q;
@@ -46,7 +52,7 @@
 - (void)forceUpdate;
 {
     NSArray<JSBFSFileComparison*>* lhs = [self internalState];
-    NSArray<JSBFSFileComparison*>* rhs = [NSFileCoordinator JSBFS_urlComparisonsForFilesInDirectoryURL:[self observedDirectoryURL]
+    NSArray<JSBFSFileComparison*>* rhs = [NSFileCoordinator JSBFS_urlComparisonsForFilesInDirectoryURL:[self url]
                                                                                    sortedByResourceKey:[self sortedBy]
                                                                                       orderedAscending:[self orderedAscending]
                                                                                                  error:nil];
@@ -54,13 +60,13 @@
     JSBFSDirectoryChanges* changes = [[JSBFSDirectoryChanges alloc] initWithIndexSetResult:result];
 
     [self setInternalState:rhs];
-    JSBFSDirectoryObserverChangeBlock block = [self changesObserved];
+    JSBFSObservedDirectoryChangeBlock block = [self changesObserved];
     if (changes && block != NULL) {
         block(changes);
     }
 }
 
-- (void)setChangesObserved:(JSBFSDirectoryObserverChangeBlock)changesObserved;
+- (void)setChangesObserved:(JSBFSObservedDirectoryChangeBlock)changesObserved;
 {
     // clear out the internal state and block
     self->_changesObserved = nil;
@@ -73,18 +79,18 @@
             [self forceUpdate];
             [NSFileCoordinator addFilePresenter:self];
             self->_changesObserved = changesObserved;
-        } whileCoordinatingAccessAtURL:[self observedDirectoryURL] error:nil];
+        } whileCoordinatingAccessAtURL:[self url] error:nil];
     } else {
         [NSFileCoordinator removeFilePresenter:self];
     }
 }
 
-- (JSBFSDirectoryObserverChangeBlock)changesObserved;
+- (JSBFSObservedDirectoryChangeBlock)changesObserved;
 {
     return self->_changesObserved;
 }
 
-- (NSInteger)contentsCount;
+- (NSInteger)contentsCount:(NSError** _Nullable)errorPtr;
 {
     NSArray* state = [self internalState];
     if (state) {
@@ -94,20 +100,20 @@
     }
 }
 
-- (NSURL *)urlAtIndex:(NSInteger)index
+- (NSURL*)urlAtIndex:(NSInteger)index error:(NSError**)errorPtr;
 {
     return [[[self internalState] objectAtIndex:index] fileURL];
 }
 
 - (NSData*)dataAtIndex:(NSInteger)index error:(NSError**)errorPtr;
 {
-    NSURL* url = [self urlAtIndex:index];
+    NSURL* url = [self urlAtIndex:index error:nil];
     return [NSFileCoordinator JSBFS_readDataFromURL:url error:errorPtr];
 }
 
 - (NSURL*)presentedItemURL;
 {
-    return [self observedDirectoryURL];
+    return [self url];
 }
 
 - (NSOperationQueue*)presentedItemOperationQueue;

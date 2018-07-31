@@ -5,20 +5,20 @@
 //  Created by Jeffrey Bergier on 30/07/2018.
 //
 
-#import "JSBFSDirectoryObserver_Testable.h"
+#import "JSBFSObservedDirectory_Testable.h"
 
-@interface JSBFSDirectoryObserver_Testable () {
+@interface JSBFSObservedDirectory_Testable () {
     NSArray<JSBFSFileComparison*>* _internalState;
 }
 
 @end
 
-@implementation JSBFSDirectoryObserver_Testable
+@implementation JSBFSObservedDirectory_Testable
 
 - (void)forceUpdate;
 {
     NSArray<JSBFSFileComparison*>* lhs = _internalState;
-    NSArray<JSBFSFileComparison*>* rhs = [NSFileCoordinator JSBFS_urlComparisonsForFilesInDirectoryURL:[self observedDirectoryURL]
+    NSArray<JSBFSFileComparison*>* rhs = [NSFileCoordinator JSBFS_urlComparisonsForFilesInDirectoryURL:[self url]
                                                                                    sortedByResourceKey:[self sortedBy]
                                                                                       orderedAscending:[self orderedAscending]
                                                                                                  error:nil];
@@ -26,7 +26,7 @@
     JSBFSDirectoryChanges_Testable* changes = [[JSBFSDirectoryChanges_Testable alloc] initWithIndexSetResult:result];
 
     _internalState = rhs;
-    JSBFSDirectoryObserverChangeBlock block = [self changesObserved];
+    JSBFSObservedDirectoryChangeBlock block = [self changesObserved];
     if (changes && block != NULL) {
         block(changes);
     }

@@ -19,7 +19,7 @@ class DirectoryObserver_BasicTests: XCTestCase {
     }
 
     var dirURL: URL!
-    var observer: JSBFSDirectoryObserver!
+    var observer: JSBFSObservedDirectory!
     var fm: FileManager { return FileManager.default }
     let timeout: TimeInterval = 2
     let delay: TimeInterval = 0.5
@@ -54,9 +54,10 @@ class DirectoryObserver_BasicTests: XCTestCase {
     func testAddFileDiff() {
         let expectation = XCTestExpectation(description: "Change closure will be called, diff will show 1 added item")
         let sort = Directory.Sort.default
-        self.observer = JSBFSDirectoryObserver_Testable(directoryURL: self.dirURL,
-                                                        sortedByResourceKey: sort.by.resourceValue,
-                                                        orderedAscending: sort.ascending)
+        self.observer = try! JSBFSObservedDirectory_Testable(directoryURL: self.dirURL,
+                                                             createIfNeeded: true,
+                                                             sortedByResourceKey: sort.by.resourceValue,
+                                                             orderedAscending: sort.ascending)
         self.observer.changesObserved = { changes in
             let changes = changes as! JSBFSDirectoryChanges_Testable
             XCTAssert(changes.insertions.count == 2)
@@ -78,9 +79,10 @@ class DirectoryObserver_BasicTests: XCTestCase {
     func testDeleteFileDiff() {
         let expectation = XCTestExpectation(description: "Change closure will be called, diff will show 1 added item")
         let sort = Directory.Sort.default
-        self.observer = JSBFSDirectoryObserver_Testable(directoryURL: self.dirURL,
-                                                        sortedByResourceKey: sort.by.resourceValue,
-                                                        orderedAscending: sort.ascending)
+        self.observer = try! JSBFSObservedDirectory_Testable(directoryURL: self.dirURL,
+                                                             createIfNeeded: true,
+                                                             sortedByResourceKey: sort.by.resourceValue,
+                                                             orderedAscending: sort.ascending)
         self.observer.changesObserved = { changes in
             let changes = changes as! JSBFSDirectoryChanges_Testable
             XCTAssert(changes.deletions.count == 2)
@@ -101,9 +103,10 @@ class DirectoryObserver_BasicTests: XCTestCase {
     func testChangeFileDiff() {
         let expectation = XCTestExpectation(description: "Change closure will be called, diff will show 1 added item")
         let sort = Directory.Sort.default
-        self.observer = JSBFSDirectoryObserver_Testable(directoryURL: self.dirURL,
-                                                        sortedByResourceKey: sort.by.resourceValue,
-                                                        orderedAscending: sort.ascending)
+        self.observer = try! JSBFSObservedDirectory_Testable(directoryURL: self.dirURL,
+                                                             createIfNeeded: true,
+                                                             sortedByResourceKey: sort.by.resourceValue,
+                                                             orderedAscending: sort.ascending)
         self.observer.changesObserved = { changes in
             let changes = changes as! JSBFSDirectoryChanges_Testable
             XCTAssert(changes.updates.count == 2)
@@ -125,9 +128,10 @@ class DirectoryObserver_BasicTests: XCTestCase {
     func testMoveFileDiff() {
         let expectation = XCTestExpectation(description: "Change closure will be called, diff will show 1 added item")
         let sort = Directory.Sort(by: .modificationDate, ascending: false)
-        self.observer = JSBFSDirectoryObserver_Testable(directoryURL: self.dirURL,
-                                                        sortedByResourceKey: sort.by.resourceValue,
-                                                        orderedAscending: sort.ascending)
+        self.observer = try! JSBFSObservedDirectory_Testable(directoryURL: self.dirURL,
+                                                             createIfNeeded: true,
+                                                             sortedByResourceKey: sort.by.resourceValue,
+                                                             orderedAscending: sort.ascending)
         self.observer.changesObserved = { changes in
             let changes = changes as! JSBFSDirectoryChanges_Testable
             XCTAssert(changes.updates.count == 1)

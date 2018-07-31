@@ -6,13 +6,13 @@
 //
 
 #import "NSFileCoordinator+JSBFS.h"
-#import "JSBFSDirectoryObserver.h"
+#import "JSBFSObservedDirectory.h"
 #import "JSBFSDirectoryChanges.h"
 
 @interface JSBFSDirectoryChanges_Testable: JSBFSDirectoryChanges
 @property (readonly, nonatomic, strong) NSIndexSet* _Nonnull updates;
 @end
 
-@interface JSBFSDirectoryObserver_Testable : JSBFSDirectoryObserver
+@interface JSBFSObservedDirectory_Testable: JSBFSObservedDirectory
 @end
 
