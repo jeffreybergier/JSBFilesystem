@@ -96,8 +96,7 @@
     NSError* error = nil;
     NSArray<JSBFSFileComparison*>* contents =
     [NSFileCoordinator JSBFS_urlComparisonsForFilesInDirectoryURL:[self url]
-                                              sortedByResourceKey:[JSBFSDirectorySortConverter resourceKeyForSort:[self sortedBy]]
-                                                 orderedAscending:[JSBFSDirectorySortConverter orderedAscendingForSort:[self sortedBy]]
+                                                         sortedBy:[self sortedBy]
                                                             error:&error];
     if (error) {
         *errorPtr = error;

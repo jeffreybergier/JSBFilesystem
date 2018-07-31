@@ -56,7 +56,7 @@ typedef NS_ENUM(NSInteger, JSBFSDirectorySort) {
 };
 
 @interface JSBFSDirectorySortConverter: NSObject
-+ (JSBFSDirectorySort)defaultSort;
+@property (class, nonatomic, readonly) JSBFSDirectorySort defaultSort;
 + (NSURLResourceKey)resourceKeyForSort:(JSBFSDirectorySort)sort;
 + (BOOL)orderedAscendingForSort:(JSBFSDirectorySort)sort;
 @end

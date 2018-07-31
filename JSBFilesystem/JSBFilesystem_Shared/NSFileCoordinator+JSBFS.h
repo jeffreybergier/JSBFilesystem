@@ -30,6 +30,7 @@
 
 @import Foundation;
 #import "JSBFSFileComparison.h"
+#import "SmallCategories.h"
 
 @interface JSBFSDoubleBool: NSObject
 @property (readonly, nonatomic) BOOL value1;
@@ -73,9 +74,8 @@ NS_SWIFT_NAME(JSBFS_execute(_:whileCoordinatingAccessAt:));
 
 /// Only supports URLResourceKey.localizedNameKey, .contentModificationDateKey, .creationDateKey
 + (NSArray<JSBFSFileComparison*>* _Nullable)JSBFS_urlComparisonsForFilesInDirectoryURL:(NSURL* _Nonnull)url
-                                                                   sortedByResourceKey:(NSURLResourceKey)resourceKey
-                                                                      orderedAscending:(BOOL)ascending
+                                                                              sortedBy:(JSBFSDirectorySort)sortedBy
                                                                                  error:(NSError* _Nullable*)errorPtr
-NS_SWIFT_NAME(JSBFS_urlComparisonsForFiles(inDirectory:sortedBy:orderedAscending:));
+NS_SWIFT_NAME(JSBFS_urlComparisonsForFiles(inDirectory:sortedBy:));
 
 @end

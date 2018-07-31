@@ -76,7 +76,7 @@ class DirectoryObserver_BasicTests: XCTestCase {
 
     func testAddFileDiff() {
         let expectation = XCTestExpectation(description: "Change closure will be called, diff will show 1 added item")
-        let sort = JSBFSDirectorySortConverter.defaultSort()
+        let sort = JSBFSDirectorySortConverter.defaultSort
         self.observer = try! JSBFSObservedDirectory_Testable(directoryURL: self.dirURL,
                                                              createIfNeeded: true,
                                                              sortedBy: sort)
@@ -100,7 +100,7 @@ class DirectoryObserver_BasicTests: XCTestCase {
 
     func testDeleteFileDiff() {
         let expectation = XCTestExpectation(description: "Change closure will be called, diff will show 1 added item")
-        let sort = JSBFSDirectorySortConverter.defaultSort()
+        let sort = JSBFSDirectorySortConverter.defaultSort
         self.observer = try! JSBFSObservedDirectory_Testable(directoryURL: self.dirURL,
                                                              createIfNeeded: true,
                                                              sortedBy: sort)
@@ -123,7 +123,7 @@ class DirectoryObserver_BasicTests: XCTestCase {
 
     func testChangeFileDiff() {
         let expectation = XCTestExpectation(description: "Change closure will be called, diff will show 1 added item")
-        let sort = JSBFSDirectorySortConverter.defaultSort()
+        let sort = JSBFSDirectorySortConverter.defaultSort
         self.observer = try! JSBFSObservedDirectory_Testable(directoryURL: self.dirURL,
                                                              createIfNeeded: true,
                                                              sortedBy: sort)

@@ -85,9 +85,6 @@
     }
 }
 
-/// This needs to be tested further
-/// `testAscendingCreationDateSort` and related tests all pass
-/// even when I switch the YES and the NO
 + (BOOL)orderedAscendingForSort:(JSBFSDirectorySort)sort;
 {
     switch (sort) {

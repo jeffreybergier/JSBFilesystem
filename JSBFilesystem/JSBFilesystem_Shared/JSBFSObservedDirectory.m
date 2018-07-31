@@ -76,8 +76,7 @@
     NSArray<JSBFSFileComparison*>* lhs = [self internalState];
     NSArray<JSBFSFileComparison*>* rhs =
     [NSFileCoordinator JSBFS_urlComparisonsForFilesInDirectoryURL:[self url]
-                                              sortedByResourceKey:[JSBFSDirectorySortConverter resourceKeyForSort:[self sortedBy]]
-                                                 orderedAscending:[JSBFSDirectorySortConverter orderedAscendingForSort:[self sortedBy]]
+                                                         sortedBy:[self sortedBy]
                                                             error:&error];
     if (error) { NSLog(@"%@", error); }
     IGListIndexSetResult* result = [IGListDiff(lhs, rhs, IGListDiffEquality) resultForBatchUpdates];

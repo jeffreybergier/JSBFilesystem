@@ -181,8 +181,7 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
                 try data.write(to: url)
             }
             let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: dirURL,
-                                                                          sortedBy: .localizedNameKey,
-                                                                          orderedAscending: true)
+                                                                          sortedBy: .nameAFirst)
             XCTAssert(urls.count == count)
             XCTAssert(urls.first!.fileURL.lastPathComponent == "0.file")
             XCTAssert(urls.last!.fileURL.lastPathComponent == "99.file")
@@ -206,8 +205,7 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
                 try data.write(to: url)
             }
             let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: dirURL,
-                                                                          sortedBy: .localizedNameKey,
-                                                                          orderedAscending: false)
+                                                                          sortedBy: .nameZFirst)
             XCTAssert(urls.count == count)
             XCTAssert(urls.last!.fileURL.lastPathComponent == "0.file")
             XCTAssert(urls.first!.fileURL.lastPathComponent == "99.file")
@@ -231,8 +229,7 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
                 try data.write(to: url)
             }
             let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: dirURL,
-                                                                          sortedBy: .creationDateKey,
-                                                                          orderedAscending: true)
+                                                                          sortedBy: .creationOldestFirst)
             XCTAssert(urls.count == count)
             XCTAssert(urls.first!.fileURL.lastPathComponent == "0.file")
             XCTAssert(urls.last!.fileURL.lastPathComponent == "99.file")
@@ -256,8 +253,7 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
                 try data.write(to: url)
             }
             let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: dirURL,
-                                                                          sortedBy: .creationDateKey,
-                                                                          orderedAscending: false)
+                                                                          sortedBy: .creationNewestFirst)
             XCTAssert(urls.count == count)
             XCTAssert(urls.last!.fileURL.lastPathComponent == "0.file")
             XCTAssert(urls.first!.fileURL.lastPathComponent == "99.file")
@@ -284,8 +280,7 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
             let data = Data("MODIFIED".utf8)
             try data.write(to: modURL)
             let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: dirURL,
-                                                                          sortedBy: .contentModificationDateKey,
-                                                                          orderedAscending: true)
+                                                                          sortedBy: .modificationOldestFirst)
             XCTAssert(urls.count == count)
             XCTAssert(urls.last!.fileURL.lastPathComponent == "10.file")
         } catch {
@@ -311,8 +306,7 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
             let data = Data("MODIFIED".utf8)
             try data.write(to: modURL)
             let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: dirURL,
-                                                                          sortedBy: .contentModificationDateKey,
-                                                                          orderedAscending: false)
+                                                                          sortedBy: .modificationNewestFirst)
             XCTAssert(urls.count == count)
             XCTAssert(urls.first!.fileURL.lastPathComponent == "10.file")
         } catch {

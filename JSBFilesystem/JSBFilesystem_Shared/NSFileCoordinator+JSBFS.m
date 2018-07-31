@@ -222,10 +222,9 @@
     }
 }
 
-+ (NSArray<JSBFSFileComparison*>*)JSBFS_urlComparisonsForFilesInDirectoryURL:(NSURL* _Nonnull)url
-                                                         sortedByResourceKey:(NSURLResourceKey)resourceKey
-                                                            orderedAscending:(BOOL)ascending
-                                                                       error:(NSError* _Nullable*)errorPtr;
++ (NSArray<JSBFSFileComparison*>* _Nullable)JSBFS_urlComparisonsForFilesInDirectoryURL:(NSURL* _Nonnull)url
+                                                                              sortedBy:(JSBFSDirectorySort)sortedBy
+                                                                                 error:(NSError* _Nullable*)errorPtr;
 {
     NSError* error = nil;
     NSURL* updatedURL = nil;
@@ -244,6 +243,8 @@
         *errorPtr = error;
         return nil;
     }
+    NSURLResourceKey resourceKey = [JSBFSDirectorySortConverter resourceKeyForSort:sortedBy];
+    BOOL ascending = [JSBFSDirectorySortConverter orderedAscendingForSort:sortedBy];
     NSArray<JSBFSFileComparison*>* sorted = [self __JSBFS_step4_sortContents:unsorted sortedByResourceKey:resourceKey orderedAscending:ascending error:&error];
     if (error || !sorted) {
         *errorPtr = error;

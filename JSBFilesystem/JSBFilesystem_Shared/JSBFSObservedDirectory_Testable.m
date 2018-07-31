@@ -43,8 +43,7 @@
     NSArray<JSBFSFileComparison*>* lhs = _internalState;
     NSArray<JSBFSFileComparison*>* rhs =
     [NSFileCoordinator JSBFS_urlComparisonsForFilesInDirectoryURL:[self url]
-                                              sortedByResourceKey:[JSBFSDirectorySortConverter resourceKeyForSort:[self sortedBy]]
-                                                 orderedAscending:[JSBFSDirectorySortConverter orderedAscendingForSort:[self sortedBy]]
+                                                         sortedBy:[self sortedBy]
                                                             error:nil];
     IGListIndexSetResult* result = IGListDiff(lhs, rhs, IGListDiffEquality);
     JSBFSDirectoryChanges_Testable* changes = [[JSBFSDirectoryChanges_Testable alloc] initWithIndexSetResult:result];
