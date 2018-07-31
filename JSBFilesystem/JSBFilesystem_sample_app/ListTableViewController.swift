@@ -49,6 +49,7 @@ class ListTableViewController: UITableViewController {
 
         self.title = "Watch as Files Are Added"
         self.directory.changesObserved = { [unowned self] changes in
+            NSLog("%@", changes)
             self.tableView.beginUpdates()
             self.tableView.insertRows(at: changes.insertions.map({ IndexPath(item: $0, section: 0) }), with: .right)
             self.tableView.deleteRows(at: changes.deletions.map({ IndexPath(item: $0, section: 0) }), with: .left)
@@ -57,13 +58,33 @@ class ListTableViewController: UITableViewController {
             }
             self.tableView.endUpdates()
         }
-        var count = 0
-        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { timer in
-            let data = Data("This is file #\(count)".utf8)
-            let url = self.directory.url.appendingPathComponent(UUID().uuidString + ".txt")
-            count += 1
+
+        var fileCount = 0
+        var loopCount = 0
+        Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
+            let mod = loopCount % 10
+            loopCount += 1
             do {
-                try data.write(to: url)
+                switch mod {
+                case 0..<6:
+                    let data = Data("This is file #\(fileCount)".utf8)
+                    let fileName = UUID().uuidString + ".txt"
+                    try self.directory.appendFileNamed(fileName, with: data)
+                    fileCount += 1
+                case 6..<8:
+                    let v = self.tableView.indexPathsForVisibleRows ?? []
+                    guard v.isEmpty == false else { return }
+                    let indexPath = v[Int.random(in: 0..<v.count)]
+                    try self.directory.deleteFile(at: indexPath.row)
+                case 8..<10:
+                    let v = self.tableView.indexPathsForVisibleRows ?? []
+                    guard v.isEmpty == false else { return }
+                    let indexPath = v[Int.random(in: 0..<v.count)]
+                    let data = Data("This file was modified".utf8)
+                    try self.directory.replaceFile(at: indexPath.row, with: data)
+                default:
+                    fatalError()
+                }
             } catch {
                 NSLog(String(describing:error))
             }
@@ -81,7 +102,7 @@ class ListTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let id = "MyCell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: id) ?? UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: id)
+        let cell = tableView.dequeueReusableCell(withIdentifier: id) ?? UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: id)
         do {
             let url = try self.directory.url(at: indexPath.row)
             let data = try self.directory.data(at: indexPath.row)

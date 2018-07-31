@@ -38,7 +38,6 @@
     JSBFSObservedDirectoryChangeBlock _changesObserved;
 }
 
-@property (readonly, nonatomic, strong) NSOperationQueue* _Nonnull operationQueue;
 @property (nonatomic, strong) NSArray<JSBFSFileComparison*>* _Nonnull internalState;
 
 @end
@@ -63,9 +62,6 @@
     }
     self->_changesObserved = nil;
     self->_internalState = [[NSArray alloc] init];
-    NSOperationQueue* q = [[NSOperationQueue alloc] init];
-    q.qualityOfService = NSQualityOfServiceUserInitiated;
-    self->_operationQueue = q;
 
     return self;
 }
@@ -85,9 +81,7 @@
     [self setInternalState:rhs];
     JSBFSObservedDirectoryChangeBlock block = [self changesObserved];
     if (changes && block != NULL) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            block(changes);
-        });
+        block(changes);
     }
 }
 
@@ -127,11 +121,13 @@
 
 - (NSURL*)urlAtIndex:(NSInteger)index error:(NSError**)errorPtr;
 {
+    if ([self changesObserved] == NULL) { return [super urlAtIndex:index error:errorPtr]; }
     return [[[self internalState] objectAtIndex:index] fileURL];
 }
 
 - (NSData*)dataAtIndex:(NSInteger)index error:(NSError**)errorPtr;
 {
+    if ([self changesObserved] == NULL) { return [super dataAtIndex:index error:errorPtr]; }
     NSURL* url = [self urlAtIndex:index error:nil];
     return [NSFileCoordinator JSBFS_readDataFromURL:url error:errorPtr];
 }
@@ -143,7 +139,7 @@
 
 - (NSOperationQueue*)presentedItemOperationQueue;
 {
-    return [self operationQueue];
+    return [NSOperationQueue mainQueue];
 }
 
 - (void)presentedItemDidChange;

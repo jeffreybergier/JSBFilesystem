@@ -323,7 +323,7 @@
 + (NSMutableArray<JSBFSFileComparison*>*)__JSBFS_step3_mapContents:(NSArray<NSURL*>*)contents error:(NSError**)errorPtr;
 {
     NSError* error = nil;
-    BOOL success = NO;
+    BOOL success = [contents count] == 0 ? YES : NO;
     NSMutableArray<JSBFSFileComparison*>* values = [[NSMutableArray alloc] initWithCapacity:[contents count]];
     for (NSURL* url in contents) {
         NSDate* modDate = nil;
@@ -350,8 +350,9 @@
                                                               error:(NSError**)errorPtr;
 {
     __block NSError* error = nil;
-    __block BOOL lhsSuccess = NO;
-    __block BOOL rhsSuccess = NO;
+    BOOL sortNotNeeded = [contents count] <= 1;
+    __block BOOL lhsSuccess = sortNotNeeded ? YES : NO;
+    __block BOOL rhsSuccess = sortNotNeeded ? YES : NO;
     [contents sortUsingComparator:^NSComparisonResult(JSBFSFileComparison* _Nonnull lhs, JSBFSFileComparison* _Nonnull rhs) {
         if ([resourceKey isEqualToString:NSURLLocalizedNameKey]) {
             NSString* lhsName = nil;

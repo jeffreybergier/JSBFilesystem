@@ -47,6 +47,9 @@
                                          error:(NSError** _Nullable)errorPtr;
 - (NSURL* _Nullable)urlAtIndex:(NSInteger)index error:(NSError** _Nullable)errorPtr;
 - (NSData* _Nullable)dataAtIndex:(NSInteger)index error:(NSError** _Nullable)errorPtr;
+- (BOOL)replaceFileAtIndex:(NSInteger)index withData:(NSData* _Nonnull)data error:(NSError** _Nullable)errorPtr;
+- (BOOL)deleteFileAtIndex:(NSInteger)index error:(NSError** _Nullable)errorPtr;
+- (BOOL)appendFileNamed:(NSString* _Nonnull)fileName withData:(NSData* _Nonnull)data error:(NSError** _Nullable)errorPtr;
 - (NSInteger)contentsCount:(NSError** _Nullable)errorPtr
 __attribute__((swift_error(nonnull_error)));
 

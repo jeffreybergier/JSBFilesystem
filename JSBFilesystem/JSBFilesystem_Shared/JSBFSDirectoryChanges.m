@@ -53,6 +53,12 @@
     self->_moves = moves;
     return self;
 }
+- (NSString *)description;
+{
+    NSString* og = [super description];
+    return [NSString stringWithFormat:@"%@ Insertions: %lu, Deletions: %lu, Moves: %lu",
+            og, [[self insertions] count], [[self deletions] count], [[self moves] count]];
+}
 
 @end
 

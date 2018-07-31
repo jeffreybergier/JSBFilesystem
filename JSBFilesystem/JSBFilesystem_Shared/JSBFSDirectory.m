@@ -125,4 +125,48 @@
     return data;
 }
 
+- (BOOL)replaceFileAtIndex:(NSInteger)index withData:(NSData*)data error:(NSError**)errorPtr;
+{
+    NSError* error = nil;
+    NSURL* url = [self urlAtIndex:index error:&error];
+    if (error || !url) {
+        *errorPtr = error;
+        return NO;
+    }
+    BOOL success = [NSFileCoordinator JSBFS_writeData:data toURL:url error:&error];
+    if (error || !success) {
+        *errorPtr = error;
+        return NO;
+    }
+    return YES;
+}
+
+- (BOOL)deleteFileAtIndex:(NSInteger)index error:(NSError**)errorPtr;
+{
+    NSError* error = nil;
+    NSURL* url = [self urlAtIndex:index error:&error];
+    if (error || !url) {
+        *errorPtr = error;
+        return NO;
+    }
+    BOOL success = [NSFileCoordinator JSBFS_recursivelyDeleteDirectoryOrFileAtURL:url error:&error];
+    if (error || !success) {
+        *errorPtr = error;
+        return NO;
+    }
+    return YES;
+}
+
+- (BOOL)appendFileNamed:(NSString*)fileName withData:(NSData*)data error:(NSError**)errorPtr;
+{
+    NSError* error = nil;
+    NSURL* url = [[self url] URLByAppendingPathComponent:fileName];
+    BOOL success = [NSFileCoordinator JSBFS_writeData:data toURL:url error:&error];
+    if (error || !success) {
+        *errorPtr = error;
+        return NO;
+    }
+    return YES;
+}
+
 @end
