@@ -12,10 +12,9 @@
 @implementation JSBFSDirectory
 
 - (instancetype)initWithDirectoryURL:(NSURL*)url
-                      createIfNeeded:(BOOL)create
-                 sortedByResourceKey:(NSURLResourceKey)resourceKey
-                    orderedAscending:(BOOL)ascending
-                               error:(NSError**)errorPtr;
+                                createIfNeeded:(BOOL)create
+                                      sortedBy:(JSBFSDirectorySort)sortedBy
+                                         error:(NSError**)errorPtr;
 {
     // check if the URL is valid
     NSError* error = nil;
@@ -44,8 +43,7 @@
     }
     // initialize as normal
     self = [super initThrowWhenNil];
-    self->_orderedAscending = ascending;
-    self->_sortedBy = resourceKey;
+    self->_sortedBy = sortedBy;
     self->_url = url;
     return self;
 }
@@ -57,10 +55,11 @@
 - (NSURL*)urlAtIndex:(NSInteger)index error:(NSError**)errorPtr;
 {
     NSError* error = nil;
-    NSArray<JSBFSFileComparison*>* contents = [NSFileCoordinator JSBFS_urlComparisonsForFilesInDirectoryURL:[self url]
-                                                                  sortedByResourceKey:[self sortedBy]
-                                                                     orderedAscending:[self orderedAscending]
-                                                                                error:&error];
+    NSArray<JSBFSFileComparison*>* contents =
+    [NSFileCoordinator JSBFS_urlComparisonsForFilesInDirectoryURL:[self url]
+                                              sortedByResourceKey:[JSBFSDirectorySortConverter resourceKeyForSort:[self sortedBy]]
+                                                 orderedAscending:[JSBFSDirectorySortConverter orderedAscendingForSort:[self sortedBy]]
+                                                            error:&error];
     if (error) {
         *errorPtr = error;
         return nil;

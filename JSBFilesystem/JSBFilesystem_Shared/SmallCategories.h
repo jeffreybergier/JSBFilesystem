@@ -22,3 +22,18 @@ NS_SWIFT_NAME(JSBFS_initFailedException());
 @interface NSObject (JSBFS)
 - (instancetype _Nonnull)initThrowWhenNil;
 @end
+
+typedef NS_ENUM(NSInteger, JSBFSDirectorySort) {
+    JSBFSDirectoryNameAFirst,
+    JSBFSDirectoryNameZFirst,
+    JSBFSDirectoryCreationNewestFirst,
+    JSBFSDirectoryCreationOldestFirst,
+    JSBFSDirectoryModificationNewestFirst,
+    JSBFSDirectoryModificationOldestFirst
+};
+
+@interface JSBFSDirectorySortConverter: NSObject
++ (JSBFSDirectorySort)defaultSort;
++ (NSURLResourceKey)resourceKeyForSort:(JSBFSDirectorySort)sort;
++ (BOOL)orderedAscendingForSort:(JSBFSDirectorySort)sort;
+@end

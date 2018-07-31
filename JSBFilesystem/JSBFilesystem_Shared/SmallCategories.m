@@ -39,3 +39,40 @@
     }
 }
 @end
+
+@implementation JSBFSDirectorySortConverter
++ (JSBFSDirectorySort)defaultSort;
+{
+    return JSBFSDirectoryNameAFirst;
+}
++ (NSURLResourceKey)resourceKeyForSort:(JSBFSDirectorySort)sort;
+{
+    switch (sort) {
+        case JSBFSDirectoryNameAFirst:
+        case JSBFSDirectoryNameZFirst:
+            return NSURLLocalizedNameKey;
+
+        case JSBFSDirectoryCreationNewestFirst:
+        case JSBFSDirectoryCreationOldestFirst:
+            return NSURLCreationDateKey;
+
+        case JSBFSDirectoryModificationNewestFirst:
+        case JSBFSDirectoryModificationOldestFirst:
+            return NSURLContentModificationDateKey;
+    }
+}
+
++ (BOOL)orderedAscendingForSort:(JSBFSDirectorySort)sort;
+{
+    switch (sort) {
+        case JSBFSDirectoryNameAFirst:
+        case JSBFSDirectoryCreationOldestFirst:
+        case JSBFSDirectoryModificationOldestFirst:
+            return YES;
+        case JSBFSDirectoryNameZFirst:
+        case JSBFSDirectoryCreationNewestFirst:
+        case JSBFSDirectoryModificationNewestFirst:
+            return NO;
+    }
+}
+@end

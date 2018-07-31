@@ -26,15 +26,13 @@
 
 - (instancetype)initWithDirectoryURL:(NSURL*)url
                       createIfNeeded:(BOOL)create
-                 sortedByResourceKey:(NSURLResourceKey)resourceKey
-                    orderedAscending:(BOOL)ascending
+                            sortedBy:(JSBFSDirectorySort)sortedBy
                                error:(NSError**)errorPtr;
 {
     NSError* error = nil;
     self = [super initWithDirectoryURL:url
                         createIfNeeded:create
-                   sortedByResourceKey:resourceKey
-                      orderedAscending:ascending
+                              sortedBy:sortedBy
                                  error:errorPtr];
     if (error) {
         *errorPtr = error;
@@ -51,11 +49,14 @@
 
 - (void)forceUpdate;
 {
+    NSError* error = nil;
     NSArray<JSBFSFileComparison*>* lhs = [self internalState];
-    NSArray<JSBFSFileComparison*>* rhs = [NSFileCoordinator JSBFS_urlComparisonsForFilesInDirectoryURL:[self url]
-                                                                                   sortedByResourceKey:[self sortedBy]
-                                                                                      orderedAscending:[self orderedAscending]
-                                                                                                 error:nil];
+    NSArray<JSBFSFileComparison*>* rhs =
+    [NSFileCoordinator JSBFS_urlComparisonsForFilesInDirectoryURL:[self url]
+                                              sortedByResourceKey:[JSBFSDirectorySortConverter resourceKeyForSort:[self sortedBy]]
+                                                 orderedAscending:[JSBFSDirectorySortConverter orderedAscendingForSort:[self sortedBy]]
+                                                            error:&error];
+    if (error) { NSLog(@"%@", error); }
     IGListIndexSetResult* result = [IGListDiff(lhs, rhs, IGListDiffEquality) resultForBatchUpdates];
     JSBFSDirectoryChanges* changes = [[JSBFSDirectoryChanges alloc] initWithIndexSetResult:result];
 

@@ -6,17 +6,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SmallCategories.h"
 
 @interface JSBFSDirectory: NSObject
 
 @property (readonly, nonatomic, strong) NSURL* _Nonnull url;
-@property (readonly, nonatomic, strong) NSURLResourceKey _Nonnull sortedBy;
-@property (readonly, nonatomic) BOOL orderedAscending;
+@property (readonly, nonatomic) JSBFSDirectorySort sortedBy;
 
 - (instancetype _Nullable)initWithDirectoryURL:(NSURL* _Nonnull)url
                                 createIfNeeded:(BOOL)create
-                           sortedByResourceKey:(NSURLResourceKey _Nonnull)resourceKey
-                              orderedAscending:(BOOL)ascending
+                                      sortedBy:(JSBFSDirectorySort)sortedBy
                                          error:(NSError** _Nullable)errorPtr;
 - (NSURL* _Nullable)urlAtIndex:(NSInteger)index error:(NSError** _Nullable)errorPtr;
 - (NSData* _Nullable)dataAtIndex:(NSInteger)index error:(NSError** _Nullable)errorPtr;

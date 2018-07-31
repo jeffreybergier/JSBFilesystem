@@ -14,8 +14,8 @@
 		5026372F210BBD8E000B1139 /* JSBFSFileComparison.h in Headers */ = {isa = PBXBuildFile; fileRef = 5026372C210BBD8E000B1139 /* JSBFSFileComparison.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50263730210BBD8E000B1139 /* JSBFSFileComparison.m in Sources */ = {isa = PBXBuildFile; fileRef = 5026372D210BBD8E000B1139 /* JSBFSFileComparison.m */; };
 		50263731210BBD8E000B1139 /* JSBFSFileComparison.m in Sources */ = {isa = PBXBuildFile; fileRef = 5026372D210BBD8E000B1139 /* JSBFSFileComparison.m */; };
-		508906EE210F82F60038A1ED /* SmallCategories.h in Headers */ = {isa = PBXBuildFile; fileRef = 508906EC210F82F60038A1ED /* SmallCategories.h */; };
-		508906EF210F82F60038A1ED /* SmallCategories.h in Headers */ = {isa = PBXBuildFile; fileRef = 508906EC210F82F60038A1ED /* SmallCategories.h */; };
+		508906EE210F82F60038A1ED /* SmallCategories.h in Headers */ = {isa = PBXBuildFile; fileRef = 508906EC210F82F60038A1ED /* SmallCategories.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		508906EF210F82F60038A1ED /* SmallCategories.h in Headers */ = {isa = PBXBuildFile; fileRef = 508906EC210F82F60038A1ED /* SmallCategories.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		508906F0210F82F60038A1ED /* SmallCategories.m in Sources */ = {isa = PBXBuildFile; fileRef = 508906ED210F82F60038A1ED /* SmallCategories.m */; };
 		508906F1210F82F60038A1ED /* SmallCategories.m in Sources */ = {isa = PBXBuildFile; fileRef = 508906ED210F82F60038A1ED /* SmallCategories.m */; };
 		508906F4210F86E20038A1ED /* JSBFSObservedDirectory_Testable.h in Headers */ = {isa = PBXBuildFile; fileRef = 508906F2210F86E20038A1ED /* JSBFSObservedDirectory_Testable.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -42,8 +42,6 @@
 		50DAE999210647DC006208E3 /* JSBFilesystem_macOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 50DAE98B210647DC006208E3 /* JSBFilesystem_macOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50DAE9AC21064C33006208E3 /* NSFileCoordinator+Easy_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DAE9AB21064C33006208E3 /* NSFileCoordinator+Easy_Tests.swift */; };
 		50DAE9AD21064C33006208E3 /* NSFileCoordinator+Easy_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DAE9AB21064C33006208E3 /* NSFileCoordinator+Easy_Tests.swift */; };
-		50DAE9AF2106A077006208E3 /* Directory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DAE9AE2106A077006208E3 /* Directory.swift */; };
-		50DAE9B02106A077006208E3 /* Directory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DAE9AE2106A077006208E3 /* Directory.swift */; };
 		50DAE9B22107DCC1006208E3 /* Directory_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DAE9B12107DCC1006208E3 /* Directory_Tests.swift */; };
 		50DAE9B32107DCC1006208E3 /* Directory_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DAE9B12107DCC1006208E3 /* Directory_Tests.swift */; };
 		50DAE9F02108F91C006208E3 /* DirectoryObserver_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DAE9EF2108F91C006208E3 /* DirectoryObserver_Tests.swift */; };
@@ -105,7 +103,6 @@
 		50DAE996210647DC006208E3 /* JSBFilesystem_macOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSBFilesystem_macOSTests.swift; sourceTree = "<group>"; };
 		50DAE998210647DC006208E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50DAE9AB21064C33006208E3 /* NSFileCoordinator+Easy_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSFileCoordinator+Easy_Tests.swift"; sourceTree = "<group>"; };
-		50DAE9AE2106A077006208E3 /* Directory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Directory.swift; sourceTree = "<group>"; };
 		50DAE9B12107DCC1006208E3 /* Directory_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Directory_Tests.swift; sourceTree = "<group>"; };
 		50DAE9EF2108F91C006208E3 /* DirectoryObserver_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryObserver_Tests.swift; sourceTree = "<group>"; };
 		50DE58F5210BC58F005609A0 /* JSBFilesystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSBFilesystem.h; sourceTree = "<group>"; };
@@ -253,7 +250,6 @@
 				508906F3210F86E20038A1ED /* JSBFSObservedDirectory_Testable.m */,
 				50B2A0E3210D43E300A805A4 /* JSBFSDirectoryChanges.h */,
 				50B2A0E4210D43E300A805A4 /* JSBFSDirectoryChanges.m */,
-				50DAE9AE2106A077006208E3 /* Directory.swift */,
 			);
 			path = JSBFilesystem_Shared;
 			sourceTree = "<group>";
@@ -593,7 +589,6 @@
 				508906F6210F86E20038A1ED /* JSBFSObservedDirectory_Testable.m in Sources */,
 				50F3BEA7210B708B003D5869 /* NSFileCoordinator+JSBFS.m in Sources */,
 				50263730210BBD8E000B1139 /* JSBFSFileComparison.m in Sources */,
-				50DAE9AF2106A077006208E3 /* Directory.swift in Sources */,
 				50C5D823210FEB9F00A2B21E /* JSBFSDirectory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -614,7 +609,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				50B2A0E8210D43E300A805A4 /* JSBFSDirectoryChanges.m in Sources */,
-				50DAE9B02106A077006208E3 /* Directory.swift in Sources */,
 				508906F1210F82F60038A1ED /* SmallCategories.m in Sources */,
 				50B2A0E2210D43AF00A805A4 /* JSBFSObservedDirectory.m in Sources */,
 				508906F7210F86E20038A1ED /* JSBFSObservedDirectory_Testable.m in Sources */,
@@ -829,7 +823,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A768B1C3760B2798DC4540D7 /* Pods-JSBFilesystem_iOSTests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -904,7 +897,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E36BD658DF30DCC902D93CA2 /* Pods-JSBFilesystem_iOSTests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -1134,7 +1126,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A61242E4A37D67249B0A406C /* Pods-JSBFilesystem_macOSTests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -1209,7 +1200,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4713884A62E1A1C05C04F26F /* Pods-JSBFilesystem_macOSTests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
