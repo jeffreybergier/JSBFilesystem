@@ -49,6 +49,8 @@ class ListTableViewController: UITableViewController {
 
         self.title = "Watch as Files Are Added"
         self.directory.changesObserved = { [unowned self] changes in
+            let fileCount: Int = (try? self.directory.contentsCount()) ?? 0
+            self.title = "Showing \(fileCount) Item(s)"
             NSLog("%@", changes)
             self.tableView.beginUpdates()
             self.tableView.insertRows(at: changes.insertions.map({ IndexPath(item: $0, section: 0) }), with: .right)
@@ -58,8 +60,9 @@ class ListTableViewController: UITableViewController {
             }
             self.tableView.endUpdates()
         }
+        self.tableView.reloadData()
 
-        var fileCount = 0
+        var fileCount: Int = (try? self.directory.contentsCount()) ?? 0
         var loopCount = 0
         Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
             let mod = loopCount % 10
@@ -103,6 +106,8 @@ class ListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let id = "MyCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: id) ?? UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: id)
+        cell.textLabel?.text = ""
+        cell.detailTextLabel?.text = ""
         do {
             let url = try self.directory.url(at: indexPath.row)
             let data = try self.directory.data(at: indexPath.row)

@@ -37,9 +37,8 @@
 @interface JSBFSObservedDirectory () <NSFilePresenter> {
     JSBFSObservedDirectoryChangeBlock _changesObserved;
 }
-
 @property (nonatomic, strong) NSArray<JSBFSFileComparison*>* _Nonnull internalState;
-
+@property (readonly, nonatomic, strong) NSOperationQueue* _Nonnull queue;
 @end
 
 @implementation JSBFSObservedDirectory
@@ -60,8 +59,10 @@
         if (errorPtr != NULL) { *errorPtr = error; }
         return nil;
     }
+
     self->_changesObserved = nil;
     self->_internalState = [[NSArray alloc] init];
+    self->_queue = [NSOperationQueue serialQueue];
 
     return self;
 }
@@ -81,7 +82,9 @@
     [self setInternalState:rhs];
     JSBFSObservedDirectoryChangeBlock block = [self changesObserved];
     if (changes && block != NULL) {
-        block(changes);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            block(changes);
+        });
     }
 }
 
@@ -139,7 +142,7 @@
 
 - (NSOperationQueue*)presentedItemOperationQueue;
 {
-    return [NSOperationQueue mainQueue];
+    return [self queue];
 }
 
 - (void)presentedItemDidChange;

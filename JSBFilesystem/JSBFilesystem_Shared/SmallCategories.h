@@ -60,3 +60,7 @@ typedef NS_ENUM(NSInteger, JSBFSDirectorySort) {
 + (NSURLResourceKey)resourceKeyForSort:(JSBFSDirectorySort)sort;
 + (BOOL)orderedAscendingForSort:(JSBFSDirectorySort)sort;
 @end
+
+@interface NSOperationQueue (JSBFS)
++ (instancetype _Nonnull)serialQueue;
+@end

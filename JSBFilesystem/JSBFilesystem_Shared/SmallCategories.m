@@ -99,3 +99,15 @@
     }
 }
 @end
+
+@implementation NSOperationQueue (JSBFS)
++ (instancetype)serialQueue;
+{
+    NSOperationQueue* q = [[NSOperationQueue alloc] init];
+    [q setQualityOfService:NSQualityOfServiceUserInitiated];
+    const char* qLabel = [[NSString stringWithFormat:@"com.saturdayapps.JSBFSObserver.%p", q] UTF8String];
+    [q setUnderlyingQueue:dispatch_queue_create(qLabel, DISPATCH_QUEUE_SERIAL)];
+    [q setMaxConcurrentOperationCount:1];
+    return q;
+}
+@end
