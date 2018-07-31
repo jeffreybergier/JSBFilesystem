@@ -11,6 +11,22 @@
 
 @implementation JSBFSDirectory
 
+- (instancetype)initWithBase:(NSSearchPathDirectory)base
+      appendingPathComponent:(NSString*)pathComponent
+              createIfNeeded:(BOOL)create
+                    sortedBy:(JSBFSDirectorySort)sortedBy
+                       error:(NSError**)errorPtr;
+{
+    NSURL* baseURL = [[[NSFileManager defaultManager] URLsForDirectory:base inDomains:NSUserDomainMask] firstObject];
+    NSURL* url = [baseURL URLByAppendingPathComponent:pathComponent];
+    if (!url) {
+        *errorPtr = [[NSError alloc] initWithDomain:@"" code:0 userInfo:nil];
+        return nil;
+    }
+    self = [self initWithDirectoryURL:url createIfNeeded:create sortedBy:sortedBy error:errorPtr];
+    return self;
+}
+
 - (instancetype)initWithDirectoryURL:(NSURL*)url
                                 createIfNeeded:(BOOL)create
                                       sortedBy:(JSBFSDirectorySort)sortedBy

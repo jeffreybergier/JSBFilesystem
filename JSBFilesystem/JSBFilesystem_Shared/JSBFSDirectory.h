@@ -13,6 +13,11 @@
 @property (readonly, nonatomic, strong) NSURL* _Nonnull url;
 @property (readonly, nonatomic) JSBFSDirectorySort sortedBy;
 
+- (instancetype _Nullable)initWithBase:(NSSearchPathDirectory)base
+                appendingPathComponent:(NSString*)pathComponent
+                        createIfNeeded:(BOOL)create
+                              sortedBy:(JSBFSDirectorySort)sortedBy
+                                 error:(NSError** _Nullable)errorPtr;
 - (instancetype _Nullable)initWithDirectoryURL:(NSURL* _Nonnull)url
                                 createIfNeeded:(BOOL)create
                                       sortedBy:(JSBFSDirectorySort)sortedBy
