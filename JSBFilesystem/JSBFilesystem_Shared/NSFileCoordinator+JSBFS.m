@@ -47,10 +47,10 @@
         innerSuccess = [data writeToURL:newURL options:NSDataWritingAtomic error:&innerError];
     }];
     if (outerError) {
-        *errorPtr = outerError;
+        if (errorPtr != NULL) { *errorPtr = outerError; }
         return NO;
     } else if (innerError || !innerSuccess) {
-        *errorPtr = innerError;
+        if (errorPtr != NULL) { *errorPtr = innerError; }
         return NO;
     } else {
         return YES;
@@ -72,10 +72,10 @@
         data = [NSData dataWithContentsOfURL:newURL options:0 error:&innerError];
     }];
     if (outerError) {
-        *errorPtr = outerError;
+        if (errorPtr != NULL) { *errorPtr = outerError; }
         return nil;
     } else if (innerError || !data) {
-        *errorPtr = innerError;
+        if (errorPtr != NULL) { *errorPtr = innerError; }
         return nil;
     } else {
         return data;
@@ -100,10 +100,10 @@
         #endif
      }];
     if (outerError) {
-        *errorPtr = outerError;
+        if (errorPtr != NULL) { *errorPtr = outerError; }
         return NO;
     } else if (innerError) {
-        *errorPtr = innerError;
+        if (errorPtr != NULL) { *errorPtr = innerError; }
         return NO;
     } else {
         return YES;
@@ -132,10 +132,10 @@
          innerSuccess = [fm moveItemAtURL:newReadingURL toURL:newWritingURL error:&innerError];
      }];
     if (outerError) {
-        *errorPtr = outerError;
+        if (errorPtr != NULL) { *errorPtr = outerError; }
         return NO;
     } else if (innerError || !innerSuccess) {
-        *errorPtr = innerError;
+        if (errorPtr != NULL) { *errorPtr = innerError; }
         return NO;
     } else {
         return YES;
@@ -157,10 +157,10 @@
          innerSuccess = [[NSFileManager defaultManager] createDirectoryAtURL:newURL withIntermediateDirectories:YES attributes:nil error:&innerError];
      }];
     if (outerError) {
-        *errorPtr = outerError;
+        if (errorPtr != NULL) { *errorPtr = outerError; }
         return NO;
     } else if (innerError || !innerSuccess) {
-        *errorPtr = innerError;
+        if (errorPtr != NULL) { *errorPtr = innerError; }
         return NO;
     } else {
         return YES;
@@ -186,10 +186,10 @@
                                                             error:&innerError];
      }];
     if (outerError) {
-        *errorPtr = outerError;
+        if (errorPtr != NULL) { *errorPtr = outerError; }
         return 0;
     } else if (innerError || !contents) {
-        *errorPtr = innerError;
+        if (errorPtr != NULL) { *errorPtr = innerError; }
         return 0;
     } else {
         return [contents count];
@@ -212,10 +212,10 @@
          value = [[JSBFSDoubleBool alloc] initWithValue1:isExisting value2:isDirectory];
      }];
     if (outerError) {
-        *errorPtr = outerError;
+        if (errorPtr != NULL) { *errorPtr = outerError; }
         return nil;
     } else if (innerError || !value) {
-        *errorPtr = innerError;
+        if (errorPtr != NULL) { *errorPtr = innerError; }
         return nil;
     } else {
         return value;
@@ -230,24 +230,24 @@
     NSURL* updatedURL = nil;
     NSArray<NSURL*>* _contents = [self __JSBFS_step1_getFileListAtURL:url newURL:&updatedURL error:&error];
     if (error || !_contents || !updatedURL) {
-        *errorPtr = error;
+        if (errorPtr != NULL) { *errorPtr = error; }
         return nil;
     }
     NSArray<NSURL*>* contents = [self __JSBFS_step2_coordinateFilesAtURL:updatedURL error:&error];
     if (error || !contents) {
-        *errorPtr = error;
+        if (errorPtr != NULL) { *errorPtr = error; }
         return nil;
     }
     NSMutableArray<JSBFSFileComparison*>* unsorted = [self __JSBFS_step3_mapContents:contents error:&error];
     if (error || !unsorted) {
-        *errorPtr = error;
+        if (errorPtr != NULL) { *errorPtr = error; }
         return nil;
     }
     NSURLResourceKey resourceKey = [JSBFSDirectorySortConverter resourceKeyForSort:sortedBy];
     BOOL ascending = [JSBFSDirectorySortConverter orderedAscendingForSort:sortedBy];
     NSArray<JSBFSFileComparison*>* sorted = [self __JSBFS_step4_sortContents:unsorted sortedByResourceKey:resourceKey orderedAscending:ascending error:&error];
     if (error || !sorted) {
-        *errorPtr = error;
+        if (errorPtr != NULL) { *errorPtr = error; }
         return nil;
     }
     return sorted;
@@ -276,10 +276,10 @@
 
     // check if that operation failed
     if (outerError) {
-        *errorPtr = outerError;
+        if (errorPtr != NULL) { *errorPtr = outerError; }
         return nil;
     } else if (innerError || !contents || !updatedURL) {
-        *errorPtr = innerError;
+        if (errorPtr != NULL) { *errorPtr = innerError; }
         return nil;
     } else {
         *newURL = updatedURL;
@@ -309,10 +309,10 @@
      }];
     // check if that operation failed
     if (outerError) {
-        *errorPtr = outerError;
+        if (errorPtr != NULL) { *errorPtr = outerError; }
         return nil;
     } else if (innerError || !contents) {
-        *errorPtr = innerError;
+        if (errorPtr != NULL) { *errorPtr = innerError; }
         return nil;
     } else {
         return contents;
@@ -329,14 +329,14 @@
         NSDate* modDate = nil;
         success = [url getResourceValue:&modDate forKey:NSURLContentModificationDateKey error:&error];
         if (error || !modDate || !success) {
-            *errorPtr = error;
+            if (errorPtr != NULL) { *errorPtr = error; }
             break;
         }
         JSBFSFileComparison* value = [[JSBFSFileComparison alloc] initWithFileURL:url modificationDate:modDate];
         [values addObject:value];
     }
     if ([values count] != [contents count] || error || !success) {
-        *errorPtr = error;
+        if (errorPtr != NULL) { *errorPtr = error; }
         return nil;
     } else {
         return values;
@@ -349,10 +349,10 @@
                                                    orderedAscending:(BOOL)ascending
                                                               error:(NSError**)errorPtr;
 {
+    BOOL sortRequired = [contents count] >= 2;
     __block NSError* error = nil;
-    BOOL sortNotNeeded = [contents count] <= 1;
-    __block BOOL lhsSuccess = sortNotNeeded ? YES : NO;
-    __block BOOL rhsSuccess = sortNotNeeded ? YES : NO;
+    __block BOOL lhsSuccess = sortRequired ? NO : YES;
+    __block BOOL rhsSuccess = sortRequired ? NO : YES;
     [contents sortUsingComparator:^NSComparisonResult(JSBFSFileComparison* _Nonnull lhs, JSBFSFileComparison* _Nonnull rhs) {
         if ([resourceKey isEqualToString:NSURLLocalizedNameKey]) {
             NSString* lhsName = nil;
@@ -381,7 +381,7 @@
         }
     }];
     if (error || !lhsSuccess || !rhsSuccess) {
-        *errorPtr = error;
+        if (errorPtr != NULL) { *errorPtr = error; }
         return nil;
     } else {
         return [contents copy];
@@ -402,7 +402,7 @@ whileCoordinatingAccessAtURL:(NSURL* _Nonnull)url
          executionBlock();
      }];
     if (error) {
-        *errorPtr = error;
+        if (errorPtr != NULL) { *errorPtr = error; }
         return NO;
     } else {
         return YES;

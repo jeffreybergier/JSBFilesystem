@@ -61,7 +61,7 @@
 - (instancetype _Nullable)initWithIndexSetResult:(IGListIndexSetResult* _Nonnull)r;
 {
     self = [super initWithIndexSetResult:r];
-    _updates = [r updates];
+    self->_updates = [r updates];
     return self;
 }
 @end

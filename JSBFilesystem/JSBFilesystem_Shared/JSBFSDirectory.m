@@ -48,7 +48,7 @@
         url = baseURL;
     }
     if (!url) {
-        *errorPtr = [[NSError alloc] initWithDomain:@"" code:0 userInfo:nil];
+        if (errorPtr != NULL) { *errorPtr = [[NSError alloc] initWithDomain:@"" code:0 userInfo:nil]; }
         return nil;
     }
     self = [self initWithDirectoryURL:url createIfNeeded:create sortedBy:sortedBy error:errorPtr];
@@ -68,7 +68,7 @@
 
     if (error) {
         // if we got an error, bail
-        *errorPtr = error;
+        if (errorPtr != NULL) { *errorPtr = error; }
         return nil;
     } else if (isExisting == NO && create == YES) {
         // if the file doesn't exist, and the developer wants us to create it, we need to do that
@@ -82,7 +82,7 @@
     }
     // one last error check before initializing
     if (error) {
-        *errorPtr = error;
+        if (errorPtr != NULL) { *errorPtr = error; }
         return nil;
     }
     // initialize as normal
@@ -104,7 +104,7 @@
                                                          sortedBy:[self sortedBy]
                                                             error:&error];
     if (error) {
-        *errorPtr = error;
+        if (errorPtr != NULL) { *errorPtr = error; }
         return nil;
     }
     return [[contents objectAtIndex:index] fileURL];
@@ -114,12 +114,12 @@
     NSError* error = nil;
     NSURL* url = [self urlAtIndex:index error:&error];
     if (error) {
-        *errorPtr = error;
+        if (errorPtr != NULL) { *errorPtr = error; }
         return nil;
     }
     NSData* data = [NSFileCoordinator JSBFS_readDataFromURL:url error:&error];
     if (error) {
-        *errorPtr = error;
+        if (errorPtr != NULL) { *errorPtr = error; }
         return nil;
     }
     return data;
@@ -130,12 +130,12 @@
     NSError* error = nil;
     NSURL* url = [self urlAtIndex:index error:&error];
     if (error || !url) {
-        *errorPtr = error;
+        if (errorPtr != NULL) { *errorPtr = error; }
         return NO;
     }
     BOOL success = [NSFileCoordinator JSBFS_writeData:data toURL:url error:&error];
     if (error || !success) {
-        *errorPtr = error;
+        if (errorPtr != NULL) { *errorPtr = error; }
         return NO;
     }
     return YES;
@@ -146,12 +146,12 @@
     NSError* error = nil;
     NSURL* url = [self urlAtIndex:index error:&error];
     if (error || !url) {
-        *errorPtr = error;
+        if (errorPtr != NULL) { *errorPtr = error; }
         return NO;
     }
     BOOL success = [NSFileCoordinator JSBFS_recursivelyDeleteDirectoryOrFileAtURL:url error:&error];
     if (error || !success) {
-        *errorPtr = error;
+        if (errorPtr != NULL) { *errorPtr = error; }
         return NO;
     }
     return YES;
@@ -163,7 +163,7 @@
     NSURL* url = [[self url] URLByAppendingPathComponent:fileName];
     BOOL success = [NSFileCoordinator JSBFS_writeData:data toURL:url error:&error];
     if (error || !success) {
-        *errorPtr = error;
+        if (errorPtr != NULL) { *errorPtr = error; }
         return NO;
     }
     return YES;

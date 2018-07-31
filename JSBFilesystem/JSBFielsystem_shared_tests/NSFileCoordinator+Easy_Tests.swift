@@ -314,5 +314,31 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
         }
     }
 
+    func testFileComparisonsWhenNoDirectoryPresent() {
+        let dirURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+            .appendingPathComponent(UUID, isDirectory: true)
+            .appendingPathComponent(UUID, isDirectory: true)
+        do {
+            _ = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: dirURL,
+                                                                            sortedBy: .modificationNewestFirst)
+            XCTFail("An error should have been thrown")
+        } catch {
+            XCTAssert(true, String(describing: error))
+        }
+    }
+
+    func testFileComparisonsNotNilWhenDirectoryEmpty() {
+        let dirURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+            .appendingPathComponent(UUID, isDirectory: true)
+            .appendingPathComponent(UUID, isDirectory: true)
+        do {
+            try NSFileCoordinator.JSBFS_createDirectory(at: dirURL)
+            let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: dirURL,
+                                                                   sortedBy: .modificationNewestFirst)
+            XCTAssert(urls.isEmpty)
+        } catch {
+            XCTFail(String(describing: error))
+        }
+    }
 }
 

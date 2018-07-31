@@ -57,7 +57,7 @@
                               sortedBy:sortedBy
                                  error:errorPtr];
     if (error) {
-        *errorPtr = error;
+        if (errorPtr != NULL) { *errorPtr = error; }
         return nil;
     }
     self->_changesObserved = nil;
