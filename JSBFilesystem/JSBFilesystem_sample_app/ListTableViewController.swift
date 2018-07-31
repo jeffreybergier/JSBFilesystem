@@ -40,7 +40,7 @@ class ListTableViewController: UITableViewController {
     }
 
     private let directory: JSBFSObservedDirectory = try! JSBFSObservedDirectory(base: .documentDirectory,
-                                                        appendingPathComponent: "MyFiles",
+                                                        appendingPathComponent: "MyFiles_Deleted",
                                                         createIfNeeded: true,
                                                         sortedBy: .modificationNewestFirst)
 
@@ -64,7 +64,7 @@ class ListTableViewController: UITableViewController {
 
         var fileCount: Int = (try? self.directory.contentsCount()) ?? 0
         var loopCount = 0
-        Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
             let mod = loopCount % 10
             loopCount += 1
             do {
