@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import JSBFilesystem
+import JSBFilesystem
 
 class NSFileCoordinator_Easy_BasicTests: XCTestCase {
 
