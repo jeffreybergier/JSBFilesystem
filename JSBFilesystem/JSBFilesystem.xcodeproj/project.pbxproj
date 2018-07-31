@@ -49,10 +49,13 @@
 		50C5D8AB2110C10E00A2B21E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50C5D8AA2110C10E00A2B21E /* Assets.xcassets */; };
 		50C5D8AE2110C10E00A2B21E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50C5D8AC2110C10E00A2B21E /* LaunchScreen.storyboard */; };
 		50C5D8B42110C18B00A2B21E /* ListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C5D8B32110C18B00A2B21E /* ListTableViewController.swift */; };
+		50C5D8B72110C30B00A2B21E /* JSBFilesystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C5D84E2110B3F000A2B21E /* JSBFilesystem.framework */; };
+		50C5D8B82110C30B00A2B21E /* JSBFilesystem.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50C5D84E2110B3F000A2B21E /* JSBFilesystem.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5F879FC2271838C6F71D3EA4 /* Pods_JSBFilesystem_macOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B08995D943B066DA503B0AE /* Pods_JSBFilesystem_macOSTests.framework */; };
 		6C2471B0BDCE9DEF30AEEE74 /* Pods_JSBFilesystem_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F879CF00676C3085E1EEC829 /* Pods_JSBFilesystem_iOS.framework */; };
 		7D5DC693D5F4192337C3D193 /* Pods_JSBFilesystem_iOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF97E44A2B6EA8FC5EA8E08B /* Pods_JSBFilesystem_iOSTests.framework */; };
 		80D220F24A5AC91259EF829F /* Pods_JSBFilesystem_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CE89C957CF6CF483A0DC6FA /* Pods_JSBFilesystem_macOS.framework */; };
+		BFB4E2006A6E3881907C623B /* Pods_JSBFilesystem_sample_app.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF26C3C69836BE5D52641AEC /* Pods_JSBFilesystem_sample_app.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,7 +73,28 @@
 			remoteGlobalIDString = 50C5D84D2110B3F000A2B21E;
 			remoteInfo = JSBFilesystem_iOS;
 		};
+		50C5D8B52110C2FF00A2B21E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 50C5D8262110B3B700A2B21E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 50C5D84D2110B3F000A2B21E;
+			remoteInfo = JSBFilesystem_iOS;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		50C5D8B92110C30B00A2B21E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				50C5D8B82110C30B00A2B21E /* JSBFilesystem.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0CE89C957CF6CF483A0DC6FA /* Pods_JSBFilesystem_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JSBFilesystem_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -110,12 +134,15 @@
 		50C5D8B32110C18B00A2B21E /* ListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewController.swift; sourceTree = "<group>"; };
 		65D4B3B06FB43C8E0B939B3C /* Pods-JSBFilesystem_iOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JSBFilesystem_iOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JSBFilesystem_iOSTests/Pods-JSBFilesystem_iOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		699AB61DFC6D00EE7B3E6172 /* Pods-JSBFilesystem_macOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JSBFilesystem_macOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-JSBFilesystem_macOSTests/Pods-JSBFilesystem_macOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		7627DF88759B53B31A275B9F /* Pods-JSBFilesystem_sample_app.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JSBFilesystem_sample_app.release.xcconfig"; path = "Pods/Target Support Files/Pods-JSBFilesystem_sample_app/Pods-JSBFilesystem_sample_app.release.xcconfig"; sourceTree = "<group>"; };
 		8B08995D943B066DA503B0AE /* Pods_JSBFilesystem_macOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JSBFilesystem_macOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		91ABD297086D06E71643AF61 /* Pods-JSBFilesystem_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JSBFilesystem_iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-JSBFilesystem_iOS/Pods-JSBFilesystem_iOS.release.xcconfig"; sourceTree = "<group>"; };
 		9BB3F2CB3CED1E98171A1E0F /* Pods-JSBFilesystem_macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JSBFilesystem_macOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JSBFilesystem_macOS/Pods-JSBFilesystem_macOS.debug.xcconfig"; sourceTree = "<group>"; };
 		A770F4FCC1AFC60927AD9A46 /* Pods-JSBFilesystem_macOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JSBFilesystem_macOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JSBFilesystem_macOSTests/Pods-JSBFilesystem_macOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BF97E44A2B6EA8FC5EA8E08B /* Pods_JSBFilesystem_iOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JSBFilesystem_iOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4DDE76AA408D81D840907E4 /* Pods-JSBFilesystem_sample_app.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JSBFilesystem_sample_app.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JSBFilesystem_sample_app/Pods-JSBFilesystem_sample_app.debug.xcconfig"; sourceTree = "<group>"; };
 		E0B31D8E22FE75B7701AFC8F /* Pods-JSBFilesystem_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JSBFilesystem_iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JSBFilesystem_iOS/Pods-JSBFilesystem_iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		EF26C3C69836BE5D52641AEC /* Pods_JSBFilesystem_sample_app.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JSBFilesystem_sample_app.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F879CF00676C3085E1EEC829 /* Pods_JSBFilesystem_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JSBFilesystem_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -158,6 +185,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50C5D8B72110C30B00A2B21E /* JSBFilesystem.framework in Frameworks */,
+				BFB4E2006A6E3881907C623B /* Pods_JSBFilesystem_sample_app.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -171,6 +200,7 @@
 				BF97E44A2B6EA8FC5EA8E08B /* Pods_JSBFilesystem_iOSTests.framework */,
 				0CE89C957CF6CF483A0DC6FA /* Pods_JSBFilesystem_macOS.framework */,
 				8B08995D943B066DA503B0AE /* Pods_JSBFilesystem_macOSTests.framework */,
+				EF26C3C69836BE5D52641AEC /* Pods_JSBFilesystem_sample_app.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -290,6 +320,8 @@
 				1E41E0F0924344DAB0EB0EDD /* Pods-JSBFilesystem_macOS.release.xcconfig */,
 				A770F4FCC1AFC60927AD9A46 /* Pods-JSBFilesystem_macOSTests.debug.xcconfig */,
 				699AB61DFC6D00EE7B3E6172 /* Pods-JSBFilesystem_macOSTests.release.xcconfig */,
+				D4DDE76AA408D81D840907E4 /* Pods-JSBFilesystem_sample_app.debug.xcconfig */,
+				7627DF88759B53B31A275B9F /* Pods-JSBFilesystem_sample_app.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -412,13 +444,17 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 50C5D8B22110C10E00A2B21E /* Build configuration list for PBXNativeTarget "JSBFilesystem_sample_app" */;
 			buildPhases = (
+				A8644BF5824AEA186037A3A7 /* [CP] Check Pods Manifest.lock */,
 				50C5D89D2110C10C00A2B21E /* Sources */,
 				50C5D89E2110C10C00A2B21E /* Frameworks */,
 				50C5D89F2110C10C00A2B21E /* Resources */,
+				50C5D8B92110C30B00A2B21E /* Embed Frameworks */,
+				3B3929BBE6A11DE299A119B2 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				50C5D8B62110C2FF00A2B21E /* PBXTargetDependency */,
 			);
 			name = JSBFilesystem_sample_app;
 			productName = JSBFilesystem_sample_app;
@@ -514,6 +550,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		3B3929BBE6A11DE299A119B2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-JSBFilesystem_sample_app/Pods-JSBFilesystem_sample_app-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/IGListKit-iOS/IGListKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IGListKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-JSBFilesystem_sample_app/Pods-JSBFilesystem_sample_app-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		3FB585F90D832A7D5199AEDA /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -580,6 +634,24 @@
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-JSBFilesystem_macOSTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A8644BF5824AEA186037A3A7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-JSBFilesystem_sample_app-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -695,6 +767,11 @@
 			target = 50C5D84D2110B3F000A2B21E /* JSBFilesystem_iOS */;
 			targetProxy = 50C5D8582110B3F000A2B21E /* PBXContainerItemProxy */;
 		};
+		50C5D8B62110C2FF00A2B21E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 50C5D84D2110B3F000A2B21E /* JSBFilesystem_iOS */;
+			targetProxy = 50C5D8B52110C2FF00A2B21E /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -786,11 +863,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = JSBFilesystem_macOS/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -860,11 +933,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = JSBFilesystem_macOS/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.JSBFilesystem.macOS;
@@ -932,11 +1001,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = JSBFilesystem_macOSTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -997,11 +1062,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = JSBFilesystem_macOSTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.saturdayapps.JSBFilesystem-macOSTests";
@@ -1073,11 +1134,7 @@
 				INFOPLIST_FILE = JSBFilesystem_iOS/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.JSBFilesystem.iOS;
@@ -1146,11 +1203,7 @@
 				INFOPLIST_FILE = JSBFilesystem_iOS/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.JSBFilesystem.iOS;
 				PRODUCT_NAME = JSBFilesystem;
@@ -1219,11 +1272,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = JSBFilesystem_iOSTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.saturdayapps.JSBFilesystem-iOSTests";
@@ -1284,11 +1333,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = JSBFilesystem_iOSTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.saturdayapps.JSBFilesystem-iOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1301,6 +1346,7 @@
 		};
 		50C5D8B02110C10E00A2B21E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D4DDE76AA408D81D840907E4 /* Pods-JSBFilesystem_sample_app.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1355,10 +1401,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = JSBFilesystem_sample_app/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.saturdayapps.JSBFilesystem-sample-app";
@@ -1373,6 +1416,7 @@
 		};
 		50C5D8B12110C10E00A2B21E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7627DF88759B53B31A275B9F /* Pods-JSBFilesystem_sample_app.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1421,10 +1465,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = JSBFilesystem_sample_app/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.saturdayapps.JSBFilesystem-sample-app";
 				PRODUCT_NAME = "$(TARGET_NAME)";

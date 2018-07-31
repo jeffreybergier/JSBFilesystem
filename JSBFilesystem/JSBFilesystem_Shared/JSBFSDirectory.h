@@ -37,7 +37,7 @@
 @property (readonly, nonatomic) JSBFSDirectorySort sortedBy;
 
 - (instancetype _Nullable)initWithBase:(NSSearchPathDirectory)base
-                appendingPathComponent:(NSString*)pathComponent
+                appendingPathComponent:(NSString* _Nullable)pathComponent
                         createIfNeeded:(BOOL)create
                               sortedBy:(JSBFSDirectorySort)sortedBy
                                  error:(NSError** _Nullable)errorPtr;

@@ -1,5 +1,11 @@
 # Uncomment the next line to define a global platform for your project
 
+target 'JSBFilesystem_sample_app' do
+	platform :ios, '11.0'
+  	use_frameworks!
+	inherit! :search_paths
+end
+
 target 'JSBFilesystem_iOS' do
 	platform :ios, '11.0'
   	use_frameworks!

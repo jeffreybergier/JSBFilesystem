@@ -85,7 +85,9 @@
     [self setInternalState:rhs];
     JSBFSObservedDirectoryChangeBlock block = [self changesObserved];
     if (changes && block != NULL) {
-        block(changes);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            block(changes);
+        });
     }
 }
 

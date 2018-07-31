@@ -41,6 +41,7 @@ typedef void(^JSBFSObservedDirectoryChangeBlock)(JSBFSDirectoryChanges* _Nonnull
 /// You must set this to NIL when done with this object or else memory will leak
 /// When this is set, the internal state is forcefully updated
 /// So that subsequent changes can be correctly found
+/// This always calls back on the main queue. Its intended for UI use
 @property (nonatomic, strong) JSBFSObservedDirectoryChangeBlock _Nullable changesObserved;
 @property (readonly, nonatomic) NSInteger contentsCount;
 - (void)forceUpdate;

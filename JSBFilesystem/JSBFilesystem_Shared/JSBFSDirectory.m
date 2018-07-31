@@ -41,7 +41,12 @@
                        error:(NSError**)errorPtr;
 {
     NSURL* baseURL = [[[NSFileManager defaultManager] URLsForDirectory:base inDomains:NSUserDomainMask] firstObject];
-    NSURL* url = [baseURL URLByAppendingPathComponent:pathComponent];
+    NSURL* url = nil;
+    if (pathComponent) {
+        url = [baseURL URLByAppendingPathComponent:pathComponent];
+    } else {
+        url = baseURL;
+    }
     if (!url) {
         *errorPtr = [[NSError alloc] initWithDomain:@"" code:0 userInfo:nil];
         return nil;
