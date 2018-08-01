@@ -34,6 +34,8 @@
 
 @implementation JSBFSDirectory
 
+// MARK: init
+
 - (instancetype)initWithBase:(NSSearchPathDirectory)base
       appendingPathComponent:(NSString*)pathComponent
               createIfNeeded:(BOOL)create
@@ -92,54 +94,7 @@
     return self;
 }
 
-- (NSInteger)contentsCount:(NSError**)errorPtr;
-{
-    return [NSFileCoordinator JSBFS_fileCountInDirectoryURL:[self url] error:errorPtr];
-}
-- (NSURL*)urlAtIndex:(NSInteger)index error:(NSError**)errorPtr;
-{
-    NSError* error = nil;
-    NSArray<JSBFSFileComparison*>* contents =
-    [NSFileCoordinator JSBFS_urlComparisonsForFilesInDirectoryURL:[self url]
-                                                         sortedBy:[self sortedBy]
-                                                            error:&error];
-    if (error) {
-        if (errorPtr != NULL) { *errorPtr = error; }
-        return nil;
-    }
-    return [[contents objectAtIndex:index] fileURL];
-}
-- (NSData*)dataAtIndex:(NSInteger)index error:(NSError**)errorPtr;
-{
-    NSError* error = nil;
-    NSURL* url = [self urlAtIndex:index error:&error];
-    if (error) {
-        if (errorPtr != NULL) { *errorPtr = error; }
-        return nil;
-    }
-    NSData* data = [NSFileCoordinator JSBFS_readDataFromURL:url error:&error];
-    if (error) {
-        if (errorPtr != NULL) { *errorPtr = error; }
-        return nil;
-    }
-    return data;
-}
-
-- (BOOL)replaceFileAtIndex:(NSInteger)index withData:(NSData*)data error:(NSError**)errorPtr;
-{
-    NSError* error = nil;
-    NSURL* url = [self urlAtIndex:index error:&error];
-    if (error || !url) {
-        if (errorPtr != NULL) { *errorPtr = error; }
-        return NO;
-    }
-    BOOL success = [NSFileCoordinator JSBFS_writeData:data toURL:url error:&error];
-    if (error || !success) {
-        if (errorPtr != NULL) { *errorPtr = error; }
-        return NO;
-    }
-    return YES;
-}
+// MARK: Basic API
 
 - (BOOL)deleteFileAtIndex:(NSInteger)index error:(NSError**)errorPtr;
 {
@@ -157,17 +112,74 @@
     return YES;
 }
 
-- (BOOL)createFileNamed:(NSString*)fileName withData:(NSData*)data error:(NSError**)errorPtr;
+- (NSInteger)contentsCount:(NSError**)errorPtr;
+{
+    return [NSFileCoordinator JSBFS_fileCountInDirectoryURL:[self url] error:errorPtr];
+}
+
+// MARK: URL Api
+
+- (NSURL*)urlAtIndex:(NSInteger)index error:(NSError**)errorPtr;
+{
+    NSError* error = nil;
+    NSArray<JSBFSFileComparison*>* contents =
+    [NSFileCoordinator JSBFS_urlComparisonsForFilesInDirectoryURL:[self url]
+                                                         sortedBy:[self sortedBy]
+                                                            error:&error];
+    if (error) {
+        if (errorPtr != NULL) { *errorPtr = error; }
+        return nil;
+    }
+    return [[contents objectAtIndex:index] fileURL];
+}
+
+// MARK: Data API - Read and Write Data
+
+- (NSData*)dataAtIndex:(NSInteger)index error:(NSError**)errorPtr;
+{
+    NSError* error = nil;
+    NSURL* url = [self urlAtIndex:index error:&error];
+    if (error) {
+        if (errorPtr != NULL) { *errorPtr = error; }
+        return nil;
+    }
+    NSData* data = [NSFileCoordinator JSBFS_readDataFromURL:url error:&error];
+    if (error) {
+        if (errorPtr != NULL) { *errorPtr = error; }
+        return nil;
+    }
+    return data;
+}
+
+- (NSURL*)replaceItemAtIndex:(NSInteger)index withData:(NSData*)data error:(NSError**)errorPtr;
+{
+    NSError* error = nil;
+    NSURL* url = [self urlAtIndex:index error:&error];
+    if (error || !url) {
+        if (errorPtr != NULL) { *errorPtr = error; }
+        return nil;
+    }
+    BOOL success = [NSFileCoordinator JSBFS_writeData:data toURL:url error:&error];
+    if (error || !success) {
+        if (errorPtr != NULL) { *errorPtr = error; }
+        return nil;
+    }
+    return url;
+}
+
+- (NSURL*)createFileNamed:(NSString*)fileName withData:(NSData*)data error:(NSError**)errorPtr;
 {
     NSError* error = nil;
     NSURL* url = [[self url] URLByAppendingPathComponent:fileName];
     BOOL success = [NSFileCoordinator JSBFS_writeData:data toURL:url error:&error];
     if (error || !success) {
         if (errorPtr != NULL) { *errorPtr = error; }
-        return NO;
+        return nil;
     }
-    return YES;
+    return url;
 }
+
+// MARK: File Wrapper API - Read and Write File Wrappers
 
 - (NSFileWrapper*)fileWrapperAtIndex:(NSInteger)index error:(NSError**)errorPtr;
 {
@@ -185,20 +197,33 @@
     return fileWrapper;
 }
 
-- (BOOL)replaceItemAtIndex:(NSInteger)index withFileWrapper:(NSFileWrapper* _Nonnull)fileWrapper error:(NSError*_Nullable*)errorPtr;
+- (NSURL*)replaceItemAtIndex:(NSInteger)index withFileWrapper:(NSFileWrapper*)fileWrapper error:(NSError**)errorPtr;
 {
     NSError* error = nil;
     NSURL* url = [self urlAtIndex:index error:&error];
     if (error) {
         if (errorPtr != NULL) { *errorPtr = error; }
-        return YES;
+        return nil;
     }
     BOOL success = [NSFileCoordinator JSBFS_writeFileWrapper:fileWrapper toURL:url error:&error];
     if (error || !success) {
         if (errorPtr != NULL) { *errorPtr = error; }
-        return NO;
+        return nil;
     }
-    return NO;
+    return url;
+}
+
+- (NSURL* _Nullable)createFileNamed:(NSString*)fileName withFileWrapper:(NSFileWrapper*)fileWrapper error:(NSError**)errorPtr;
+{
+
+    NSError* error = nil;
+    NSURL* url = [[self url] URLByAppendingPathComponent:fileName];
+    BOOL success = [NSFileCoordinator JSBFS_writeFileWrapper:fileWrapper toURL:url error:&error];
+    if (error || !success) {
+        if (errorPtr != NULL) { *errorPtr = error; }
+        return nil;
+    }
+    return url;
 }
 
 @end
