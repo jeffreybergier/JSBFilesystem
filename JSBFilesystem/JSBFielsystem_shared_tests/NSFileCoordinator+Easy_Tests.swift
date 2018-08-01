@@ -33,8 +33,17 @@ import JSBFilesystem
 
 class NSFileCoordinator_Easy_BasicTests: XCTestCase {
 
+    lazy var dirURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+        .appendingPathComponent(UUID, isDirectory: true)
+        .appendingPathComponent(UUID, isDirectory: true)
+
     var UUID: String {
         return Foundation.UUID().uuidString
+    }
+
+    override func tearDown() {
+        super.tearDown()
+        try? FileManager.default.removeItem(at: self.dirURL)
     }
 
     func testWrite() {
@@ -68,13 +77,10 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
     }
 
     func testCreateDirectory() {
-        let url = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-            .appendingPathComponent(UUID, isDirectory: true)
-            .appendingPathComponent(UUID, isDirectory: true)
         do {
-            try NSFileCoordinator.JSBFS_createDirectory(at: url)
+            try NSFileCoordinator.JSBFS_createDirectory(at: self.dirURL)
             var isDirectory: ObjCBool = false
-            let isExisting = FileManager.default.fileExists(atPath: url.path, isDirectory: &isDirectory)
+            let isExisting = FileManager.default.fileExists(atPath: self.dirURL.path, isDirectory: &isDirectory)
             XCTAssert(isExisting && isDirectory.boolValue)
         } catch {
             XCTFail(String(describing: error))
@@ -82,12 +88,9 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
     }
 
     func testFileExistsAndIsDirectory_Directory() {
-        let url = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-            .appendingPathComponent(UUID, isDirectory: true)
-            .appendingPathComponent(UUID, isDirectory: true)
         do {
-            try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
-            let value = try NSFileCoordinator.JSBFS_fileExistsAndIsDirectory(at: url)
+            try FileManager.default.createDirectory(at: self.dirURL, withIntermediateDirectories: true, attributes: nil)
+            let value = try NSFileCoordinator.JSBFS_fileExistsAndIsDirectory(at: self.dirURL)
             let (isExisting, isDirectory) = (value.value1, value.value2)
             XCTAssert(isExisting && isDirectory)
         } catch {
@@ -96,13 +99,10 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
     }
 
     func testFileExistsAndIsDirectory_File() {
-        let dirURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-            .appendingPathComponent(UUID, isDirectory: true)
-            .appendingPathComponent(UUID, isDirectory: true)
-        let url = dirURL.appendingPathComponent(UUID, isDirectory: false)
+        let url = self.dirURL.appendingPathComponent(UUID, isDirectory: false)
         let data = Data(UUID.utf8)
         do {
-            try FileManager.default.createDirectory(at: dirURL, withIntermediateDirectories: true, attributes: nil)
+            try FileManager.default.createDirectory(at: self.dirURL, withIntermediateDirectories: true, attributes: nil)
             try data.write(to: url)
             let value = try NSFileCoordinator.JSBFS_fileExistsAndIsDirectory(at: url)
             let (isExisting, isDirectory) = (value.value1, value.value2)
@@ -113,16 +113,13 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
     }
 
     func testDelete() {
-        let dirURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-            .appendingPathComponent(UUID, isDirectory: true)
-            .appendingPathComponent(UUID, isDirectory: true)
-        let url = dirURL.appendingPathComponent(UUID, isDirectory: false)
+        let fileURL = self.dirURL.appendingPathComponent(UUID, isDirectory: false)
         let data = Data(UUID.utf8)
         do {
-            try FileManager.default.createDirectory(at: dirURL, withIntermediateDirectories: true, attributes: nil)
-            try data.write(to: url)
-            try NSFileCoordinator.JSBFS_recursivelyDeleteDirectoryOrFile(at: url)
-            let isExisting = FileManager.default.fileExists(atPath: url.path)
+            try FileManager.default.createDirectory(at: self.dirURL, withIntermediateDirectories: true, attributes: nil)
+            try data.write(to: fileURL)
+            try NSFileCoordinator.JSBFS_recursivelyDeleteDirectoryOrFile(at: self.dirURL)
+            let isExisting = FileManager.default.fileExists(atPath: self.dirURL.path)
             XCTAssertFalse(isExisting)
         } catch {
             XCTFail(String(describing: error))
@@ -130,8 +127,8 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
     }
 
     func testMove() {
-        let dir1URL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID, isDirectory: true)
-        let dir2URL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID, isDirectory: true)
+        let dir1URL = self.dirURL.appendingPathComponent(UUID, isDirectory: true)
+        let dir2URL = self.dirURL.appendingPathComponent(UUID, isDirectory: true)
         let beforeURL = dir1URL.appendingPathComponent(UUID, isDirectory: false)
         let afterURL = dir2URL.appendingPathComponent(UUID, isDirectory: false)
         let data = Data(UUID.utf8)
@@ -148,18 +145,15 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
     }
 
     func testFileCountInDirectory() {
-        let dirURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-            .appendingPathComponent(UUID, isDirectory: true)
-            .appendingPathComponent(UUID, isDirectory: true)
         do {
             let testCount = 100
-            try FileManager.default.createDirectory(at: dirURL, withIntermediateDirectories: true, attributes: nil)
+            try FileManager.default.createDirectory(at: self.dirURL, withIntermediateDirectories: true, attributes: nil)
             for i in 0 ..< testCount {
                 let data = Data("This is file \(i)".utf8)
-                let url = dirURL.appendingPathComponent("\(i).txt", isDirectory: false)
+                let url = self.dirURL.appendingPathComponent("\(i).txt", isDirectory: false)
                 try data.write(to: url)
             }
-            let count = try NSFileCoordinator.JSBFS_fileCount(inDirectoryURL: dirURL)
+            let count = try NSFileCoordinator.JSBFS_fileCount(inDirectoryURL: self.dirURL)
             XCTAssert(count == testCount)
         } catch {
             XCTFail(String(describing: error))
@@ -167,20 +161,17 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
     }
 
     func testAscendingAlphabeticalSort() {
-        let dirURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-            .appendingPathComponent(UUID, isDirectory: true)
-            .appendingPathComponent(UUID, isDirectory: true)
         do {
             let count = 100
             let fm = FileManager.default
-            try fm.createDirectory(at: dirURL, withIntermediateDirectories: true, attributes: nil)
+            try fm.createDirectory(at: self.dirURL, withIntermediateDirectories: true, attributes: nil)
             for i in 0 ..< count {
                 let file = "\(i).file"
-                let url = dirURL.appendingPathComponent(file)
+                let url = self.dirURL.appendingPathComponent(file)
                 let data = Data(file.utf8)
                 try data.write(to: url)
             }
-            let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: dirURL,
+            let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: self.dirURL,
                                                                           sortedBy: .nameAFirst)
             XCTAssert(urls.count == count)
             XCTAssert(urls.first!.fileURL.lastPathComponent == "0.file")
@@ -191,20 +182,17 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
     }
 
     func testDescendingAlphabeticalSort() {
-        let dirURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-            .appendingPathComponent(UUID, isDirectory: true)
-            .appendingPathComponent(UUID, isDirectory: true)
         do {
             let count = 100
             let fm = FileManager.default
-            try fm.createDirectory(at: dirURL, withIntermediateDirectories: true, attributes: nil)
+            try fm.createDirectory(at: self.dirURL, withIntermediateDirectories: true, attributes: nil)
             for i in 0 ..< count {
                 let file = "\(i).file"
-                let url = dirURL.appendingPathComponent(file)
+                let url = self.dirURL.appendingPathComponent(file)
                 let data = Data(file.utf8)
                 try data.write(to: url)
             }
-            let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: dirURL,
+            let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: self.dirURL,
                                                                           sortedBy: .nameZFirst)
             XCTAssert(urls.count == count)
             XCTAssert(urls.last!.fileURL.lastPathComponent == "0.file")
@@ -215,20 +203,17 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
     }
 
     func testAscendingCreationDateSort() {
-        let dirURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-            .appendingPathComponent(UUID, isDirectory: true)
-            .appendingPathComponent(UUID, isDirectory: true)
         do {
             let count = 100
             let fm = FileManager.default
-            try fm.createDirectory(at: dirURL, withIntermediateDirectories: true, attributes: nil)
+            try fm.createDirectory(at: self.dirURL, withIntermediateDirectories: true, attributes: nil)
             for i in 0 ..< count {
                 let file = "\(i).file"
-                let url = dirURL.appendingPathComponent(file)
+                let url = self.dirURL.appendingPathComponent(file)
                 let data = Data(file.utf8)
                 try data.write(to: url)
             }
-            let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: dirURL,
+            let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: self.dirURL,
                                                                           sortedBy: .creationOldestFirst)
             XCTAssert(urls.count == count)
             XCTAssert(urls.first!.fileURL.lastPathComponent == "0.file")
@@ -239,20 +224,17 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
     }
 
     func testDescendingCreationDateSort() {
-        let dirURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-            .appendingPathComponent(UUID, isDirectory: true)
-            .appendingPathComponent(UUID, isDirectory: true)
         do {
             let count = 100
             let fm = FileManager.default
-            try fm.createDirectory(at: dirURL, withIntermediateDirectories: true, attributes: nil)
+            try fm.createDirectory(at: self.dirURL, withIntermediateDirectories: true, attributes: nil)
             for i in 0 ..< count {
                 let file = "\(i).file"
-                let url = dirURL.appendingPathComponent(file)
+                let url = self.dirURL.appendingPathComponent(file)
                 let data = Data(file.utf8)
                 try data.write(to: url)
             }
-            let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: dirURL,
+            let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: self.dirURL,
                                                                           sortedBy: .creationNewestFirst)
             XCTAssert(urls.count == count)
             XCTAssert(urls.last!.fileURL.lastPathComponent == "0.file")
@@ -263,23 +245,20 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
     }
 
     func testAscendingModificationDateSort() {
-        let dirURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-            .appendingPathComponent(UUID, isDirectory: true)
-            .appendingPathComponent(UUID, isDirectory: true)
         do {
             let count = 100
             let fm = FileManager.default
-            try fm.createDirectory(at: dirURL, withIntermediateDirectories: true, attributes: nil)
+            try fm.createDirectory(at: self.dirURL, withIntermediateDirectories: true, attributes: nil)
             for i in 0 ..< count {
                 let file = "\(i).file"
-                let url = dirURL.appendingPathComponent(file)
+                let url = self.dirURL.appendingPathComponent(file)
                 let data = Data(file.utf8)
                 try data.write(to: url)
             }
-            let modURL = dirURL.appendingPathComponent("10.file")
+            let modURL = self.dirURL.appendingPathComponent("10.file")
             let data = Data("MODIFIED".utf8)
             try data.write(to: modURL)
-            let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: dirURL,
+            let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: self.dirURL,
                                                                           sortedBy: .modificationOldestFirst)
             XCTAssert(urls.count == count)
             XCTAssert(urls.last!.fileURL.lastPathComponent == "10.file")
@@ -289,23 +268,20 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
     }
 
     func testDescendingModificationDateSort() {
-        let dirURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-            .appendingPathComponent(UUID, isDirectory: true)
-            .appendingPathComponent(UUID, isDirectory: true)
         do {
             let count = 100
             let fm = FileManager.default
-            try fm.createDirectory(at: dirURL, withIntermediateDirectories: true, attributes: nil)
+            try fm.createDirectory(at: self.dirURL, withIntermediateDirectories: true, attributes: nil)
             for i in 0 ..< count {
                 let file = "\(i).file"
-                let url = dirURL.appendingPathComponent(file)
+                let url = self.dirURL.appendingPathComponent(file)
                 let data = Data(file.utf8)
                 try data.write(to: url)
             }
-            let modURL = dirURL.appendingPathComponent("10.file")
+            let modURL = self.dirURL.appendingPathComponent("10.file")
             let data = Data("MODIFIED".utf8)
             try data.write(to: modURL)
-            let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: dirURL,
+            let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: self.dirURL,
                                                                           sortedBy: .modificationNewestFirst)
             XCTAssert(urls.count == count)
             XCTAssert(urls.first!.fileURL.lastPathComponent == "10.file")
@@ -315,12 +291,9 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
     }
 
     func testFileComparisonsWhenNoDirectoryPresent() {
-        let dirURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-            .appendingPathComponent(UUID, isDirectory: true)
-            .appendingPathComponent(UUID, isDirectory: true)
         do {
-            _ = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: dirURL,
-                                                                            sortedBy: .modificationNewestFirst)
+            _ = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: self.dirURL,
+                                                                   sortedBy: .modificationNewestFirst)
             XCTFail("An error should have been thrown")
         } catch {
             XCTAssert(true, String(describing: error))
@@ -328,13 +301,10 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
     }
 
     func testFileComparisonsNotNilWhenDirectoryEmpty() {
-        let dirURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-            .appendingPathComponent(UUID, isDirectory: true)
-            .appendingPathComponent(UUID, isDirectory: true)
         do {
-            try NSFileCoordinator.JSBFS_createDirectory(at: dirURL)
-            let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: dirURL,
-                                                                   sortedBy: .modificationNewestFirst)
+            try NSFileCoordinator.JSBFS_createDirectory(at: self.dirURL)
+            let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: self.dirURL,
+                                                                          sortedBy: .modificationNewestFirst)
             XCTAssert(urls.isEmpty)
         } catch {
             XCTFail(String(describing: error))
@@ -344,15 +314,12 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
     /// Refer to Documentation on how to read and write and verify file wrappers
     /// https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/FileSystemProgrammingGuide/FileWrappers/FileWrappers.html#//apple_ref/doc/uid/TP40010672-CH13-DontLinkElementID_5
     func testFileWrapperRead() {
-        let dirURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-            .appendingPathComponent(UUID, isDirectory: true)
-            .appendingPathComponent(UUID, isDirectory: true)
         do {
             let rawString = "this is a test"
-            try FileManager.default.createDirectory(at: dirURL, withIntermediateDirectories: true, attributes: nil)
+            try FileManager.default.createDirectory(at: self.dirURL, withIntermediateDirectories: true, attributes: nil)
             let innerData = Data(rawString.utf8)
-            try innerData.write(to: dirURL.appendingPathComponent("innerFile.txt"))
-            let parentWrapper = try NSFileCoordinator.JSBFS_readFileWrapper(from: dirURL)
+            try innerData.write(to: self.dirURL.appendingPathComponent("innerFile.txt"))
+            let parentWrapper = try NSFileCoordinator.JSBFS_readFileWrapper(from: self.dirURL)
             XCTAssert(parentWrapper.isDirectory)
             XCTAssert(parentWrapper.fileWrappers!.count == 1)
             let fileWrapper = parentWrapper.fileWrappers?["innerFile.txt"]
@@ -365,12 +332,8 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
     }
 
     func testFileWrapperWrite() {
-        let sourceURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-            .appendingPathComponent(UUID, isDirectory: true)
-            .appendingPathComponent(UUID, isDirectory: true)
-        let destinationURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-            .appendingPathComponent(UUID, isDirectory: true)
-            .appendingPathComponent(UUID, isDirectory: true)
+        let sourceURL = self.dirURL.appendingPathComponent(UUID, isDirectory: true)
+        let destinationURL = self.dirURL.appendingPathComponent(UUID, isDirectory: true)
         do {
             try FileManager.default.createDirectory(at: sourceURL, withIntermediateDirectories: true, attributes: nil)
             let childFileText = "this is a test"
@@ -390,6 +353,10 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
         } catch {
             XCTFail(String(describing: error))
         }
+    }
+
+    func testFileWrapperCreation() {
+
     }
 }
 
