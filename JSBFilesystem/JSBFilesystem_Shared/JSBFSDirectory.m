@@ -157,7 +157,7 @@
     return YES;
 }
 
-- (BOOL)appendFileNamed:(NSString*)fileName withData:(NSData*)data error:(NSError**)errorPtr;
+- (BOOL)createFileNamed:(NSString*)fileName withData:(NSData*)data error:(NSError**)errorPtr;
 {
     NSError* error = nil;
     NSURL* url = [[self url] URLByAppendingPathComponent:fileName];
@@ -167,6 +167,38 @@
         return NO;
     }
     return YES;
+}
+
+- (NSFileWrapper*)fileWrapperAtIndex:(NSInteger)index error:(NSError**)errorPtr;
+{
+    NSError* error = nil;
+    NSURL* url = [self urlAtIndex:index error:&error];
+    if (error) {
+        if (errorPtr != NULL) { *errorPtr = error; }
+        return nil;
+    }
+    NSFileWrapper *fileWrapper = [NSFileCoordinator JSBFS_readFileWrapperFromURL:url error:&error];
+    if (error || !fileWrapper) {
+        if (errorPtr != NULL) { *errorPtr = error; }
+        return nil;
+    }
+    return fileWrapper;
+}
+
+- (BOOL)replaceItemAtIndex:(NSInteger)index withFileWrapper:(NSFileWrapper* _Nonnull)fileWrapper error:(NSError*_Nullable*)errorPtr;
+{
+    NSError* error = nil;
+    NSURL* url = [self urlAtIndex:index error:&error];
+    if (error) {
+        if (errorPtr != NULL) { *errorPtr = error; }
+        return YES;
+    }
+    BOOL success = [NSFileCoordinator JSBFS_writeFileWrapper:fileWrapper toURL:url error:&error];
+    if (error || !success) {
+        if (errorPtr != NULL) { *errorPtr = error; }
+        return NO;
+    }
+    return NO;
 }
 
 @end

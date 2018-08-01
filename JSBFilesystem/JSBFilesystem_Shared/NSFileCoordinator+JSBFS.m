@@ -57,6 +57,32 @@
     }
 }
 
++ (BOOL)JSBFS_writeFileWrapper:(NSFileWrapper*)fileWrapper
+                         toURL:(NSURL*)url
+                         error:(NSError **)errorPtr;
+{
+    NSError* outerError = nil;
+    __block NSError* innerError = nil;
+    __block BOOL innerSuccess = NO;
+    NSFileCoordinator* c = [[NSFileCoordinator alloc] init];
+    [c coordinateWritingItemAtURL:url
+                          options:NSFileCoordinatorWritingForReplacing
+                            error:&outerError
+                       byAccessor:^(NSURL * _Nonnull newURL)
+     {
+         innerSuccess = [fileWrapper writeToURL:newURL options:NSFileWrapperWritingAtomic originalContentsURL:nil error:&innerError];
+     }];
+    if (outerError) {
+        if (errorPtr != NULL) { *errorPtr = outerError; }
+        return NO;
+    } else if (innerError || !innerSuccess) {
+        if (errorPtr != NULL) { *errorPtr = innerError; }
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
 + (NSData*)JSBFS_readDataFromURL:(NSURL*)url
                            error:(NSError**)errorPtr;
 {
@@ -79,6 +105,32 @@
         return nil;
     } else {
         return data;
+    }
+}
+
++ (NSFileWrapper*)JSBFS_readFileWrapperFromURL:(NSURL*)url error:(NSError**)errorPtr;
+{
+    NSError* outerError = nil;
+    __block NSError* innerError = nil;
+    __block NSFileWrapper* fileWrapper = nil;
+    NSFileCoordinator* c = [[NSFileCoordinator alloc] init];
+    [c coordinateReadingItemAtURL:url
+                          options:NSFileCoordinatorReadingResolvesSymbolicLink
+                            error:&outerError
+                       byAccessor:^(NSURL * _Nonnull newURL)
+     {
+         fileWrapper = [[NSFileWrapper alloc] initWithURL:newURL
+                                                  options:NSFileWrapperReadingImmediate
+                                                    error:&innerError];
+     }];
+    if (outerError) {
+        if (errorPtr != NULL) { *errorPtr = outerError; }
+        return nil;
+    } else if (innerError || !fileWrapper) {
+        if (errorPtr != NULL) { *errorPtr = innerError; }
+        return nil;
+    } else {
+        return fileWrapper;
     }
 }
 

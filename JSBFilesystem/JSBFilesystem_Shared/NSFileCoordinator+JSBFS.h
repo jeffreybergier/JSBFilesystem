@@ -45,8 +45,16 @@
                   error:(NSError * _Nullable *)errorPtr
 NS_SWIFT_NAME(JSBFS_write(_:to:));
 
++ (BOOL)JSBFS_writeFileWrapper:(NSFileWrapper* _Nonnull)fileWrapper
+                         toURL:(NSURL* _Nonnull)url
+                         error:(NSError * _Nullable *)errorPtr
+NS_SWIFT_NAME(JSBFS_write(_:to:));
+
 + (NSData* _Nullable)JSBFS_readDataFromURL:(NSURL* _Nonnull)url error:(NSError* _Nullable*)errorPtr
 NS_SWIFT_NAME(JSBFS_readData(from:));
+
++ (NSFileWrapper* _Nullable)JSBFS_readFileWrapperFromURL:(NSURL* _Nonnull)url error:(NSError* _Nullable*)errorPtr
+NS_SWIFT_NAME(JSBFS_readFileWrapper(from:));
 
 + (BOOL)JSBFS_recursivelyDeleteDirectoryOrFileAtURL:(NSURL* _Nonnull)url error:(NSError* _Nullable*)errorPtr
 NS_SWIFT_NAME(JSBFS_recursivelyDeleteDirectoryOrFile(at:));

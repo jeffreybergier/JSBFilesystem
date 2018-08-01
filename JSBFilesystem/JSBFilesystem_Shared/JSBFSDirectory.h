@@ -40,17 +40,19 @@
                 appendingPathComponent:(NSString* _Nullable)pathComponent
                         createIfNeeded:(BOOL)create
                               sortedBy:(JSBFSDirectorySort)sortedBy
-                                 error:(NSError** _Nullable)errorPtr;
+                                 error:(NSError*_Nullable*)errorPtr;
 - (instancetype _Nullable)initWithDirectoryURL:(NSURL* _Nonnull)url
                                 createIfNeeded:(BOOL)create
                                       sortedBy:(JSBFSDirectorySort)sortedBy
-                                         error:(NSError** _Nullable)errorPtr;
-- (NSURL* _Nullable)urlAtIndex:(NSInteger)index error:(NSError** _Nullable)errorPtr;
-- (NSData* _Nullable)dataAtIndex:(NSInteger)index error:(NSError** _Nullable)errorPtr;
-- (BOOL)replaceFileAtIndex:(NSInteger)index withData:(NSData* _Nonnull)data error:(NSError** _Nullable)errorPtr;
-- (BOOL)deleteFileAtIndex:(NSInteger)index error:(NSError** _Nullable)errorPtr;
-- (BOOL)appendFileNamed:(NSString* _Nonnull)fileName withData:(NSData* _Nonnull)data error:(NSError** _Nullable)errorPtr;
-- (NSInteger)contentsCount:(NSError** _Nullable)errorPtr
+                                         error:(NSError*_Nullable*)errorPtr;
+- (NSURL* _Nullable)urlAtIndex:(NSInteger)index error:(NSError*_Nullable*)errorPtr;
+- (NSData* _Nullable)dataAtIndex:(NSInteger)index error:(NSError*_Nullable*)errorPtr;
+- (NSFileWrapper* _Nullable)fileWrapperAtIndex:(NSInteger)index error:(NSError*_Nullable*)errorPtr;
+- (BOOL)replaceItemAtIndex:(NSInteger)index withFileWrapper:(NSFileWrapper* _Nonnull)fileWrapper error:(NSError*_Nullable*)errorPtr;
+- (BOOL)replaceFileAtIndex:(NSInteger)index withData:(NSData* _Nonnull)data error:(NSError*_Nullable*)errorPtr;
+- (BOOL)deleteFileAtIndex:(NSInteger)index error:(NSError*_Nullable*)errorPtr;
+- (BOOL)createFileNamed:(NSString* _Nonnull)fileName withData:(NSData* _Nonnull)data error:(NSError*_Nullable*)errorPtr;
+- (NSInteger)contentsCount:(NSError*_Nullable*)errorPtr
 __attribute__((swift_error(nonnull_error)));
 
 @end

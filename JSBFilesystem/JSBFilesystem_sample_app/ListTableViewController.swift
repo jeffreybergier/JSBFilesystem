@@ -72,7 +72,7 @@ class ListTableViewController: UITableViewController {
                 case 0..<6:
                     let data = Data("This is file #\(fileCount)".utf8)
                     let fileName = UUID().uuidString + ".txt"
-                    try self.directory.appendFileNamed(fileName, with: data)
+                    try self.directory.createFileNamed(fileName, with: data)
                     fileCount += 1
                 case 6..<8:
                     let v = self.tableView.indexPathsForVisibleRows ?? []
