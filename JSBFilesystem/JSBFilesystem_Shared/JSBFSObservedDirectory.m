@@ -45,6 +45,8 @@
 
 @dynamic changesObserved;
 
+// MARK: Init
+
 - (instancetype)initWithDirectoryURL:(NSURL*)url
                       createIfNeeded:(BOOL)create
                             sortedBy:(JSBFSDirectorySort)sortedBy
@@ -66,6 +68,8 @@
 
     return self;
 }
+
+// MARK: Special Subclass API
 
 - (void)forceUpdate;
 {
@@ -112,28 +116,7 @@
     return self->_changesObserved;
 }
 
-- (NSInteger)contentsCount:(NSError** _Nullable)errorPtr;
-{
-    NSArray* state = [self internalState];
-    if (state) {
-        return [state count];
-    } else {
-        return 0;
-    }
-}
-
-- (NSURL*)urlAtIndex:(NSInteger)index error:(NSError**)errorPtr;
-{
-    if ([self changesObserved] == NULL) { return [super urlAtIndex:index error:errorPtr]; }
-    return [[[self internalState] objectAtIndex:index] fileURL];
-}
-
-- (NSData*)dataAtIndex:(NSInteger)index error:(NSError**)errorPtr;
-{
-    if ([self changesObserved] == NULL) { return [super dataAtIndex:index error:errorPtr]; }
-    NSURL* url = [self urlAtIndex:index error:nil];
-    return [NSFileCoordinator JSBFS_readDataFromURL:url error:errorPtr];
-}
+// MARK: NSFilePresenter Delegate
 
 - (NSURL*)presentedItemURL;
 {
@@ -149,5 +132,46 @@
 {
     [self forceUpdate];
 }
+
+// MARK: Basic API
+
+- (NSInteger)contentsCount:(NSError*_Nullable*)errorPtr;
+{
+    __block NSError* error = nil;
+    __block NSInteger count = -1;
+    if ([self changesObserved] != NULL) {
+        count = [[self internalState] count];
+    } else {
+        count = [super contentsCount:&error];
+    }
+    if (error || count == -1) {
+        if (errorPtr != NULL) { *errorPtr = error; }
+        return 0;
+    }
+    return count;
+}
+
+// MARK: URL Api
+
+- (NSURL* _Nullable)urlAtIndex:(NSInteger)index error:(NSError*_Nullable*)errorPtr;
+{
+    __block NSError* error = nil;
+    __block NSURL* url = nil;
+    if ([self changesObserved] != NULL) {
+        url = [[[self internalState] objectAtIndex:index] fileURL];
+    } else {
+        url = [super urlAtIndex:index error:&error];
+    }
+    if (error || !url) {
+        if (errorPtr != NULL) { *errorPtr = error; }
+        return nil;
+    }
+    return url;
+}
+
+// MARK: Data API - Read and Write Data
+
+// MARK: File Wrapper API - Read and Write File Wrappers
+
 
 @end

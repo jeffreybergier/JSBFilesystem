@@ -64,7 +64,7 @@ class ListTableViewController: UITableViewController {
 
         var fileCount: Int = (try? self.directory.contentsCount()) ?? 0
         var loopCount = 0
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
             let mod = loopCount % 10
             loopCount += 1
             do {
@@ -84,7 +84,7 @@ class ListTableViewController: UITableViewController {
                     guard v.isEmpty == false else { return }
                     let indexPath = v[Int.random(in: 0..<v.count)]
                     let data = Data("This file was modified".utf8)
-                    try self.directory.replaceFile(at: indexPath.row, with: data)
+                    try self.directory.replaceItem(at: indexPath.row, with: data)
                 default:
                     fatalError()
                 }

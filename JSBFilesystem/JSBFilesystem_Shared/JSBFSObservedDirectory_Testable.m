@@ -50,8 +50,11 @@
 
     _internalState = rhs;
     JSBFSObservedDirectoryChangeBlock block = [self changesObserved];
+    
     if (changes && block != NULL) {
-        block(changes);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            block(changes);
+        });
     }
 }
 
@@ -61,6 +64,7 @@
 - (instancetype _Nullable)initWithIndexSetResult:(IGListIndexSetResult* _Nonnull)r;
 {
     self = [super initWithIndexSetResult:r];
+    if (!self) { return nil; }
     self->_updates = [r updates];
     return self;
 }
