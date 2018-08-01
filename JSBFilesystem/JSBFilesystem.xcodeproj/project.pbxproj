@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		50AD03FE2112218F00C0C88D /* FileWrapperTestImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 50AD03FD2112218F00C0C88D /* FileWrapperTestImage.png */; };
+		50AD03FF2112218F00C0C88D /* FileWrapperTestImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 50AD03FD2112218F00C0C88D /* FileWrapperTestImage.png */; };
 		50C5D83B2110B3D800A2B21E /* JSBFilesystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C5D8312110B3D700A2B21E /* JSBFilesystem.framework */; };
 		50C5D8572110B3F000A2B21E /* JSBFilesystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C5D84E2110B3F000A2B21E /* JSBFilesystem.framework */; };
 		50C5D8752110B57300A2B21E /* JSBFSFileComparison.h in Headers */ = {isa = PBXBuildFile; fileRef = 50C5D8672110B57200A2B21E /* JSBFSFileComparison.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -100,6 +102,7 @@
 		0CE89C957CF6CF483A0DC6FA /* Pods_JSBFilesystem_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JSBFilesystem_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E41E0F0924344DAB0EB0EDD /* Pods-JSBFilesystem_macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JSBFilesystem_macOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-JSBFilesystem_macOS/Pods-JSBFilesystem_macOS.release.xcconfig"; sourceTree = "<group>"; };
 		38463B70BFE62FBCD17EA35A /* Pods-JSBFilesystem_iOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JSBFilesystem_iOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-JSBFilesystem_iOSTests/Pods-JSBFilesystem_iOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		50AD03FD2112218F00C0C88D /* FileWrapperTestImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FileWrapperTestImage.png; sourceTree = "<group>"; };
 		50C5D8312110B3D700A2B21E /* JSBFilesystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JSBFilesystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		50C5D8352110B3D700A2B21E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50C5D83A2110B3D800A2B21E /* JSBFilesystem_macOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JSBFilesystem_macOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -293,6 +296,7 @@
 				50C5D8932110B59D00A2B21E /* Directory_Tests.swift */,
 				50C5D8922110B59D00A2B21E /* DirectoryObserver_Tests.swift */,
 				50C5D8912110B59D00A2B21E /* NSFileCoordinator+Easy_Tests.swift */,
+				50AD03FD2112218F00C0C88D /* FileWrapperTestImage.png */,
 			);
 			path = JSBFielsystem_shared_tests;
 			sourceTree = "<group>";
@@ -521,6 +525,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50AD03FE2112218F00C0C88D /* FileWrapperTestImage.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -535,6 +540,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50AD03FF2112218F00C0C88D /* FileWrapperTestImage.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

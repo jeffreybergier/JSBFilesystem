@@ -356,7 +356,50 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
     }
 
     func testFileWrapperCreation() {
-
+        /*
+         Schema:
+         - Parent:
+            - Child1: "TextData.txt" - "This is a Test" - utf8
+            - Child2: "ImageData.png"
+        */
+        let child1Name = "TextData.txt"
+        let child2Name = "ImageData.png"
+        let child1RawString = "This is a Test"
+        let parentWrapperURL = self.dirURL.appendingPathComponent("TestWrapper.package")
+        var child2BundleData: Data!
+        // construct a file wrapper and write it to disk
+        do {
+            let child2BundleURL = Bundle(for: type(of: self)).url(forResource: "FileWrapperTestImage", withExtension: "png")!
+            child2BundleData = try Data(contentsOf: child2BundleURL)
+            let child1RawData = Data(child1RawString.utf8)
+            let child2Wrapper = FileWrapper(regularFileWithContents: child2BundleData)
+            let child1Wrapper = FileWrapper(regularFileWithContents: child1RawData)
+            child2Wrapper.preferredFilename = child2Name
+            child1Wrapper.preferredFilename = child1Name
+            let parentWrapper = FileWrapper(directoryWithFileWrappers: [
+                "Child1" : child1Wrapper,
+                "Child2" : child2Wrapper
+                ])
+            try FileManager.default.createDirectory(at: parentWrapperURL, withIntermediateDirectories: true, attributes: nil)
+            try NSFileCoordinator.JSBFS_write(parentWrapper, to: parentWrapperURL)
+            XCTAssert(true)
+        } catch {
+            XCTFail(String(describing: error))
+        }
+        // verify it was written by reading its data and confirming their contents
+        do {
+            let child1URL = parentWrapperURL.appendingPathComponent(child1Name)
+            let child1String = try String(contentsOf: child1URL)
+            XCTAssert(child1String == child1RawString)
+            let child2URL = parentWrapperURL.appendingPathComponent(child2Name)
+            let child2Data = try Data(contentsOf: child2URL)
+            XCTAssert(child2Data == child2BundleData)
+            let directory = try JSBFSDirectory(directoryURL: parentWrapperURL, createIfNeeded: false, sortedBy: JSBFSDirectorySort.nameAFirst)
+            let count = try directory.contentsCount()
+            XCTAssert(count == 2)
+        } catch {
+            XCTFail(String(describing: error))
+        }
     }
 }
 
