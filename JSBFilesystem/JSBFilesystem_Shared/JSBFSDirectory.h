@@ -47,12 +47,15 @@
                                          error:(NSError*_Nullable*)errorPtr;
 - (NSURL* _Nullable)urlAtIndex:(NSInteger)index error:(NSError*_Nullable*)errorPtr;
 - (NSData* _Nullable)dataAtIndex:(NSInteger)index error:(NSError*_Nullable*)errorPtr;
-- (NSFileWrapper* _Nullable)fileWrapperAtIndex:(NSInteger)index error:(NSError*_Nullable*)errorPtr;
-- (BOOL)replaceItemAtIndex:(NSInteger)index withFileWrapper:(NSFileWrapper* _Nonnull)fileWrapper error:(NSError*_Nullable*)errorPtr;
 - (BOOL)replaceFileAtIndex:(NSInteger)index withData:(NSData* _Nonnull)data error:(NSError*_Nullable*)errorPtr;
 - (BOOL)deleteFileAtIndex:(NSInteger)index error:(NSError*_Nullable*)errorPtr;
 - (BOOL)createFileNamed:(NSString* _Nonnull)fileName withData:(NSData* _Nonnull)data error:(NSError*_Nullable*)errorPtr;
 - (NSInteger)contentsCount:(NSError*_Nullable*)errorPtr
 __attribute__((swift_error(nonnull_error)));
+/// Refer to Docs for how to use File Packages and NSFileWrappers
+/// https://developer.apple.com/library/archive/documentation/CoreFoundation/Conceptual/CFBundles/DocumentPackages/DocumentPackages.html#//apple_ref/doc/uid/10000123i-CH106-SW1
+/// https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/FileSystemProgrammingGuide/FileWrappers/FileWrappers.html#//apple_ref/doc/uid/TP40010672-CH13-DontLinkElementID_5
+- (NSFileWrapper* _Nullable)fileWrapperAtIndex:(NSInteger)index error:(NSError*_Nullable*)errorPtr;
+- (BOOL)replaceItemAtIndex:(NSInteger)index withFileWrapper:(NSFileWrapper* _Nonnull)fileWrapper error:(NSError*_Nullable*)errorPtr;
 
 @end
