@@ -340,5 +340,56 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
             XCTFail(String(describing: error))
         }
     }
+
+    /// Refer to Documentation on how to read and write and verify file wrappers
+    /// https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/FileSystemProgrammingGuide/FileWrappers/FileWrappers.html#//apple_ref/doc/uid/TP40010672-CH13-DontLinkElementID_5
+    func testFileWrapperRead() {
+        let dirURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+            .appendingPathComponent(UUID, isDirectory: true)
+            .appendingPathComponent(UUID, isDirectory: true)
+        do {
+            let rawString = "this is a test"
+            try FileManager.default.createDirectory(at: dirURL, withIntermediateDirectories: true, attributes: nil)
+            let innerData = Data(rawString.utf8)
+            try innerData.write(to: dirURL.appendingPathComponent("innerFile.txt"))
+            let parentWrapper = try NSFileCoordinator.JSBFS_readFileWrapper(from: dirURL)
+            XCTAssert(parentWrapper.isDirectory)
+            XCTAssert(parentWrapper.fileWrappers!.count == 1)
+            let fileWrapper = parentWrapper.fileWrappers?["innerFile.txt"]
+            let fileData = fileWrapper?.regularFileContents
+            let fileString = String(data: fileData!, encoding: .utf8)!
+            XCTAssert(fileString == rawString)
+        } catch {
+            XCTFail(String(describing: error))
+        }
+    }
+
+    func testFileWrapperWrite() {
+        let sourceURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+            .appendingPathComponent(UUID, isDirectory: true)
+            .appendingPathComponent(UUID, isDirectory: true)
+        let destinationURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+            .appendingPathComponent(UUID, isDirectory: true)
+            .appendingPathComponent(UUID, isDirectory: true)
+        do {
+            try FileManager.default.createDirectory(at: sourceURL, withIntermediateDirectories: true, attributes: nil)
+            let childFileText = "this is a test"
+            let childFileName = "innerFile.txt"
+            let childFileData = Data(childFileText.utf8)
+            try childFileData.write(to: sourceURL.appendingPathComponent(childFileName))
+            let parentFileWrapper = try FileWrapper(url: sourceURL, options: .immediate)
+            XCTAssert(parentFileWrapper.isDirectory)
+            XCTAssert(parentFileWrapper.fileWrappers!.count == 1)
+            try FileManager.default.createDirectory(at: destinationURL.deletingLastPathComponent(), withIntermediateDirectories: true, attributes: nil)
+            try NSFileCoordinator.JSBFS_write(parentFileWrapper, to: destinationURL)
+            let value = try NSFileCoordinator.JSBFS_fileExistsAndIsDirectory(at: destinationURL)
+            XCTAssert(value.value1 && value.value2)
+            let childFileDestinationData = try Data(contentsOf: destinationURL.appendingPathComponent(childFileName))
+            let childFileDestinationString = String(data: childFileDestinationData, encoding: .utf8)!
+            XCTAssert(childFileDestinationString == childFileText)
+        } catch {
+            XCTFail(String(describing: error))
+        }
+    }
 }
 
