@@ -57,7 +57,7 @@
 {
     NSString* og = [super description];
     return [NSString stringWithFormat:@"%@ Insertions: %lu, Deletions: %lu, Moves: %lu",
-            og, [[self insertions] count], [[self deletions] count], [[self moves] count]];
+            og, (unsigned long)[[self insertions] count], (unsigned long)[[self deletions] count], (unsigned long)[[self moves] count]];
 }
 
 @end
