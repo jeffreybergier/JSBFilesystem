@@ -47,6 +47,29 @@
 
 // MARK: Init
 
+- (instancetype)initWithDirectoryURL:(NSURL* _Nonnull)url
+                      createIfNeeded:(BOOL)create
+                            sortedBy:(JSBFSDirectorySort)sortedBy
+                          changeKind:(JSBFSObservedDirectyChangeKind)changeKind
+                               error:(NSError* _Nullable*)errorPtr;
+{
+    self = [self initWithDirectoryURL:url createIfNeeded:create sortedBy:sortedBy error:errorPtr];
+    self->_changeKind = changeKind;
+    return self;
+}
+
+- (instancetype _Nullable)initWithBase:(NSSearchPathDirectory)base
+                appendingPathComponent:(NSString* _Nullable)pathComponent
+                        createIfNeeded:(BOOL)create
+                              sortedBy:(JSBFSDirectorySort)sortedBy
+                            changeKind:(JSBFSObservedDirectyChangeKind)changeKind
+                                 error:(NSError*_Nullable*)errorPtr;
+{
+    self = [self initWithBase:base appendingPathComponent:pathComponent createIfNeeded:create sortedBy:sortedBy error:errorPtr];
+    self->_changeKind = changeKind;
+    return self;
+}
+
 - (instancetype)initWithDirectoryURL:(NSURL*)url
                       createIfNeeded:(BOOL)create
                             sortedBy:(JSBFSDirectorySort)sortedBy
@@ -62,6 +85,7 @@
         return nil;
     }
 
+    self->_changeKind = JSBFSObservedDirectyChangeKindModificationsAsInsertionsDeletions;
     self->_changesObserved = nil;
     self->_internalState = [[NSArray alloc] init];
     self->_queue = [NSOperationQueue serialQueue];
@@ -80,8 +104,21 @@
                                                          sortedBy:[self sortedBy]
                                                             error:&error];
     if (error) { NSLog(@"%@", error); }
-    IGListIndexSetResult* result = [IGListDiff(lhs, rhs, IGListDiffEquality) resultForBatchUpdates];
-    JSBFSDirectoryChanges* changes = [[JSBFSDirectoryChanges alloc] initWithIndexSetResult:result];
+    JSBFSDirectoryChanges* changes = nil;
+    switch ([self changeKind]) {
+        case JSBFSObservedDirectyChangeKindModificationsAsInsertionsDeletions:
+        {
+            IGListIndexSetResult* result = [IGListDiff(lhs, rhs, IGListDiffEquality) resultForBatchUpdates];
+            changes = [[JSBFSDirectoryChanges alloc] initWithIndexSetResult:result];
+            break;
+        }
+        case JSBFSObservedDirectyChangeKindIncludingModifications:
+        {
+            IGListIndexSetResult* result = IGListDiff(lhs, rhs, IGListDiffEquality);
+            changes = [[JSBFSDirectoryChangesFull alloc] initWithIndexSetResult:result];
+            break;
+        }
+    }
 
     [self setInternalState:rhs];
     JSBFSObservedDirectoryChangeBlock block = [self changesObserved];

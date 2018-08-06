@@ -47,12 +47,12 @@ NS_SWIFT_NAME(JSBFS_initFailedException());
 @end
 
 typedef NS_ENUM(NSInteger, JSBFSDirectorySort) {
-    JSBFSDirectoryNameAFirst,
-    JSBFSDirectoryNameZFirst,
-    JSBFSDirectoryCreationNewestFirst,
-    JSBFSDirectoryCreationOldestFirst,
-    JSBFSDirectoryModificationNewestFirst,
-    JSBFSDirectoryModificationOldestFirst
+    JSBFSDirectorySortNameAFirst,
+    JSBFSDirectorySortNameZFirst,
+    JSBFSDirectorySortCreationNewestFirst,
+    JSBFSDirectorySortCreationOldestFirst,
+    JSBFSDirectorySortModificationNewestFirst,
+    JSBFSDirectorySortModificationOldestFirst
 };
 
 @interface JSBFSDirectorySortConverter: NSObject

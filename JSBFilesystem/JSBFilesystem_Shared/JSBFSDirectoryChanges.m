@@ -62,6 +62,16 @@
 
 @end
 
+@implementation JSBFSDirectoryChangesFull
+- (instancetype _Nullable)initWithIndexSetResult:(IGListIndexSetResult* _Nonnull)r;
+{
+    self = [super initWithIndexSetResult:r];
+    if (!self) { return nil; }
+    self->_updates = [r updates];
+    return self;
+}
+@end
+
 @implementation JSBFSDirectoryChanges (IGListKit)
 - (instancetype _Nullable)initWithIndexSetResult:(IGListIndexSetResult* _Nonnull)r;
 {

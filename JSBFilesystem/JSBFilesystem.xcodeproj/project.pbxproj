@@ -29,12 +29,8 @@
 		50C5D8842110B57300A2B21E /* SmallCategories.h in Headers */ = {isa = PBXBuildFile; fileRef = 50C5D86E2110B57200A2B21E /* SmallCategories.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50C5D8852110B57300A2B21E /* JSBFSDirectory.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C5D86F2110B57200A2B21E /* JSBFSDirectory.m */; };
 		50C5D8862110B57300A2B21E /* JSBFSDirectory.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C5D86F2110B57200A2B21E /* JSBFSDirectory.m */; };
-		50C5D8872110B57300A2B21E /* JSBFSObservedDirectory_Testable.h in Headers */ = {isa = PBXBuildFile; fileRef = 50C5D8702110B57200A2B21E /* JSBFSObservedDirectory_Testable.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		50C5D8882110B57300A2B21E /* JSBFSObservedDirectory_Testable.h in Headers */ = {isa = PBXBuildFile; fileRef = 50C5D8702110B57200A2B21E /* JSBFSObservedDirectory_Testable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50C5D8892110B57300A2B21E /* NSFileCoordinator+JSBFS.h in Headers */ = {isa = PBXBuildFile; fileRef = 50C5D8712110B57200A2B21E /* NSFileCoordinator+JSBFS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50C5D88A2110B57300A2B21E /* NSFileCoordinator+JSBFS.h in Headers */ = {isa = PBXBuildFile; fileRef = 50C5D8712110B57200A2B21E /* NSFileCoordinator+JSBFS.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		50C5D88B2110B57300A2B21E /* JSBFSObservedDirectory_Testable.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C5D8722110B57200A2B21E /* JSBFSObservedDirectory_Testable.m */; };
-		50C5D88C2110B57300A2B21E /* JSBFSObservedDirectory_Testable.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C5D8722110B57200A2B21E /* JSBFSObservedDirectory_Testable.m */; };
 		50C5D88D2110B57300A2B21E /* SmallCategories.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C5D8732110B57200A2B21E /* SmallCategories.m */; };
 		50C5D88E2110B57300A2B21E /* SmallCategories.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C5D8732110B57200A2B21E /* SmallCategories.m */; };
 		50C5D88F2110B57300A2B21E /* JSBFSFileComparison.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C5D8742110B57300A2B21E /* JSBFSFileComparison.m */; };
@@ -120,9 +116,7 @@
 		50C5D86D2110B57200A2B21E /* JSBFSObservedDirectory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSBFSObservedDirectory.m; sourceTree = "<group>"; };
 		50C5D86E2110B57200A2B21E /* SmallCategories.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmallCategories.h; sourceTree = "<group>"; };
 		50C5D86F2110B57200A2B21E /* JSBFSDirectory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSBFSDirectory.m; sourceTree = "<group>"; };
-		50C5D8702110B57200A2B21E /* JSBFSObservedDirectory_Testable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSBFSObservedDirectory_Testable.h; sourceTree = "<group>"; };
 		50C5D8712110B57200A2B21E /* NSFileCoordinator+JSBFS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileCoordinator+JSBFS.h"; sourceTree = "<group>"; };
-		50C5D8722110B57200A2B21E /* JSBFSObservedDirectory_Testable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSBFSObservedDirectory_Testable.m; sourceTree = "<group>"; };
 		50C5D8732110B57200A2B21E /* SmallCategories.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmallCategories.m; sourceTree = "<group>"; };
 		50C5D8742110B57300A2B21E /* JSBFSFileComparison.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSBFSFileComparison.m; sourceTree = "<group>"; };
 		50C5D8912110B59D00A2B21E /* NSFileCoordinator+Easy_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSFileCoordinator+Easy_Tests.swift"; sourceTree = "<group>"; };
@@ -278,8 +272,6 @@
 				50C5D86C2110B57200A2B21E /* JSBFSDirectoryChanges.m */,
 				50C5D8672110B57200A2B21E /* JSBFSFileComparison.h */,
 				50C5D8742110B57300A2B21E /* JSBFSFileComparison.m */,
-				50C5D8702110B57200A2B21E /* JSBFSObservedDirectory_Testable.h */,
-				50C5D8722110B57200A2B21E /* JSBFSObservedDirectory_Testable.m */,
 				50C5D86B2110B57200A2B21E /* JSBFSObservedDirectory.h */,
 				50C5D86D2110B57200A2B21E /* JSBFSObservedDirectory.m */,
 				50C5D8712110B57200A2B21E /* NSFileCoordinator+JSBFS.h */,
@@ -340,7 +332,6 @@
 				50C5D8832110B57300A2B21E /* SmallCategories.h in Headers */,
 				50C5D8752110B57300A2B21E /* JSBFSFileComparison.h in Headers */,
 				50C5D87D2110B57300A2B21E /* JSBFSObservedDirectory.h in Headers */,
-				50C5D8872110B57300A2B21E /* JSBFSObservedDirectory_Testable.h in Headers */,
 				50C5D8792110B57300A2B21E /* JSBFSDirectory.h in Headers */,
 				50C5D89B2110B85200A2B21E /* JSBFilesystem.h in Headers */,
 				50C5D87B2110B57300A2B21E /* JSBFSDirectoryChanges.h in Headers */,
@@ -355,7 +346,6 @@
 				50C5D8842110B57300A2B21E /* SmallCategories.h in Headers */,
 				50C5D8762110B57300A2B21E /* JSBFSFileComparison.h in Headers */,
 				50C5D87E2110B57300A2B21E /* JSBFSObservedDirectory.h in Headers */,
-				50C5D8882110B57300A2B21E /* JSBFSObservedDirectory_Testable.h in Headers */,
 				50C5D87A2110B57300A2B21E /* JSBFSDirectory.h in Headers */,
 				50C5D89C2110B85200A2B21E /* JSBFilesystem.h in Headers */,
 				50C5D87C2110B57300A2B21E /* JSBFSDirectoryChanges.h in Headers */,
@@ -712,7 +702,6 @@
 				50C5D8812110B57300A2B21E /* JSBFSObservedDirectory.m in Sources */,
 				50C5D88D2110B57300A2B21E /* SmallCategories.m in Sources */,
 				50C5D88F2110B57300A2B21E /* JSBFSFileComparison.m in Sources */,
-				50C5D88B2110B57300A2B21E /* JSBFSObservedDirectory_Testable.m in Sources */,
 				50C5D8772110B57300A2B21E /* NSFileCoordinator+JSBFS.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -736,7 +725,6 @@
 				50C5D8822110B57300A2B21E /* JSBFSObservedDirectory.m in Sources */,
 				50C5D88E2110B57300A2B21E /* SmallCategories.m in Sources */,
 				50C5D8902110B57300A2B21E /* JSBFSFileComparison.m in Sources */,
-				50C5D88C2110B57300A2B21E /* JSBFSObservedDirectory_Testable.m in Sources */,
 				50C5D8782110B57300A2B21E /* NSFileCoordinator+JSBFS.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

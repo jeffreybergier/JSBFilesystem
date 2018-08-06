@@ -77,11 +77,12 @@ class DirectoryObserver_BasicTests: XCTestCase {
     func testAddFileDiff() {
         let expectation = XCTestExpectation(description: "Change closure will be called, diff will show 1 added item")
         let sort = JSBFSDirectorySortConverter.defaultSort
-        self.observer = try! JSBFSObservedDirectory_Testable(directoryURL: self.dirURL,
-                                                             createIfNeeded: true,
-                                                             sortedBy: sort)
+        self.observer = try! JSBFSObservedDirectory(directoryURL: self.dirURL,
+                                                    createIfNeeded: true,
+                                                    sortedBy: sort,
+                                                    changeKind:.includingModifications)
         self.observer.changesObserved = { changes in
-            let changes = changes as! JSBFSDirectoryChanges_Testable
+            let changes = changes as! JSBFSDirectoryChangesFull
             XCTAssert(changes.insertions.count == 2)
             XCTAssert(changes.insertions.first! == 1)
             XCTAssert(changes.insertions.last! == 11)
@@ -101,11 +102,12 @@ class DirectoryObserver_BasicTests: XCTestCase {
     func testDeleteFileDiff() {
         let expectation = XCTestExpectation(description: "Change closure will be called, diff will show 1 added item")
         let sort = JSBFSDirectorySortConverter.defaultSort
-        self.observer = try! JSBFSObservedDirectory_Testable(directoryURL: self.dirURL,
-                                                             createIfNeeded: true,
-                                                             sortedBy: sort)
+        self.observer = try! JSBFSObservedDirectory(directoryURL: self.dirURL,
+                                                    createIfNeeded: true,
+                                                    sortedBy: sort,
+                                                    changeKind:.includingModifications)
         self.observer.changesObserved = { changes in
-            let changes = changes as! JSBFSDirectoryChanges_Testable
+            let changes = changes as! JSBFSDirectoryChangesFull
             XCTAssert(changes.deletions.count == 2)
             XCTAssert(changes.deletions.first! == 18)
             XCTAssert(changes.deletions.last! == 73)
@@ -124,11 +126,12 @@ class DirectoryObserver_BasicTests: XCTestCase {
     func testChangeFileDiff() {
         let expectation = XCTestExpectation(description: "Change closure will be called, diff will show 1 added item")
         let sort = JSBFSDirectorySortConverter.defaultSort
-        self.observer = try! JSBFSObservedDirectory_Testable(directoryURL: self.dirURL,
-                                                             createIfNeeded: true,
-                                                             sortedBy: sort)
+        self.observer = try! JSBFSObservedDirectory(directoryURL: self.dirURL,
+                                                    createIfNeeded: true,
+                                                    sortedBy: sort,
+                                                    changeKind:.includingModifications)
         self.observer.changesObserved = { changes in
-            let changes = changes as! JSBFSDirectoryChanges_Testable
+            let changes = changes as! JSBFSDirectoryChangesFull
             XCTAssert(changes.updates.count == 2)
             XCTAssert(changes.updates.first! == 18)
             XCTAssert(changes.updates.last! == 73)
@@ -148,16 +151,55 @@ class DirectoryObserver_BasicTests: XCTestCase {
     func testMoveFileDiff() {
         let expectation = XCTestExpectation(description: "Change closure will be called, diff will show 1 added item")
         let sort = JSBFSDirectorySort.modificationNewestFirst
-        self.observer = try! JSBFSObservedDirectory_Testable(directoryURL: self.dirURL,
-                                                             createIfNeeded: true,
-                                                             sortedBy: sort)
+        self.observer = try! JSBFSObservedDirectory(directoryURL: self.dirURL,
+                                                    createIfNeeded: true,
+                                                    sortedBy: sort,
+                                                    changeKind:.includingModifications)
         self.observer.changesObserved = { changes in
-            let changes = changes as! JSBFSDirectoryChanges_Testable
+            let changes = changes as! JSBFSDirectoryChangesFull
             XCTAssert(changes.updates.count == 1)
             XCTAssert(changes.moves.count == 5)
             XCTAssert(changes.moves.contains(where: { $0.from == 4 && $0.to == 0 }))
             XCTAssert(changes.deletions.isEmpty)
             XCTAssert(changes.insertions.isEmpty)
+            expectation.fulfill()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            let newData = Data("This was added".utf8)
+            try! newData.write(to: self.dirURL.appendingPathComponent("95.file"))
+        }
+        self.wait(for: [expectation], timeout: timeout)
+    }
+
+    func testChangesIncludingModifications() {
+        let expectation = XCTestExpectation(description: "Change closure should get JSBFSDirectoryChangesFull object")
+        let sort = JSBFSDirectorySort.modificationNewestFirst
+        self.observer = try! JSBFSObservedDirectory(directoryURL: self.dirURL,
+                                                    createIfNeeded: true,
+                                                    sortedBy: sort,
+                                                    changeKind:.includingModifications)
+        self.observer.changesObserved = { changes in
+            XCTAssert(changes.isMember(of: JSBFSDirectoryChangesFull.self))
+            XCTAssertFalse(changes.isMember(of: JSBFSDirectoryChanges.self))
+            expectation.fulfill()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            let newData = Data("This was added".utf8)
+            try! newData.write(to: self.dirURL.appendingPathComponent("95.file"))
+        }
+        self.wait(for: [expectation], timeout: timeout)
+    }
+
+    func testChangesWithModificationsAsInsertionsDeletions() {
+        let expectation = XCTestExpectation(description: "Change closure should get JSBFSDirectoryChanges object")
+        let sort = JSBFSDirectorySort.modificationNewestFirst
+        self.observer = try! JSBFSObservedDirectory(directoryURL: self.dirURL,
+                                                    createIfNeeded: true,
+                                                    sortedBy: sort,
+                                                    changeKind:.modificationsAsInsertionsDeletions)
+        self.observer.changesObserved = { changes in
+            XCTAssertFalse(changes.isMember(of: JSBFSDirectoryChangesFull.self))
+            XCTAssert(changes.isMember(of: JSBFSDirectoryChanges.self))
             expectation.fulfill()
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) {

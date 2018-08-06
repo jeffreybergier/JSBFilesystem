@@ -32,6 +32,11 @@
 #import "JSBFSDirectoryChanges.h"
 #import "JSBFSDirectory.h"
 
+typedef NS_ENUM(NSInteger, JSBFSObservedDirectyChangeKind) {
+    JSBFSObservedDirectyChangeKindIncludingModifications,
+    JSBFSObservedDirectyChangeKindModificationsAsInsertionsDeletions,
+};
+
 typedef void(^JSBFSObservedDirectoryChangeBlock)(JSBFSDirectoryChanges* _Nonnull changes);
 
 @interface JSBFSObservedDirectory: JSBFSDirectory
@@ -44,6 +49,29 @@ typedef void(^JSBFSObservedDirectoryChangeBlock)(JSBFSDirectoryChanges* _Nonnull
 /// This always calls back on the main queue. Its intended for UI use
 @property (nonatomic, strong) JSBFSObservedDirectoryChangeBlock _Nullable changesObserved;
 @property (readonly, nonatomic) NSInteger contentsCount;
+/// 
+/// Some collections support reloading data in a batch update and some do not
+/// `UICollectionView` does not support this but `UITableView` and `NSOutlineView` do
+/// When set to `JSBFSObservedDirectyChangeKindModificationsAsInsertionsDeletions`
+/// the `UICollectionView` behavior is performed. The `changesObserved` block will be
+/// called with a `JSBFSDirectoryChanges` object.
+/// When set to `JSBFSObservedDirectyChangeKindIncludingModifications`
+/// the more sophisticated behavior will be used. This will cause the `changesObserved`
+/// block to be called with a `JSBFSDirectoryChangesFull` object which contains the updates
+/// Make sure to cast it appropriately in your block.
+///
+@property (nonatomic) JSBFSObservedDirectyChangeKind changeKind;
+- (instancetype _Nullable)initWithDirectoryURL:(NSURL* _Nonnull)url
+                      createIfNeeded:(BOOL)create
+                            sortedBy:(JSBFSDirectorySort)sortedBy
+                          changeKind:(JSBFSObservedDirectyChangeKind)changeKind
+                               error:(NSError* _Nullable*)errorPtr;
+- (instancetype _Nullable)initWithBase:(NSSearchPathDirectory)base
+                appendingPathComponent:(NSString* _Nullable)pathComponent
+                        createIfNeeded:(BOOL)create
+                              sortedBy:(JSBFSDirectorySort)sortedBy
+                            changeKind:(JSBFSObservedDirectyChangeKind)changeKind
+                                 error:(NSError*_Nullable*)errorPtr;
 - (void)forceUpdate;
 @end
 

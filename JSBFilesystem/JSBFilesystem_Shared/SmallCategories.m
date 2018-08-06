@@ -66,21 +66,21 @@
 @implementation JSBFSDirectorySortConverter
 + (JSBFSDirectorySort)defaultSort;
 {
-    return JSBFSDirectoryNameAFirst;
+    return JSBFSDirectorySortNameAFirst;
 }
 + (NSURLResourceKey)resourceKeyForSort:(JSBFSDirectorySort)sort;
 {
     switch (sort) {
-        case JSBFSDirectoryNameAFirst:
-        case JSBFSDirectoryNameZFirst:
+        case JSBFSDirectorySortNameAFirst:
+        case JSBFSDirectorySortNameZFirst:
             return NSURLLocalizedNameKey;
 
-        case JSBFSDirectoryCreationNewestFirst:
-        case JSBFSDirectoryCreationOldestFirst:
+        case JSBFSDirectorySortCreationNewestFirst:
+        case JSBFSDirectorySortCreationOldestFirst:
             return NSURLCreationDateKey;
 
-        case JSBFSDirectoryModificationNewestFirst:
-        case JSBFSDirectoryModificationOldestFirst:
+        case JSBFSDirectorySortModificationNewestFirst:
+        case JSBFSDirectorySortModificationOldestFirst:
             return NSURLContentModificationDateKey;
     }
 }
@@ -88,13 +88,13 @@
 + (BOOL)orderedAscendingForSort:(JSBFSDirectorySort)sort;
 {
     switch (sort) {
-        case JSBFSDirectoryNameAFirst:
-        case JSBFSDirectoryCreationOldestFirst:
-        case JSBFSDirectoryModificationOldestFirst:
+        case JSBFSDirectorySortNameAFirst:
+        case JSBFSDirectorySortCreationOldestFirst:
+        case JSBFSDirectorySortModificationOldestFirst:
             return YES;
-        case JSBFSDirectoryNameZFirst:
-        case JSBFSDirectoryCreationNewestFirst:
-        case JSBFSDirectoryModificationNewestFirst:
+        case JSBFSDirectorySortNameZFirst:
+        case JSBFSDirectorySortCreationNewestFirst:
+        case JSBFSDirectorySortModificationNewestFirst:
             return NO;
     }
 }
