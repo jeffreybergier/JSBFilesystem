@@ -117,6 +117,27 @@
     return [NSFileCoordinator JSBFS_fileCountInDirectoryURL:[self url] error:errorPtr];
 }
 
+- (NSInteger)indexOfItemWithURL:(NSURL* _Nonnull)rhs error:(NSError*_Nullable*)errorPtr;
+{
+    NSError* error = nil;
+    NSInteger index = NSNotFound;
+    NSArray<JSBFSFileComparison*>* comparisons =
+    [NSFileCoordinator JSBFS_urlComparisonsForFilesInDirectoryURL:[self url]
+                                                         sortedBy:[self sortedBy]
+                                                            error:&error];
+    index = [comparisons indexOfObjectPassingTest:
+             ^BOOL(JSBFSFileComparison* lhs, NSUInteger idx, BOOL* stop) { return [[lhs fileURL] isEqual:rhs]; }];
+    
+    if (index == NSNotFound && !error) {
+        error = [[NSError alloc] initWithDomain:@"JSBFilesystem" code:1 userInfo:nil];
+    }
+    if (error) {
+        if (errorPtr != NULL) { *errorPtr = error; }
+        return NSNotFound;
+    }
+    return index;
+}
+
 // MARK: URL Api
 
 - (NSURL*)urlAtIndex:(NSInteger)index error:(NSError**)errorPtr;

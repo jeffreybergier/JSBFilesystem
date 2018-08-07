@@ -36,5 +36,6 @@
 @property (readonly, nonatomic, strong) NSDate* _Nonnull modificationDate;
 - (instancetype _Nonnull)initWithFileURL:(NSURL* _Nonnull)fileURL modificationDate:(NSDate* _Nonnull)modificationDate;
 - (id)diffIdentifier;
+- (BOOL)isEqual:(id)object;
 - (BOOL)isEqualToDiffableObject:(id)object;
 @end

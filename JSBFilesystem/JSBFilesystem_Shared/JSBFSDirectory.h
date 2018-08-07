@@ -51,6 +51,8 @@
 // MARK: Basic API
 - (BOOL)deleteFileAtIndex:(NSInteger)index error:(NSError*_Nullable*)errorPtr;
 - (NSInteger)contentsCount:(NSError*_Nullable*)errorPtr __attribute__((swift_error(nonnull_error)));
+/// Cocoa errors possible reading files from disk. If URL not found, returns NSNotFound and populates ErrorPtr in Objc - only throws error in Swift
+- (NSInteger)indexOfItemWithURL:(NSURL* _Nonnull)url error:(NSError*_Nullable*)errorPtr __attribute__((swift_error(nonnull_error)));
 
 // MARK: URL Api
 - (NSURL* _Nullable)urlAtIndex:(NSInteger)index error:(NSError*_Nullable*)errorPtr;

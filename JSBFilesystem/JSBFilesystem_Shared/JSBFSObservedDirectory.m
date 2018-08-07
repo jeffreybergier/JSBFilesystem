@@ -188,6 +188,24 @@
     return count;
 }
 
+- (NSInteger)indexOfItemWithURL:(NSURL* _Nonnull)rhs error:(NSError*_Nullable*)errorPtr;
+{
+    if ([self changesObserved] == NULL) {
+        return [super indexOfItemWithURL:rhs error:errorPtr];
+    }
+    NSInteger index = NSNotFound;
+    NSArray<JSBFSFileComparison*>* comparisons = [self internalState];
+    index = [comparisons indexOfObjectPassingTest:
+             ^BOOL(JSBFSFileComparison* lhs, NSUInteger idx, BOOL* stop) { return [[lhs fileURL] isEqual:rhs]; }];
+    
+    if (index == NSNotFound) {
+        NSError* error = [[NSError alloc] initWithDomain:@"JSBFilesystem" code:1 userInfo:nil];
+        if (errorPtr != NULL) { *errorPtr = error; }
+        return NSNotFound;
+    }
+    return index;
+}
+
 // MARK: URL Api
 
 - (NSURL* _Nullable)urlAtIndex:(NSInteger)index error:(NSError*_Nullable*)errorPtr;
