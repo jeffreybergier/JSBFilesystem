@@ -348,7 +348,7 @@
     NSError* outerError = nil;
     __block NSError* innerError = nil;
     __block NSArray<NSURL*>* contents = nil;
-    __block NSArray<JSBFSDirectoryFilterBlock>* filters = filters;
+    __block NSArray<JSBFSDirectoryFilterBlock>* filters = _filters;
     NSFileCoordinator* c = [[NSFileCoordinator alloc] init];
     [c prepareForReadingItemsAtURLs:contents
                             options:NSFileCoordinatorReadingResolvesSymbolicLink

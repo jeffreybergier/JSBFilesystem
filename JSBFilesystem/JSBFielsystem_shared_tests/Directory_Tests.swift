@@ -140,3 +140,91 @@ class Directory_BasicTests: XCTestCase {
         }
     }
 }
+
+class Directory_FilterTests: XCTestCase {
+
+    var UUID: String {
+        return Foundation.UUID().uuidString
+    }
+
+    var testPathComponent: String {
+        return "FileSystemTests/" + UUID + ".directory"
+    }
+
+    var dirURL: URL!
+    var directory: JSBFSDirectory!
+    var fm: FileManager { return FileManager.default }
+    let timeout: TimeInterval = 2
+    let delay: TimeInterval = 0.5
+    let originalCount = 100
+
+    override func setUp() {
+        super.setUp()
+
+        self.dirURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+            .appendingPathComponent(UUID, isDirectory: true)
+            .appendingPathComponent(testPathComponent, isDirectory: true)
+        do {
+            let count = self.originalCount
+            let fm = FileManager.default
+            try fm.createDirectory(at: dirURL, withIntermediateDirectories: true, attributes: nil)
+            for i in 0 ..< count {
+                let file = "\(i).file"
+                let url = dirURL.appendingPathComponent(file)
+                let data = Data(file.utf8)
+                try data.write(to: url)
+            }
+        } catch {
+            XCTFail(String(describing: error))
+        }
+    }
+    override func tearDown() {
+        super.tearDown()
+        try! self.fm.removeItem(at: self.dirURL)
+    }
+
+    func testFilterTwoPass() {
+        do {
+            let filter1: (URL) -> Bool = { _ in return true }
+            let filter2: (URL) -> Bool = { _ in return true }
+            self.directory = try JSBFSDirectory(directoryURL: self.dirURL,
+                                                createIfNeeded: true,
+                                                sortedBy: JSBFSDirectorySortConverter.defaultSort,
+                                                filteredBy: [filter1, filter2])
+            let contentsCount = try self.directory.contentsCount()
+            XCTAssert(contentsCount == self.originalCount)
+        } catch {
+            XCTFail(String(describing: error))
+        }
+    }
+
+    func testFilterOneFail() {
+        do {
+            let filter1: (URL) -> Bool = { _ in return true }
+            let filter2: (URL) -> Bool = { _ in return false }
+            self.directory = try JSBFSDirectory(directoryURL: self.dirURL,
+                                                createIfNeeded: true,
+                                                sortedBy: JSBFSDirectorySortConverter.defaultSort,
+                                                filteredBy: [filter1, filter2])
+            let contentsCount = try self.directory.contentsCount()
+            XCTAssert(contentsCount == 0)
+        } catch {
+            XCTFail(String(describing: error))
+        }
+    }
+
+    func testFilterBothFail() {
+        do {
+            let filter1: (URL) -> Bool = { _ in return false }
+            let filter2: (URL) -> Bool = { _ in return false }
+            self.directory = try JSBFSDirectory(directoryURL: self.dirURL,
+                                                createIfNeeded: true,
+                                                sortedBy: JSBFSDirectorySortConverter.defaultSort,
+                                                filteredBy: [filter1, filter2])
+            let contentsCount = try self.directory.contentsCount()
+            XCTAssert(contentsCount == 0)
+        } catch {
+            XCTFail(String(describing: error))
+        }
+    }
+}

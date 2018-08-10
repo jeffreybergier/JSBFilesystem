@@ -115,7 +115,17 @@
 
 - (NSInteger)contentsCount:(NSError**)errorPtr;
 {
-    return [NSFileCoordinator JSBFS_fileCountInDirectoryURL:[self url] error:errorPtr];
+    NSArray* filteredBy = [self filteredBy];
+    if ((!filteredBy) || [filteredBy count] == 0) {
+        // do the fast way if there are no filters
+        return [NSFileCoordinator JSBFS_fileCountInDirectoryURL:[self url] error:errorPtr];
+    } else {
+        NSArray* contents = [NSFileCoordinator JSBFS_urlComparisonsForFilesInDirectoryURL:[self url]
+                                                                                 sortedBy:[self sortedBy]
+                                                                               filteredBy:filteredBy
+                                                                                    error:errorPtr];
+        return [contents count];
+    }
 }
 
 - (NSInteger)indexOfItemWithURL:(NSURL* _Nonnull)rhs error:(NSError*_Nullable*)errorPtr;
