@@ -43,7 +43,11 @@ class Directory_BasicTests: XCTestCase {
 
     func testDirectoryCreation() {
         do {
-            let dir = try JSBFSDirectory(base: .cachesDirectory, appendingPathComponent: testPathComponent, createIfNeeded: true, sortedBy: JSBFSDirectorySortConverter.defaultSort)
+            let dir = try JSBFSDirectory(base: .cachesDirectory,
+                                         appendingPathComponent: testPathComponent,
+                                         createIfNeeded: true,
+                                         sortedBy: JSBFSDirectorySortConverter.defaultSort,
+                                         filteredBy: nil)
             var isDirectory: ObjCBool = false
             let isExisting = FileManager.default.fileExists(atPath: dir.url.path, isDirectory: &isDirectory)
             print(dir.url)
@@ -55,7 +59,11 @@ class Directory_BasicTests: XCTestCase {
 
     func testDirectoryNonCreation() {
         do {
-            _ = try JSBFSDirectory(base: .cachesDirectory, appendingPathComponent: testPathComponent, createIfNeeded: false, sortedBy: JSBFSDirectorySortConverter.defaultSort)
+            _ = try JSBFSDirectory(base: .cachesDirectory,
+                                   appendingPathComponent: testPathComponent,
+                                   createIfNeeded: false,
+                                   sortedBy: JSBFSDirectorySortConverter.defaultSort,
+                                   filteredBy: nil)
             XCTFail()
         } catch {
             XCTAssert(true)
@@ -74,7 +82,11 @@ class Directory_BasicTests: XCTestCase {
             XCTAssert(false, String(describing: error))
         }
         do {
-            _ = try JSBFSDirectory(base: .cachesDirectory, appendingPathComponent: testPathComponent, createIfNeeded: false, sortedBy: JSBFSDirectorySortConverter.defaultSort)
+            _ = try JSBFSDirectory(base: .cachesDirectory,
+                                   appendingPathComponent: testPathComponent,
+                                   createIfNeeded: false,
+                                   sortedBy: JSBFSDirectorySortConverter.defaultSort,
+                                   filteredBy: nil)
             XCTFail()
         } catch {
             XCTAssert(true)
@@ -87,7 +99,11 @@ class Directory_BasicTests: XCTestCase {
         let _data0 = Data(_string0.utf8)
         let _data1 = Data(_string1.utf8)
         do {
-            let dir = try JSBFSDirectory(base: .cachesDirectory, appendingPathComponent: testPathComponent, createIfNeeded: true, sortedBy: JSBFSDirectorySortConverter.defaultSort)
+            let dir = try JSBFSDirectory(base: .cachesDirectory,
+                                         appendingPathComponent: testPathComponent,
+                                         createIfNeeded: true,
+                                         sortedBy: JSBFSDirectorySortConverter.defaultSort,
+                                         filteredBy: nil)
             try dir.createFileNamed("data1.txt", with: _data0)
             try dir.createFileNamed("data2.txt", with: _data1)
             let index0URL = try dir.url(at: 0)
@@ -109,7 +125,11 @@ class Directory_BasicTests: XCTestCase {
 
     func testIndexOfItemAtURLNotFound() {
         do {
-            let dir = try JSBFSDirectory(base: .cachesDirectory, appendingPathComponent: testPathComponent, createIfNeeded: true, sortedBy: JSBFSDirectorySortConverter.defaultSort)
+            let dir = try JSBFSDirectory(base: .cachesDirectory,
+                                         appendingPathComponent: testPathComponent,
+                                         createIfNeeded: true,
+                                         sortedBy: JSBFSDirectorySortConverter.defaultSort,
+                                         filteredBy: nil)
             let fakeURL = URL(string:"file:///myfakeurl.txt")!
             let _ = try dir.indexOfItem(with: fakeURL)
             XCTFail("An error should have been thrown")

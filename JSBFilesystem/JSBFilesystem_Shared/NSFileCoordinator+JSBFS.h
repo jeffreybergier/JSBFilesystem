@@ -38,6 +38,8 @@
 - (instancetype)initWithValue1:(BOOL)value1 value2:(BOOL)value2;
 @end
 
+typedef BOOL(^JSBFSDirectoryFilterBlock)(NSURL* _Nonnull aURL);
+
 @interface NSFileCoordinator (JSBFS)
 
 + (BOOL)JSBFS_writeData:(NSData* _Nonnull)data
@@ -81,9 +83,13 @@ whileCoordinatingAccessAtURL:(NSURL* _Nonnull)url
 NS_SWIFT_NAME(JSBFS_execute(_:whileCoordinatingAccessAt:));
 
 /// Only supports URLResourceKey.localizedNameKey, .contentModificationDateKey, .creationDateKey
+/// The filteredBy array is executed within the file coordination block
+/// It is safe to read those file but not to write to them. Only read them for the purpose of testing them
+/// All tests must return YES for a file to be included. If it fails even one test, it will be filtered from the results.
 + (NSArray<JSBFSFileComparison*>* _Nullable)JSBFS_urlComparisonsForFilesInDirectoryURL:(NSURL* _Nonnull)url
                                                                               sortedBy:(JSBFSDirectorySort)sortedBy
+                                                                            filteredBy:(NSArray<JSBFSDirectoryFilterBlock>* _Nullable)filters
                                                                                  error:(NSError* _Nullable*)errorPtr
-NS_SWIFT_NAME(JSBFS_urlComparisonsForFiles(inDirectory:sortedBy:));
+NS_SWIFT_NAME(JSBFS_urlComparisonsForFiles(inDirectory:sortedBy:filteredBy:));
 
 @end

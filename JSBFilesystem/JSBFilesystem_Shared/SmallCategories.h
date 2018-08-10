@@ -35,6 +35,10 @@
 /// Returns a mutable array if the original array is mutable
 - (NSArray*)JSBFS_arrayByTransformingArrayContentsWithBlock:(id _Nonnull (^_Nonnull)(id item))transform
 NS_SWIFT_NAME(JSBFS_transformingArrayContents(withTransform:));
+/// Returns an immutable array if the original array is immutable
+/// Returns a mutable array if the original array is mutable
+- (NSArray*)JSBFS_arrayByFilteringArrayContentsWithBlock:(BOOL (^_Nonnull)(id item))isIncluded
+NS_SWIFT_NAME(JSBFS_filteringArrayContents(_:));
 @end
 
 @interface NSException (JSBFS)

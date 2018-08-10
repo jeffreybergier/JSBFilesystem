@@ -64,12 +64,14 @@ typedef void(^JSBFSObservedDirectoryChangeBlock)(JSBFSDirectoryChanges* _Nonnull
 - (instancetype _Nullable)initWithDirectoryURL:(NSURL* _Nonnull)url
                       createIfNeeded:(BOOL)create
                             sortedBy:(JSBFSDirectorySort)sortedBy
+                          filteredBy:(NSArray<JSBFSDirectoryFilterBlock>* _Nullable)filters
                           changeKind:(JSBFSObservedDirectyChangeKind)changeKind
                                error:(NSError* _Nullable*)errorPtr;
 - (instancetype _Nullable)initWithBase:(NSSearchPathDirectory)base
                 appendingPathComponent:(NSString* _Nullable)pathComponent
                         createIfNeeded:(BOOL)create
                               sortedBy:(JSBFSDirectorySort)sortedBy
+                            filteredBy:(NSArray<JSBFSDirectoryFilterBlock>* _Nullable)filters
                             changeKind:(JSBFSObservedDirectyChangeKind)changeKind
                                  error:(NSError*_Nullable*)errorPtr;
 - (void)forceUpdate;

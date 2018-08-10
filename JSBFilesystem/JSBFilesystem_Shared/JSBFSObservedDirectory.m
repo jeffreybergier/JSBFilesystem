@@ -47,13 +47,18 @@
 
 // MARK: Init
 
-- (instancetype)initWithDirectoryURL:(NSURL* _Nonnull)url
-                      createIfNeeded:(BOOL)create
-                            sortedBy:(JSBFSDirectorySort)sortedBy
-                          changeKind:(JSBFSObservedDirectyChangeKind)changeKind
-                               error:(NSError* _Nullable*)errorPtr;
+- (instancetype _Nullable)initWithDirectoryURL:(NSURL* _Nonnull)url
+                                createIfNeeded:(BOOL)create
+                                      sortedBy:(JSBFSDirectorySort)sortedBy
+                                    filteredBy:(NSArray<JSBFSDirectoryFilterBlock>* _Nullable)filters
+                                    changeKind:(JSBFSObservedDirectyChangeKind)changeKind
+                                         error:(NSError* _Nullable*)errorPtr;
 {
-    self = [self initWithDirectoryURL:url createIfNeeded:create sortedBy:sortedBy error:errorPtr];
+    self = [self initWithDirectoryURL:url
+                       createIfNeeded:create
+                             sortedBy:sortedBy
+                           filteredBy:filters
+                                error:errorPtr];
     self->_changeKind = changeKind;
     return self;
 }
@@ -62,10 +67,16 @@
                 appendingPathComponent:(NSString* _Nullable)pathComponent
                         createIfNeeded:(BOOL)create
                               sortedBy:(JSBFSDirectorySort)sortedBy
+                            filteredBy:(NSArray<JSBFSDirectoryFilterBlock>* _Nullable)filters
                             changeKind:(JSBFSObservedDirectyChangeKind)changeKind
                                  error:(NSError*_Nullable*)errorPtr;
 {
-    self = [self initWithBase:base appendingPathComponent:pathComponent createIfNeeded:create sortedBy:sortedBy error:errorPtr];
+    self = [self initWithBase:base
+       appendingPathComponent:pathComponent
+               createIfNeeded:create
+                     sortedBy:sortedBy
+                   filteredBy:filters
+                        error:errorPtr];
     self->_changeKind = changeKind;
     return self;
 }
@@ -73,12 +84,14 @@
 - (instancetype)initWithDirectoryURL:(NSURL*)url
                       createIfNeeded:(BOOL)create
                             sortedBy:(JSBFSDirectorySort)sortedBy
+                          filteredBy:(NSArray<JSBFSDirectoryFilterBlock>* _Nullable)filters
                                error:(NSError**)errorPtr;
 {
     NSError* error = nil;
     self = [super initWithDirectoryURL:url
                         createIfNeeded:create
                               sortedBy:sortedBy
+                            filteredBy:filters
                                  error:errorPtr];
     if (error) {
         if (errorPtr != NULL) { *errorPtr = error; }
@@ -102,6 +115,7 @@
     NSArray<JSBFSFileComparison*>* rhs =
     [NSFileCoordinator JSBFS_urlComparisonsForFilesInDirectoryURL:[self url]
                                                          sortedBy:[self sortedBy]
+                                                       filteredBy:[self filteredBy]
                                                             error:&error];
     if (error) { NSLog(@"%@", error); }
     JSBFSDirectoryChanges* changes = nil;

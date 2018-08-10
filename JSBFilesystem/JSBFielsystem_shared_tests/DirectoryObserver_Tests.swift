@@ -80,6 +80,7 @@ class DirectoryObserver_BasicTests: XCTestCase {
         self.observer = try! JSBFSObservedDirectory(directoryURL: self.dirURL,
                                                     createIfNeeded: true,
                                                     sortedBy: sort,
+                                                    filteredBy: nil,
                                                     changeKind:.includingModifications)
         self.observer.changesObserved = { changes in
             let changes = changes as! JSBFSDirectoryChangesFull
@@ -105,6 +106,7 @@ class DirectoryObserver_BasicTests: XCTestCase {
         self.observer = try! JSBFSObservedDirectory(directoryURL: self.dirURL,
                                                     createIfNeeded: true,
                                                     sortedBy: sort,
+                                                    filteredBy: nil,
                                                     changeKind:.includingModifications)
         self.observer.changesObserved = { changes in
             let changes = changes as! JSBFSDirectoryChangesFull
@@ -129,6 +131,7 @@ class DirectoryObserver_BasicTests: XCTestCase {
         self.observer = try! JSBFSObservedDirectory(directoryURL: self.dirURL,
                                                     createIfNeeded: true,
                                                     sortedBy: sort,
+                                                    filteredBy: nil,
                                                     changeKind:.includingModifications)
         self.observer.changesObserved = { changes in
             let changes = changes as! JSBFSDirectoryChangesFull
@@ -154,6 +157,7 @@ class DirectoryObserver_BasicTests: XCTestCase {
         self.observer = try! JSBFSObservedDirectory(directoryURL: self.dirURL,
                                                     createIfNeeded: true,
                                                     sortedBy: sort,
+                                                    filteredBy: nil,
                                                     changeKind:.includingModifications)
         self.observer.changesObserved = { changes in
             let changes = changes as! JSBFSDirectoryChangesFull
@@ -177,6 +181,7 @@ class DirectoryObserver_BasicTests: XCTestCase {
         self.observer = try! JSBFSObservedDirectory(directoryURL: self.dirURL,
                                                     createIfNeeded: true,
                                                     sortedBy: sort,
+                                                    filteredBy: nil,
                                                     changeKind:.includingModifications)
         self.observer.changesObserved = { changes in
             XCTAssert(changes.isMember(of: JSBFSDirectoryChangesFull.self))
@@ -196,6 +201,7 @@ class DirectoryObserver_BasicTests: XCTestCase {
         self.observer = try! JSBFSObservedDirectory(directoryURL: self.dirURL,
                                                     createIfNeeded: true,
                                                     sortedBy: sort,
+                                                    filteredBy: nil,
                                                     changeKind:.modificationsAsInsertionsDeletions)
         self.observer.changesObserved = { changes in
             XCTAssertFalse(changes.isMember(of: JSBFSDirectoryChangesFull.self))
@@ -214,6 +220,7 @@ class DirectoryObserver_BasicTests: XCTestCase {
             self.observer = try! JSBFSObservedDirectory(directoryURL: self.dirURL,
                                                         createIfNeeded: true,
                                                         sortedBy: .nameAFirst,
+                                                        filteredBy: nil,
                                                         changeKind:.modificationsAsInsertionsDeletions)
             self.observer.changesObserved = { _ in }
             let index0URL = try self.observer.url(at: 0)
@@ -238,6 +245,7 @@ class DirectoryObserver_BasicTests: XCTestCase {
             self.observer = try! JSBFSObservedDirectory(directoryURL: self.dirURL,
                                                         createIfNeeded: true,
                                                         sortedBy: .nameAFirst,
+                                                        filteredBy: nil,
                                                         changeKind:.modificationsAsInsertionsDeletions)
             self.observer.changesObserved = { _ in }
             let fakeURL = URL(string:"file:///myfakeurl.txt")!

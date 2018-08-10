@@ -30,10 +30,12 @@
 
 #import <Foundation/Foundation.h>
 #import "SmallCategories.h"
+#import "NSFileCoordinator+JSBFS.h"
 
 @interface JSBFSDirectory: NSObject
 
 @property (readonly, nonatomic, strong) NSURL* _Nonnull url;
+@property (nonatomic, strong) NSArray<JSBFSDirectoryFilterBlock>* _Nullable filteredBy;
 @property (readonly, nonatomic) JSBFSDirectorySort sortedBy;
 
 // MARK: init
@@ -42,10 +44,12 @@
                 appendingPathComponent:(NSString* _Nullable)pathComponent
                         createIfNeeded:(BOOL)create
                               sortedBy:(JSBFSDirectorySort)sortedBy
+                            filteredBy:(NSArray<JSBFSDirectoryFilterBlock>* _Nullable)filters
                                  error:(NSError*_Nullable*)errorPtr;
 - (instancetype _Nullable)initWithDirectoryURL:(NSURL* _Nonnull)url
                                 createIfNeeded:(BOOL)create
                                       sortedBy:(JSBFSDirectorySort)sortedBy
+                                    filteredBy:(NSArray<JSBFSDirectoryFilterBlock>* _Nullable)filters
                                          error:(NSError*_Nullable*)errorPtr;
 
 // MARK: Basic API

@@ -43,6 +43,21 @@
         return [transformed copy];
     }
 }
+- (NSArray*)JSBFS_arrayByFilteringArrayContentsWithBlock:(BOOL (^_Nonnull)(id item))isIncludedBlock;
+{
+    NSMutableArray* filtered = [[NSMutableArray alloc] initWithCapacity:[self count]];
+    for (id item in self) {
+        BOOL isIncluded = isIncludedBlock(item);
+        if (isIncluded) {
+            [filtered addObject:item];
+        }
+    }
+    if ([self isKindOfClass:[NSMutableArray self]]) {
+        return filtered;
+    } else {
+        return [filtered copy];
+    }
+}
 @end
 
 @implementation NSException (JSBFS)

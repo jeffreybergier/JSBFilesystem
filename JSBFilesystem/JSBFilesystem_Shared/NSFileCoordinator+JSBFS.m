@@ -276,6 +276,7 @@
 
 + (NSArray<JSBFSFileComparison*>* _Nullable)JSBFS_urlComparisonsForFilesInDirectoryURL:(NSURL* _Nonnull)url
                                                                               sortedBy:(JSBFSDirectorySort)sortedBy
+                                                                            filteredBy:(NSArray<JSBFSDirectoryFilterBlock>* _Nullable)filters
                                                                                  error:(NSError* _Nullable*)errorPtr;
 {
     NSError* error = nil;
@@ -285,7 +286,7 @@
         if (errorPtr != NULL) { *errorPtr = error; }
         return nil;
     }
-    NSArray<NSURL*>* contents = [self __JSBFS_step2_coordinateFilesAtURL:updatedURL error:&error];
+    NSArray<NSURL*>* contents = [self __JSBFS_step2_coordinateFilesAtURL:updatedURL filteredBy:filters error:&error];
     if (error || !contents) {
         if (errorPtr != NULL) { *errorPtr = error; }
         return nil;
@@ -340,11 +341,14 @@
 }
 
 /// Step2: prepare the files to be read
-+ (NSArray<NSURL*>*)__JSBFS_step2_coordinateFilesAtURL:(NSURL*)dirURL error:(NSError**)errorPtr;
++ (NSArray<NSURL*>*)__JSBFS_step2_coordinateFilesAtURL:(NSURL*)dirURL
+                                            filteredBy:(NSArray<JSBFSDirectoryFilterBlock>* _Nullable)_filters
+                                                 error:(NSError**)errorPtr;
 {
     NSError* outerError = nil;
     __block NSError* innerError = nil;
     __block NSArray<NSURL*>* contents = nil;
+    __block NSArray<JSBFSDirectoryFilterBlock>* filters = filters;
     NSFileCoordinator* c = [[NSFileCoordinator alloc] init];
     [c prepareForReadingItemsAtURLs:contents
                             options:NSFileCoordinatorReadingResolvesSymbolicLink
@@ -353,10 +357,45 @@
                               error:&outerError
                          byAccessor:^(void (^ _Nonnull completionHandler)(void))
      {
-         contents = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:dirURL
-                                                  includingPropertiesForKeys:@[NSURLLocalizedNameKey, NSURLContentModificationDateKey, NSURLCreationDateKey]
-                                                                     options:NSDirectoryEnumerationSkipsHiddenFiles
-                                                                       error:&innerError];
+         NSArray<NSURL*>* allContents = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:dirURL
+                                                                      includingPropertiesForKeys:@[NSURLLocalizedNameKey, NSURLContentModificationDateKey, NSURLCreationDateKey]
+                                                                                         options:NSDirectoryEnumerationSkipsHiddenFiles
+                                                                                           error:&innerError];
+         if ((!filters) || ([filters count] == 0)) {
+             // if there are no filters, bail out
+             contents = allContents;
+         } else {
+             // if there are filters, we need to do several things
+             // 1) filter the contents of the array using our Array of test Blocks
+             contents = [allContents JSBFS_arrayByFilteringArrayContentsWithBlock:^BOOL(id item) {
+                 // 2) Map the filters array into an array of NSNumber objects that represent a YES/NO for passing the filter
+                 // This could be optimized to bail out if a test returns NO, but for now, that optimization is not present
+                 NSArray<NSNumber*>* testResult = [filters JSBFS_arrayByTransformingArrayContentsWithBlock:^id _Nonnull(id _block) {
+                     JSBFSDirectoryFilterBlock block = _block;
+                     BOOL test = block(item);
+                     return [NSNumber numberWithBool:test];
+                 }];
+                 // 3) we want to AND the answers together
+                 // They have to be all YES or it doesn't pass
+                 // We will just check if a NO was ever present
+                 // If it was we flag it
+                 BOOL noWasPresent = NO;
+                 for (NSNumber* number in testResult) {
+                     BOOL result = [number boolValue];
+                     if (!result) {
+                         noWasPresent = YES;
+                         break;
+                     }
+                 }
+                 // 4) check if NO was ever present
+                 // if it was, then they do not pass and should be filtered out
+                 if (noWasPresent) {
+                     return NO;
+                 } else {
+                     return YES;
+                 }
+             }];
+         }
          completionHandler();
      }];
     // check if that operation failed
