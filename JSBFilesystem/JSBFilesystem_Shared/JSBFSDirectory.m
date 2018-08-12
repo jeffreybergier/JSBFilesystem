@@ -29,6 +29,7 @@
 //
 
 #import "JSBFSDirectory.h"
+#import "SmallCategories.h"
 
 @implementation JSBFSDirectory
 
@@ -113,6 +114,22 @@
     return YES;
 }
 
+- (BOOL)deleteContents:(NSError*_Nullable*)errorPtr;
+{
+    NSError* error = nil;
+    NSURL* url = [self url];
+    if (error || !url) {
+        if (errorPtr != NULL) { *errorPtr = error; }
+        return NO;
+    }
+    BOOL success = [NSFileCoordinator JSBFS_recursivelyDeleteContentsOfDirectoryAtURL:url error:&error];
+    if (error || !success) {
+        if (errorPtr != NULL) { *errorPtr = error; }
+        return NO;
+    }
+    return YES;
+}
+
 - (NSInteger)contentsCount:(NSError**)errorPtr;
 {
     NSArray* filteredBy = [self filteredBy];
@@ -120,23 +137,35 @@
         // do the fast way if there are no filters
         return [NSFileCoordinator JSBFS_fileCountInDirectoryURL:[self url] error:errorPtr];
     } else {
-        NSArray* contents = [NSFileCoordinator JSBFS_urlComparisonsForFilesInDirectoryURL:[self url]
-                                                                                 sortedBy:[self sortedBy]
-                                                                               filteredBy:filteredBy
-                                                                                    error:errorPtr];
-        return [contents count];
+        return [[self sortedAndFilteredComparisons:errorPtr] count];
     }
+}
+
+- (NSArray<NSURL*>* _Nullable)sortedAndFilteredContents:(NSError*_Nullable*)errorPtr;
+{
+    NSArray<JSBFSFileComparison*>* comparisons = [self sortedAndFilteredComparisons:errorPtr];
+    NSArray<NSURL*>* urls = [comparisons JSBFS_arrayByTransformingArrayContentsWithBlock:
+                             ^id _Nonnull(JSBFSFileComparison* item)
+                             {
+                                 return [item fileURL];
+                             }];
+    return urls;
+}
+
+- (NSArray<JSBFSFileComparison*>* _Nonnull)sortedAndFilteredComparisons:(NSError*_Nullable*)errorPtr;
+{
+    NSArray* contents = [NSFileCoordinator JSBFS_urlComparisonsForFilesInDirectoryURL:[self url]
+                                                                             sortedBy:[self sortedBy]
+                                                                           filteredBy:[self filteredBy]
+                                                                                error:errorPtr];
+    return contents;
 }
 
 - (NSInteger)indexOfItemWithURL:(NSURL* _Nonnull)rhs error:(NSError*_Nullable*)errorPtr;
 {
     NSError* error = nil;
     NSInteger index = NSNotFound;
-    NSArray<JSBFSFileComparison*>* comparisons =
-    [NSFileCoordinator JSBFS_urlComparisonsForFilesInDirectoryURL:[self url]
-                                                         sortedBy:[self sortedBy]
-                                                       filteredBy:[self filteredBy]
-                                                            error:&error];
+    NSArray<JSBFSFileComparison*>* comparisons = [self sortedAndFilteredComparisons:&error];
     index = [comparisons indexOfObjectPassingTest:
              ^BOOL(JSBFSFileComparison* lhs, NSUInteger idx, BOOL* stop) { return [[lhs fileURL] isEqual:rhs]; }];
     
@@ -154,16 +183,7 @@
 
 - (NSURL*)urlAtIndex:(NSInteger)index error:(NSError**)errorPtr;
 {
-    NSError* error = nil;
-    NSArray<JSBFSFileComparison*>* contents =
-    [NSFileCoordinator JSBFS_urlComparisonsForFilesInDirectoryURL:[self url]
-                                                         sortedBy:[self sortedBy]
-                                                       filteredBy:[self filteredBy]
-                                                            error:&error];
-    if (error) {
-        if (errorPtr != NULL) { *errorPtr = error; }
-        return nil;
-    }
+    NSArray<JSBFSFileComparison*>* contents = [self sortedAndFilteredComparisons:errorPtr];
     return [[contents objectAtIndex:index] fileURL];
 }
 

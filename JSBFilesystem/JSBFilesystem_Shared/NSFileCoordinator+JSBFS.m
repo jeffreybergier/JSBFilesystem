@@ -29,7 +29,6 @@
 //
 
 #import "NSFileCoordinator+JSBFS.h"
-#import "SmallCategories.h"
 
 @implementation NSFileCoordinator (JSBFS)
 
@@ -242,7 +241,10 @@
                             error:&outerError
                        byAccessor:^(NSURL * _Nonnull newURL)
      {
-         innerSuccess = [[NSFileManager defaultManager] createDirectoryAtURL:newURL withIntermediateDirectories:YES attributes:nil error:&innerError];
+         innerSuccess = [[NSFileManager defaultManager] createDirectoryAtURL:newURL
+                                                 withIntermediateDirectories:YES
+                                                                  attributes:nil
+                                                                       error:&innerError];
      }];
     if (outerError) {
         if (errorPtr != NULL) { *errorPtr = outerError; }

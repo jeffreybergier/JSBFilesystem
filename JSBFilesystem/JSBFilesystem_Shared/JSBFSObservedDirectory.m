@@ -202,13 +202,35 @@
     return count;
 }
 
+- (NSArray<NSURL*>* _Nullable)sortedAndFilteredContents:(NSError*_Nullable*)errorPtr;
+{
+    if ([self changesObserved] == NULL) {
+        return [super sortedAndFilteredContents:errorPtr];
+    }
+    NSArray<JSBFSFileComparison*>* comparisons = [self sortedAndFilteredComparisons:errorPtr];
+    NSArray<NSURL*>* urls = [comparisons JSBFS_arrayByTransformingArrayContentsWithBlock:
+                             ^id _Nonnull(JSBFSFileComparison* item)
+                             {
+                                 return [item fileURL];
+                             }];
+    return urls;
+}
+
+- (NSArray<JSBFSFileComparison*>* _Nonnull)sortedAndFilteredComparisons:(NSError*_Nullable*)errorPtr;
+{
+    if ([self changesObserved] == NULL) {
+        return [super sortedAndFilteredComparisons:errorPtr];
+    }
+    return [self internalState];
+}
+
 - (NSInteger)indexOfItemWithURL:(NSURL* _Nonnull)rhs error:(NSError*_Nullable*)errorPtr;
 {
     if ([self changesObserved] == NULL) {
         return [super indexOfItemWithURL:rhs error:errorPtr];
     }
     NSInteger index = NSNotFound;
-    NSArray<JSBFSFileComparison*>* comparisons = [self internalState];
+    NSArray<JSBFSFileComparison*>* comparisons = [self sortedAndFilteredComparisons:errorPtr];
     index = [comparisons indexOfObjectPassingTest:
              ^BOOL(JSBFSFileComparison* lhs, NSUInteger idx, BOOL* stop) { return [[lhs fileURL] isEqual:rhs]; }];
     
@@ -227,7 +249,7 @@
     __block NSError* error = nil;
     __block NSURL* url = nil;
     if ([self changesObserved] != NULL) {
-        url = [[[self internalState] objectAtIndex:index] fileURL];
+        url = [[[self sortedAndFilteredComparisons:&error] objectAtIndex:index] fileURL];
     } else {
         url = [super urlAtIndex:index error:&error];
     }
