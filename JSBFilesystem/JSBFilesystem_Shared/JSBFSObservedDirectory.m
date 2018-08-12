@@ -34,7 +34,7 @@
 #import "SmallCategories.h"
 @import IGListKit;
 
-@interface JSBFSObservedDirectory () <NSFilePresenter> {
+@interface JSBFSObservedDirectory () {
     JSBFSObservedDirectoryChangeBlock _changesObserved;
 }
 @property (nonatomic, strong) NSArray<JSBFSFileComparison*>* _Nonnull internalState;

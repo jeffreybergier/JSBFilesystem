@@ -39,7 +39,7 @@ typedef NS_ENUM(NSInteger, JSBFSObservedDirectyChangeKind) {
 
 typedef void(^JSBFSObservedDirectoryChangeBlock)(JSBFSDirectoryChanges* _Nonnull changes);
 
-@interface JSBFSObservedDirectory: JSBFSDirectory
+@interface JSBFSObservedDirectory: JSBFSDirectory <NSFilePresenter>
 
 /// Registers intent to be updated to filesystem changes
 /// NSFilePresenters are strongly held by the system
