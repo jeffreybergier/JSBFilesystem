@@ -162,6 +162,42 @@
     }
 }
 
++ (BOOL)JSBFS_recursivelyDeleteContentsOfDirectoryAtURL:(NSURL* _Nonnull)url
+                                                  error:(NSError* _Nullable*)errorPtr;
+{
+    NSError* outerError = nil;
+    __block NSError* innerError = nil;
+    NSFileCoordinator* c = [[NSFileCoordinator alloc] init];
+    [c coordinateWritingItemAtURL:url
+                          options:NSFileCoordinatorWritingForDeleting
+                            error:&outerError
+                       byAccessor:^(NSURL * _Nonnull newURL)
+     {
+         NSFileManager* fm = [NSFileManager defaultManager];
+         NSArray<NSURL*>* contents = [fm contentsOfDirectoryAtURL:newURL
+                                       includingPropertiesForKeys:nil
+                                                          options:NSDirectoryEnumerationSkipsHiddenFiles
+                                                            error:&innerError];
+         if (innerError) { return; }
+         for (NSURL* item in contents) {
+            #if TARGET_OS_IPHONE
+             [[NSFileManager defaultManager] removeItemAtURL:item error:&innerError];
+            #else
+             [[NSFileManager defaultManager] trashItemAtURL:item resultingItemURL:nil error:&innerError];
+            #endif
+         }
+     }];
+    if (outerError) {
+        if (errorPtr != NULL) { *errorPtr = outerError; }
+        return NO;
+    } else if (innerError) {
+        if (errorPtr != NULL) { *errorPtr = innerError; }
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
 + (BOOL)JSBFS_moveSourceFileURL:(NSURL*)sourceURL
            toDestinationFileURL:(NSURL*)destinationURL
                           error:(NSError**)errorPtr;
