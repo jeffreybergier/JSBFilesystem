@@ -75,5 +75,6 @@ typedef void(^JSBFSObservedDirectoryChangeBlock)(JSBFSDirectoryChanges* _Nonnull
                             changeKind:(JSBFSObservedDirectyChangeKind)changeKind
                                  error:(NSError*_Nullable*)errorPtr;
 - (void)forceUpdate;
+- (void)performBatchUpdates:(void(^NS_NOESCAPE _Nonnull)(void))updates;
 @end
 

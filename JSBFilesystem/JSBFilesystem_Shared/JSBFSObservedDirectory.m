@@ -167,6 +167,14 @@
     return self->_changesObserved;
 }
 
+- (void)performBatchUpdates:(void(^NS_NOESCAPE _Nonnull)(void))updates;
+{
+    [NSFileCoordinator removeFilePresenter:self];
+    updates();
+    [self forceUpdate];
+    [NSFileCoordinator addFilePresenter:self];
+}
+
 // MARK: NSFilePresenter Delegate
 
 - (NSURL*)presentedItemURL;
