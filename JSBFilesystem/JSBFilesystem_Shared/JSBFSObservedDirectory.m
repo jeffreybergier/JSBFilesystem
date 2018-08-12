@@ -34,11 +34,12 @@
 #import "SmallCategories.h"
 @import IGListKit;
 
-@interface JSBFSObservedDirectory () {
+@interface JSBFSObservedDirectory () <NSFilePresenter> {
     JSBFSObservedDirectoryChangeBlock _changesObserved;
 }
 @property (nonatomic, strong) NSArray<JSBFSFileComparison*>* _Nonnull internalState;
 @property (readonly, nonatomic, strong) NSOperationQueue* _Nonnull queue;
+@property (nonatomic, strong) NSTimer* _Nullable updateWaitTimer;
 @end
 
 @implementation JSBFSObservedDirectory
@@ -100,6 +101,7 @@
 
     self->_changeKind = JSBFSObservedDirectyChangeKindModificationsAsInsertionsDeletions;
     self->_changesObserved = nil;
+    self->_updateDelay = 0.2;
     self->_internalState = [[NSArray alloc] init];
     self->_queue = [NSOperationQueue serialQueue];
 
@@ -154,8 +156,8 @@
     if (changesObserved != NULL) {
         [NSFileCoordinator JSBFS_executeBlock:^{
             [self forceUpdate];
-            [NSFileCoordinator addFilePresenter:self];
             self->_changesObserved = changesObserved;
+            [NSFileCoordinator addFilePresenter:self];
         } whileCoordinatingAccessAtURL:[self url] error:nil];
     } else {
         [NSFileCoordinator removeFilePresenter:self];
@@ -192,7 +194,19 @@
 
 - (void)presentedItemDidChange;
 {
-    [self forceUpdate];
+    [[self updateWaitTimer] invalidate];
+    [self setUpdateWaitTimer:[NSTimer timerWithTimeInterval:[self updateDelay] repeats:NO block:^(NSTimer * _Nonnull timer) {
+        // make sure this timer doesn't repeat
+        [timer invalidate];
+        [[self updateWaitTimer] invalidate];
+        [self setUpdateWaitTimer:nil];
+        // hop back onto the serial queue and force an update
+        dispatch_async([[self queue] underlyingQueue], ^{
+            [self forceUpdate];
+        });
+    }]];
+    // NSTimer only appears to work on the main thread
+    [[NSRunLoop mainRunLoop] addTimer:[self updateWaitTimer] forMode:NSDefaultRunLoopMode];
 }
 
 // MARK: Basic API

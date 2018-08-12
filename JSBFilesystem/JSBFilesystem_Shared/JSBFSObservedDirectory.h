@@ -39,7 +39,7 @@ typedef NS_ENUM(NSInteger, JSBFSObservedDirectyChangeKind) {
 
 typedef void(^JSBFSObservedDirectoryChangeBlock)(JSBFSDirectoryChanges* _Nonnull changes);
 
-@interface JSBFSObservedDirectory: JSBFSDirectory <NSFilePresenter>
+@interface JSBFSObservedDirectory: JSBFSDirectory
 
 /// Registers intent to be updated to filesystem changes
 /// NSFilePresenters are strongly held by the system
@@ -49,6 +49,8 @@ typedef void(^JSBFSObservedDirectoryChangeBlock)(JSBFSDirectoryChanges* _Nonnull
 /// This always calls back on the main queue. Its intended for UI use
 @property (nonatomic, strong) JSBFSObservedDirectoryChangeBlock _Nullable changesObserved;
 @property (readonly, nonatomic) NSInteger contentsCount;
+/// Default is 0.2 seconds
+@property (nonatomic) NSTimeInterval updateDelay;
 /// 
 /// Some collections support reloading data in a batch update and some do not
 /// `UICollectionView` does not support this but `UITableView` and `NSOutlineView` do

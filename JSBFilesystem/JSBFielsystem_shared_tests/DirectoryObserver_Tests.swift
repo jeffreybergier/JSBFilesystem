@@ -45,7 +45,7 @@ class DirectoryObserver_BasicTests: XCTestCase {
     var observer: JSBFSObservedDirectory!
     var fm: FileManager { return FileManager.default }
     let timeout: TimeInterval = 2
-    let delay: TimeInterval = 0.5
+    let delay: TimeInterval = 0.3
 
     override func setUp() {
         super.setUp()
@@ -71,6 +71,7 @@ class DirectoryObserver_BasicTests: XCTestCase {
     override func tearDown() {
         super.tearDown()
         self.observer.changesObserved = nil
+        self.observer = nil
         try! self.fm.removeItem(at: self.dirURL)
     }
 
