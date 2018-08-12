@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'JSBFilesystem'
-  s.version          = '0.1.5'
+  s.version          = '0.1.7'
   s.summary          = 'Filesystem change notifications.'
 
   s.description      = <<-DESC
@@ -22,8 +22,8 @@ JSBFilesystem are lightweight classes that clean up the syntax with accessing th
   s.source           = { :git => 'https://github.com/jeffreybergier/JSBFilesystem.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/jeffburg'
 
-  s.ios.deployment_target = '8.0'
-  s.osx.deployment_target = '10.11.0'
+  s.ios.deployment_target = '10.0'
+  s.osx.deployment_target = '10.12.0'
 
   s.source_files = 'JSBFilesystem/JSBFilesystem_shared/**/*'
   
