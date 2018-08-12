@@ -172,7 +172,10 @@
     [NSFileCoordinator removeFilePresenter:self];
     updates();
     [self forceUpdate];
-    [NSFileCoordinator addFilePresenter:self];
+    if ([self changesObserved] != NULL) {
+        // only add the file presenter back if we're supposed to be observing
+        [NSFileCoordinator addFilePresenter:self];
+    }
 }
 
 // MARK: NSFilePresenter Delegate
