@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'JSBFilesystem'
-  s.version          = '0.1.7'
+  s.version          = '0.1.8'
   s.summary          = 'Filesystem change notifications.'
 
   s.description      = <<-DESC
