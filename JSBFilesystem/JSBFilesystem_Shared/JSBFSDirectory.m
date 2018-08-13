@@ -116,12 +116,35 @@
 
 - (BOOL)deleteContents:(NSError*_Nullable*)errorPtr;
 {
+    NSArray* filteredBy = [self filteredBy];
+    if ((!filteredBy) || [filteredBy count] == 0) {
+        // do the fast way if there are no filters
+        return [self __quick_deleteContents:errorPtr];
+    } else {
+        return [self __slow_deleteContents:errorPtr];
+    }
+}
+
+- (BOOL)__slow_deleteContents:(NSError*_Nullable*)errorPtr;
+{
     NSError* error = nil;
-    NSURL* url = [self url];
-    if (error || !url) {
+    NSArray<NSURL*>* contents = [self sortedAndFilteredContents:&error];
+    if (error || !contents) {
         if (errorPtr != NULL) { *errorPtr = error; }
         return NO;
     }
+    BOOL success = [NSFileCoordinator JSBFS_batchDeleteURLs:contents error:&error];
+    if (error || !success) {
+        if (errorPtr != NULL) { *errorPtr = error; }
+        return NO;
+    }
+    return YES;
+}
+
+- (BOOL)__quick_deleteContents:(NSError*_Nullable*)errorPtr;
+{
+    NSError* error = nil;
+    NSURL* url = [self url];
     BOOL success = [NSFileCoordinator JSBFS_recursivelyDeleteContentsOfDirectoryAtURL:url error:&error];
     if (error || !success) {
         if (errorPtr != NULL) { *errorPtr = error; }
@@ -129,6 +152,7 @@
     }
     return YES;
 }
+
 
 - (NSInteger)contentsCount:(NSError**)errorPtr;
 {

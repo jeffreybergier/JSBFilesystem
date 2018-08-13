@@ -62,6 +62,8 @@ NS_SWIFT_NAME(JSBFS_readFileWrapper(from:));
 NS_SWIFT_NAME(JSBFS_recursivelyDeleteDirectoryOrFile(at:));
 + (BOOL)JSBFS_recursivelyDeleteContentsOfDirectoryAtURL:(NSURL* _Nonnull)url error:(NSError* _Nullable*)errorPtr
 NS_SWIFT_NAME(JSBFS_recursivelyDeleteContentsOfDirectory(at:));
++ (BOOL)JSBFS_batchDeleteURLs:(NSArray<NSURL*>* _Nonnull)contents error:(NSError* _Nullable*)errorPtr
+NS_SWIFT_NAME(JSBFS_batchDelete(urls:));
 
 + (BOOL)JSBFS_moveSourceFileURL:(NSURL* _Nonnull)sourceURL
            toDestinationFileURL:(NSURL* _Nonnull)destinationURL

@@ -197,6 +197,45 @@
     }
 }
 
++ (BOOL)JSBFS_batchDeleteURLs:(NSArray<NSURL*>* _Nonnull)contents error:(NSError* _Nullable*)errorPtr;
+{
+    if (!contents || [contents count] == 0) { return YES; } // bail early if the array is empty
+
+    NSError* outerError = nil;
+    __block NSError* innerError = nil;
+    __block BOOL innerSuccess = YES;
+    NSFileCoordinator* c = [[NSFileCoordinator alloc] init];
+    [c prepareForReadingItemsAtURLs:contents
+                            options:0
+                 writingItemsAtURLs:contents
+                            options:NSFileCoordinatorWritingForDeleting
+                              error:&outerError
+                         byAccessor:^(void (^ _Nonnull completionHandler)(void))
+     {
+         NSFileManager* fm = [NSFileManager defaultManager];
+         for (NSURL* item in contents) {
+             if (innerError || !innerSuccess) { break; }
+            #if TARGET_OS_IPHONE
+             innerSuccess = [fm removeItemAtURL:item error:&innerError];
+            #else
+             innerSuccess = [fm trashItemAtURL:item resultingItemURL:nil error:&innerError];
+            #endif
+         }
+     }];
+    if (outerError) {
+        if (errorPtr != NULL) { *errorPtr = outerError; }
+        return NO;
+    } else if (innerError) {
+        if (errorPtr != NULL) { *errorPtr = innerError; }
+        return NO;
+    } else if (!innerSuccess) {
+        if (errorPtr != NULL) { *errorPtr = [NSError errorWithDomain:@"JSBFilesystem" code:0 userInfo:nil]; }
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
 + (BOOL)JSBFS_moveSourceFileURL:(NSURL*)sourceURL
            toDestinationFileURL:(NSURL*)destinationURL
                           error:(NSError**)errorPtr;
