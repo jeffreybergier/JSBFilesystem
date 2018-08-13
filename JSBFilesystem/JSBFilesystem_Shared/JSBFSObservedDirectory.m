@@ -195,14 +195,17 @@
 - (void)presentedItemDidChange;
 {
     [[self updateWaitTimer] invalidate];
+    id __weak welf = self;
     [self setUpdateWaitTimer:[NSTimer timerWithTimeInterval:[self updateDelay] repeats:NO block:^(NSTimer * _Nonnull timer) {
         // make sure this timer doesn't repeat
         [timer invalidate];
-        [[self updateWaitTimer] invalidate];
-        [self setUpdateWaitTimer:nil];
+        [[welf updateWaitTimer] invalidate];
+        [welf setUpdateWaitTimer:nil];
         // hop back onto the serial queue and force an update
-        dispatch_async([[self queue] underlyingQueue], ^{
-            [self forceUpdate];
+        NSOperationQueue* queue = [welf queue];
+        if (queue == nil) { return; }
+        dispatch_async([queue underlyingQueue], ^{
+            [welf forceUpdate];
         });
     }]];
     // NSTimer only appears to work on the main thread
@@ -283,6 +286,12 @@
         return nil;
     }
     return url;
+}
+
+- (void)dealloc;
+{
+    self->_changesObserved = nil;
+    [self->_updateWaitTimer invalidate];
 }
 
 // MARK: Data API - Read and Write Data
