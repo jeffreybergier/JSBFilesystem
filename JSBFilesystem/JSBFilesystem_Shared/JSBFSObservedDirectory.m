@@ -34,7 +34,7 @@
 #import "SmallCategories.h"
 @import IGListKit;
 
-@interface JSBFSObservedDirectory () <NSFilePresenter> {
+@interface JSBFSObservedDirectory () {
     JSBFSObservedDirectoryChangeBlock _changesObserved;
 }
 @property (nonatomic, strong) NSArray<JSBFSFileComparison*>* _Nonnull internalState;
@@ -44,6 +44,8 @@
 
 @implementation JSBFSObservedDirectory
 
+@synthesize changeKind = _changeKind, updateDelay = _updateDelay;
+@synthesize internalState = _internalState, queue = _queue, updateWaitTimer = _updateWaitTimer;
 @dynamic changesObserved;
 
 // MARK: Init
@@ -55,11 +57,11 @@
                                     changeKind:(JSBFSObservedDirectyChangeKind)changeKind
                                          error:(NSError* _Nullable*)errorPtr;
 {
-    self = [self initWithDirectoryURL:url
-                       createIfNeeded:create
-                             sortedBy:sortedBy
-                           filteredBy:filters
-                                error:errorPtr];
+    self = [super initWithDirectoryURL:url
+                        createIfNeeded:create
+                              sortedBy:sortedBy
+                            filteredBy:filters
+                                 error:errorPtr];
     self->_changeKind = changeKind;
     return self;
 }
@@ -72,39 +74,13 @@
                             changeKind:(JSBFSObservedDirectyChangeKind)changeKind
                                  error:(NSError*_Nullable*)errorPtr;
 {
-    self = [self initWithBase:base
-       appendingPathComponent:pathComponent
-               createIfNeeded:create
-                     sortedBy:sortedBy
-                   filteredBy:filters
-                        error:errorPtr];
+    self = [super initWithBase:base
+        appendingPathComponent:pathComponent
+                createIfNeeded:create
+                      sortedBy:sortedBy
+                    filteredBy:filters
+                         error:errorPtr];
     self->_changeKind = changeKind;
-    return self;
-}
-
-- (instancetype)initWithDirectoryURL:(NSURL*)url
-                      createIfNeeded:(BOOL)create
-                            sortedBy:(JSBFSDirectorySort)sortedBy
-                          filteredBy:(NSArray<JSBFSDirectoryFilterBlock>* _Nullable)filters
-                               error:(NSError**)errorPtr;
-{
-    NSError* error = nil;
-    self = [super initWithDirectoryURL:url
-                        createIfNeeded:create
-                              sortedBy:sortedBy
-                            filteredBy:filters
-                                 error:errorPtr];
-    if (error) {
-        if (errorPtr != NULL) { *errorPtr = error; }
-        return nil;
-    }
-
-    self->_changeKind = JSBFSObservedDirectyChangeKindModificationsAsInsertionsDeletions;
-    self->_changesObserved = nil;
-    self->_updateDelay = 0.2;
-    self->_internalState = [[NSArray alloc] init];
-    self->_queue = [NSOperationQueue serialQueue];
-
     return self;
 }
 
@@ -196,15 +172,18 @@
     [[self updateWaitTimer] invalidate];
     id __weak welf = self;
     [self setUpdateWaitTimer:[NSTimer timerWithTimeInterval:[self updateDelay] repeats:NO block:^(NSTimer * _Nonnull timer) {
+        // silence the objective c welf warning
+        if (!welf) { return; }
+        id __strong strong_welf = welf;
         // make sure this timer doesn't repeat
         [timer invalidate];
-        [[welf updateWaitTimer] invalidate];
-        [welf setUpdateWaitTimer:nil];
+        [[strong_welf updateWaitTimer] invalidate];
+        [strong_welf setUpdateWaitTimer:nil];
         // hop back onto the serial queue and force an update
-        NSOperationQueue* queue = [welf queue];
-        if (queue == nil) { return; }
+        NSOperationQueue* queue = [strong_welf queue];
+        if (!queue) { return; }
         dispatch_async([queue underlyingQueue], ^{
-            [welf forceUpdate];
+            [strong_welf forceUpdate];
         });
     }]];
     // NSTimer only appears to work on the main thread
@@ -213,7 +192,7 @@
 
 // MARK: OVERRIDE -urlAtIndex:error:
 
-- (NSURL* _Nullable)urlAtIndex:(NSInteger)index error:(NSError*_Nullable*)errorPtr;
+- (NSURL* _Nullable)urlAtIndex:(NSUInteger)index error:(NSError*_Nullable*)errorPtr;
 {
     __block NSError* error = nil;
     __block NSURL* url = nil;
@@ -231,10 +210,10 @@
 
 // MARK: OVERRIDE -contentsCount:
 
-- (NSInteger)contentsCount:(NSError*_Nullable*)errorPtr;
+- (NSUInteger)contentsCount:(NSError*_Nullable*)errorPtr;
 {
     __block NSError* error = nil;
-    __block NSInteger count = NSNotFound;
+    __block NSUInteger count = NSNotFound;
     if ([self changesObserved] != NULL) {
         count = [[self internalState] count];
     } else {
@@ -276,10 +255,5 @@
     self->_changesObserved = nil;
     [self->_updateWaitTimer invalidate];
 }
-
-// MARK: Data API - Read and Write Data
-
-// MARK: File Wrapper API - Read and Write File Wrappers
-
 
 @end

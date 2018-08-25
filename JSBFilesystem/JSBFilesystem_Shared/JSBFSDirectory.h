@@ -32,13 +32,16 @@
 #import "SmallCategories.h"
 #import "NSFileCoordinator+JSBFS.h"
 
-@interface JSBFSDirectory: NSObject
-
 /*!
  * @discussion An object that attempts to turn a directory into a basic Array
  *             or basic database query. Use filtering, sorting, and methods on
  *             this class in order to treat a directory on the filesystem as a
  *             place to read and write, structured data.
+ */
+@interface JSBFSDirectory: NSObject
+
+/*!
+ * @discussion The directory URL that this object monitors.
  */
 @property (readonly, nonatomic, strong) NSURL* _Nonnull url;
 /*!
