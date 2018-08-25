@@ -135,7 +135,6 @@
             break;
         }
     }
-
     [self setInternalState:rhs];
     JSBFSObservedDirectoryChangeBlock block = [self changesObserved];
     if (changes && block != NULL) {
@@ -212,23 +211,43 @@
     [[NSRunLoop mainRunLoop] addTimer:[self updateWaitTimer] forMode:NSDefaultRunLoopMode];
 }
 
-// MARK: Basic API
+// MARK: OVERRIDE -urlAtIndex:error:
+
+- (NSURL* _Nullable)urlAtIndex:(NSInteger)index error:(NSError*_Nullable*)errorPtr;
+{
+    __block NSError* error = nil;
+    __block NSURL* url = nil;
+    if ([self changesObserved] != NULL) {
+        url = [[[self sortedAndFilteredComparisons:&error] objectAtIndex:index] fileURL];
+    } else {
+        url = [super urlAtIndex:index error:&error];
+    }
+    if (error || !url) {
+        if (errorPtr != NULL) { *errorPtr = error; }
+        return nil;
+    }
+    return url;
+}
+
+// MARK: OVERRIDE -contentsCount:
 
 - (NSInteger)contentsCount:(NSError*_Nullable*)errorPtr;
 {
     __block NSError* error = nil;
-    __block NSInteger count = -1;
+    __block NSInteger count = NSNotFound;
     if ([self changesObserved] != NULL) {
         count = [[self internalState] count];
     } else {
         count = [super contentsCount:&error];
     }
-    if (error || count == -1) {
+    if (error || count == NSNotFound) {
         if (errorPtr != NULL) { *errorPtr = error; }
         return 0;
     }
     return count;
 }
+
+// MARK: OVERRIDE -sortedAndFiltered:
 
 - (NSArray<NSURL*>* _Nullable)sortedAndFilteredContents:(NSError*_Nullable*)errorPtr;
 {
@@ -250,42 +269,6 @@
         return [super sortedAndFilteredComparisons:errorPtr];
     }
     return [self internalState];
-}
-
-- (NSInteger)indexOfItemWithURL:(NSURL* _Nonnull)rhs error:(NSError*_Nullable*)errorPtr;
-{
-    if ([self changesObserved] == NULL) {
-        return [super indexOfItemWithURL:rhs error:errorPtr];
-    }
-    NSInteger index = NSNotFound;
-    NSArray<JSBFSFileComparison*>* comparisons = [self sortedAndFilteredComparisons:errorPtr];
-    index = [comparisons indexOfObjectPassingTest:
-             ^BOOL(JSBFSFileComparison* lhs, NSUInteger idx, BOOL* stop) { return [[lhs fileURL] isEqual:rhs]; }];
-    
-    if (index == NSNotFound) {
-        NSError* error = [[NSError alloc] initWithDomain:@"JSBFilesystem" code:1 userInfo:nil];
-        if (errorPtr != NULL) { *errorPtr = error; }
-        return NSNotFound;
-    }
-    return index;
-}
-
-// MARK: URL Api
-
-- (NSURL* _Nullable)urlAtIndex:(NSInteger)index error:(NSError*_Nullable*)errorPtr;
-{
-    __block NSError* error = nil;
-    __block NSURL* url = nil;
-    if ([self changesObserved] != NULL) {
-        url = [[[self sortedAndFilteredComparisons:&error] objectAtIndex:index] fileURL];
-    } else {
-        url = [super urlAtIndex:index error:&error];
-    }
-    if (error || !url) {
-        if (errorPtr != NULL) { *errorPtr = error; }
-        return nil;
-    }
-    return url;
 }
 
 - (void)dealloc;

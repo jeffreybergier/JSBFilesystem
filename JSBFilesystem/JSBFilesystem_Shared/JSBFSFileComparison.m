@@ -35,7 +35,8 @@
 
 - (instancetype)initWithFileURL:(NSURL*)fileURL modificationDate:(NSDate*)modificationDate;
 {
-    self = [super initThrowWhenNil];
+    self = [super init];
+    NSParameterAssert(self);
     self->_fileURL = fileURL;
     self->_modificationDate = modificationDate;
     return self;

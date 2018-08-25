@@ -582,7 +582,8 @@ whileCoordinatingAccessAtURL:(NSURL* _Nonnull)url
 @implementation JSBFSDoubleBool
 - (instancetype)initWithValue1:(BOOL)value1 value2:(BOOL)value2;
 {
-    self = [super initThrowWhenNil];
+    self = [super init];
+    NSParameterAssert(self);
     self->_value1 = value1;
     self->_value2 = value2;
     return self;

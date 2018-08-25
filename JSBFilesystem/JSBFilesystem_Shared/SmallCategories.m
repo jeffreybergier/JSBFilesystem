@@ -60,24 +60,6 @@
 }
 @end
 
-@implementation NSException (JSBFS)
-+ (instancetype)JSBFS_initFailedException;
-{
-    return [[NSException alloc] initWithName:NSMallocException reason:@"INIT Failed" userInfo:nil];
-}
-@end
-
-@implementation NSObject (JSBFS)
-- (instancetype)initThrowWhenNil;
-{
-    if (self = [self init]) {
-        return self;
-    } else {
-        @throw [NSException JSBFS_initFailedException];
-    }
-}
-@end
-
 @implementation JSBFSDirectorySortConverter
 + (JSBFSDirectorySort)defaultSort;
 {

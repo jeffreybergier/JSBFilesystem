@@ -34,7 +34,8 @@
 @implementation JSBFSDirectoryChangesMove
 -(instancetype)initWithFromValue:(NSInteger)fromValue toValue:(NSInteger)toValue;
 {
-    self = [super initThrowWhenNil];
+    self = [super init];
+    NSParameterAssert(self);
     self->_from = fromValue;
     self->_to = toValue;
     return self;
@@ -47,7 +48,8 @@
                                  deletions:(NSIndexSet*)deletions
                                      moves:(NSArray<JSBFSDirectoryChangesMove*>*)moves;
 {
-    self = [super initThrowWhenNil];
+    self = [super init];
+    NSParameterAssert(self);
     self->_insertions = insertions;
     self->_deletions = deletions;
     self->_moves = moves;

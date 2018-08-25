@@ -38,6 +38,12 @@
 - (instancetype)initWithValue1:(BOOL)value1 value2:(BOOL)value2;
 @end
 
+// MARK: File Wrapper API - Read and Write File Wrappers
+
+/// Refer to Docs for how to use File Packages and NSFileWrappers
+/// https://developer.apple.com/library/archive/documentation/CoreFoundation/Conceptual/CFBundles/DocumentPackages/DocumentPackages.html#//apple_ref/doc/uid/10000123i-CH106-SW1
+/// https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/FileSystemProgrammingGuide/FileWrappers/FileWrappers.html#//apple_ref/doc/uid/TP40010672-CH13-DontLinkElementID_5
+
 typedef BOOL(^JSBFSDirectoryFilterBlock)(NSURL* _Nonnull aURL);
 
 @interface NSFileCoordinator (JSBFS)

@@ -41,15 +41,6 @@ NS_SWIFT_NAME(JSBFS_transformingArrayContents(withTransform:));
 NS_SWIFT_NAME(JSBFS_filteringArrayContents(_:));
 @end
 
-@interface NSException (JSBFS)
-+ (instancetype _Nonnull)JSBFS_initFailedException
-NS_SWIFT_NAME(JSBFS_initFailedException());
-@end
-
-@interface NSObject (JSBFS)
-- (instancetype _Nonnull)initThrowWhenNil;
-@end
-
 typedef NS_ENUM(NSInteger, JSBFSDirectorySort) {
     JSBFSDirectorySortNameAFirst,
     JSBFSDirectorySortNameZFirst,
