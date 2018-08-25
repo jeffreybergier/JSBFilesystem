@@ -93,36 +93,6 @@ class Directory_BasicTests: XCTestCase {
         }
     }
 
-    func testIndexOfItemAtURL() {
-        let _string0 = "File1"
-        let _string1 = "File2"
-        let _data0 = Data(_string0.utf8)
-        let _data1 = Data(_string1.utf8)
-        do {
-            let dir = try JSBFSDirectory(base: .cachesDirectory,
-                                         appendingPathComponent: testPathComponent,
-                                         createIfNeeded: true,
-                                         sortedBy: JSBFSDirectorySortConverter.defaultSort,
-                                         filteredBy: nil)
-            try dir.createFileNamed("data1.txt", with: _data0)
-            try dir.createFileNamed("data2.txt", with: _data1)
-            let index0URL = try dir.url(at: 0)
-            let index1URL = try dir.url(at: 1)
-            let index0 = try dir.indexOfItem(with: index0URL)
-            let index1 = try dir.indexOfItem(with: index1URL)
-            XCTAssert(index0 == 0)
-            XCTAssert(index1 == 1)
-            let data0 = try dir.data(at: index0)
-            let data1 = try dir.data(at: index1)
-            let string0 = String(data: data0, encoding: .utf8)!
-            let string1 = String(data: data1, encoding: .utf8)!
-            XCTAssert(string0 == _string0)
-            XCTAssert(string1 == _string1)
-        } catch {
-            XCTFail(String(describing: error))
-        }
-    }
-
     func testIndexOfItemAtURLNotFound() {
         do {
             let dir = try JSBFSDirectory(base: .cachesDirectory,

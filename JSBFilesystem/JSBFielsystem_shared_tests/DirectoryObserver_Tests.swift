@@ -216,31 +216,6 @@ class DirectoryObserver_BasicTests: XCTestCase {
         self.wait(for: [expectation], timeout: timeout)
     }
 
-    func testIndexOfItemAtURL() {
-        do {
-            self.observer = try! JSBFSObservedDirectory(directoryURL: self.dirURL,
-                                                        createIfNeeded: true,
-                                                        sortedBy: .nameAFirst,
-                                                        filteredBy: nil,
-                                                        changeKind:.modificationsAsInsertionsDeletions)
-            self.observer.changesObserved = { _ in }
-            let index0URL = try self.observer.url(at: 0)
-            let index1URL = try self.observer.url(at: 1)
-            let index0 = try self.observer.indexOfItem(with: index0URL)
-            let index1 = try self.observer.indexOfItem(with: index1URL)
-            XCTAssert(index0 == 0)
-            XCTAssert(index1 == 1)
-            let data0 = try self.observer.data(at: index0)
-            let data1 = try self.observer.data(at: index1)
-            let string0 = String(data: data0, encoding: .utf8)!
-            let string1 = String(data: data1, encoding: .utf8)!
-            XCTAssert(string0 == "0.file")
-            XCTAssert(string1 == "1.file")
-        } catch {
-            XCTFail(String(describing: error))
-        }
-    }
-
     func testIndexOfItemAtURLNotFound() {
         do {
             self.observer = try! JSBFSObservedDirectory(directoryURL: self.dirURL,
