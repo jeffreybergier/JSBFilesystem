@@ -34,49 +34,116 @@
 
 @interface JSBFSDirectory: NSObject
 
+/*!
+ * @discussion An object that attempts to turn a directory into a basic Array
+ *             or basic database query. Use filtering, sorting, and methods on
+ *             this class in order to treat a directory on the filesystem as a
+ *             place to read and write, structured data.
+ */
 @property (readonly, nonatomic, strong) NSURL* _Nonnull url;
+/*!
+ * @discussion An array of filter blocks that can be used to filter contents from
+ * -contentsCount:error: and other methods on this object.
+ * @discussion Can be NIL or empty
+ * @discussion Modifying may result in internal caches being reset
+ */
 @property (nonatomic, strong) NSArray<JSBFSDirectoryFilterBlock>* _Nullable filteredBy;
-@property (readonly, nonatomic) JSBFSDirectorySort sortedBy;
+/*!
+ * @discussion Specifies the order the files are sorted in.
+ * @discussion Modifying may result in internal caches being reset
+ */
+@property (nonatomic) JSBFSDirectorySort sortedBy;
 
 // MARK: init
 
+- (instancetype)init NS_UNAVAILABLE;
+
+/*!
+ * @discussion Convenience Initializer that takes a base directory from NSFileManager
+ * and appends a path component to it to make specify the final directory
+ * @discussion This initializer is useful if your intent is to read and write
+ * from a cache, documents, or other common directory location.
+ * @param base The base directory where you would like your directory.
+ * @param pathComponent Path component string appended to the base
+ *        to specify the final directory location.
+ * @param create Whether this initializer should attempt
+ *        to create the specified directory if it does not exist.
+ * @param sortedBy Order directory contents should be sorted in.
+ * @param filters An array of filter blocks that can filter out files
+ *        in the directory. Can be NIL or empty.
+ * @param errorPtr Error parameter. Will always be populated if return is NIL.
+ * @return New instance or NIL. If NIL, errorPtr will be populated.
+ */
 - (instancetype _Nullable)initWithBase:(NSSearchPathDirectory)base
                 appendingPathComponent:(NSString* _Nullable)pathComponent
                         createIfNeeded:(BOOL)create
                               sortedBy:(JSBFSDirectorySort)sortedBy
                             filteredBy:(NSArray<JSBFSDirectoryFilterBlock>* _Nullable)filters
                                  error:(NSError*_Nullable*)errorPtr;
+/*!
+ * @discussion Designated initializer that takes a directory URL.
+ * @discussion Exception will be thrown if a file exists at the URL that is not a directory.
+ * @param url The specified URL.
+ *        to specify the final directory location.
+ * @param create Whether this initializer should attempt
+ *        to create the specified directory if it does not exist.
+ * @param sortedBy Order directory contents should be sorted in.
+ * @param filters An array of filter blocks that can filter out files
+ *        in the directory. Can be NIL or empty.
+ * @param errorPtr Error parameter. Will always be populated if return is NIL.
+ * @return New instance or NIL. If NIL, errorPtr will be populated.
+ */
 - (instancetype _Nullable)initWithDirectoryURL:(NSURL* _Nonnull)url
                                 createIfNeeded:(BOOL)create
                                       sortedBy:(JSBFSDirectorySort)sortedBy
                                     filteredBy:(NSArray<JSBFSDirectoryFilterBlock>* _Nullable)filters
-                                         error:(NSError*_Nullable*)errorPtr;
+                                         error:(NSError*_Nullable*)errorPtr
+NS_DESIGNATED_INITIALIZER;
 
 // MARK: Basic API
-- (BOOL)deleteFileAtIndex:(NSInteger)index error:(NSError*_Nullable*)errorPtr;
+
+/*!
+ * @discussion Counts the number of items in the monitored directory.
+ *             Uses filters array to filter items before returning count.
+ * @param errorPtr Error parameter. Will always be populated if return is NSNotFound.
+ * @return Directory count after filters applied or NSNotFound if there is an error.
+ */
+- (NSUInteger)contentsCount:(NSError*_Nullable*)errorPtr __attribute__((swift_error(nonnull_error)));
+
+/*!
+ * @discussion Finds the URL at the given index after applying filters and sorting.
+ * @discussion Once a URL is retrieved, use helper methods on NSFileCoordinator
+ *             to coordinate reading from and writing to the URL safely.
+ * @param errorPtr Error parameter. Will always be populated if return is NIL.
+ * @return URL at the given index or NIL if there is an error.
+ */
+- (NSURL*_Nullable)urlAtIndex:(NSUInteger)index error:(NSError*_Nullable*)errorPtr;
+
+// MARK: Advanced API
+
+/*!
+ * @discussion Deletes all the contents after applying filters
+ * @discussion This is very useful if the monitored directory is a cache
+ *             and the cache needs to be deleted before re-populating it
+ * @discussion Depending on filters, may not delete all contents of the directory.
+ * @discussion Delete is not atomic, if there is an error mid-delete, the operation
+ *             will halt and not restore already deleted files.
+ * @param errorPtr Error parameter. Will always be populated if return is NO
+ * @return YES if the delete succeeded, NO if there was an error.
+ */
 - (BOOL)deleteContents:(NSError*_Nullable*)errorPtr;
-- (NSInteger)contentsCount:(NSError*_Nullable*)errorPtr __attribute__((swift_error(nonnull_error)));
-- (NSArray<NSURL*>* _Nullable)sortedAndFilteredContents:(NSError*_Nullable*)errorPtr;
-- (NSArray<JSBFSFileComparison*>* _Nonnull)sortedAndFilteredComparisons:(NSError*_Nullable*)errorPtr;
-/// Cocoa errors possible reading files from disk. If URL not found, returns NSNotFound and populates ErrorPtr in Objc - only throws error in Swift
-- (NSInteger)indexOfItemWithURL:(NSURL* _Nonnull)url error:(NSError*_Nullable*)errorPtr __attribute__((swift_error(nonnull_error)));
 
-// MARK: URL Api
-- (NSURL* _Nullable)urlAtIndex:(NSInteger)index error:(NSError*_Nullable*)errorPtr;
+/*!
+ * @discussion Find the index of a given URL after filtering and sorting.
+ * @param errorPtr Error parameter. Will always be populated if return is NSNotFound.
+ * @return Index of item or NSNotFound if there is an error.
+ */
+- (NSUInteger)indexOfItemWithURL:(NSURL*_Nonnull)rhs error:(NSError*_Nullable*)errorPtr
+__attribute__((swift_error(nonnull_error)));
 
-// MARK: Data API - Read and Write Data
-- (NSData* _Nullable)dataAtIndex:(NSInteger)index error:(NSError*_Nullable*)errorPtr;
-- (NSURL* _Nullable)replaceItemAtIndex:(NSInteger)index withData:(NSData* _Nonnull)data error:(NSError*_Nullable*)errorPtr;
-- (NSURL* _Nullable)createFileNamed:(NSString* _Nonnull)fileName withData:(NSData* _Nonnull)data error:(NSError*_Nullable*)errorPtr;
+// MARK: Internal API
 
-// MARK: File Wrapper API - Read and Write File Wrappers
-
-/// Refer to Docs for how to use File Packages and NSFileWrappers
-/// https://developer.apple.com/library/archive/documentation/CoreFoundation/Conceptual/CFBundles/DocumentPackages/DocumentPackages.html#//apple_ref/doc/uid/10000123i-CH106-SW1
-/// https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/FileSystemProgrammingGuide/FileWrappers/FileWrappers.html#//apple_ref/doc/uid/TP40010672-CH13-DontLinkElementID_5
-- (NSFileWrapper* _Nullable)fileWrapperAtIndex:(NSInteger)index error:(NSError*_Nullable*)errorPtr;
-- (NSURL* _Nullable)replaceItemAtIndex:(NSInteger)index withFileWrapper:(NSFileWrapper* _Nonnull)fileWrapper error:(NSError*_Nullable*)errorPtr;
-- (NSURL* _Nullable)createFileNamed:(NSString* _Nonnull)fileName withFileWrapper:(NSFileWrapper* _Nonnull)fileWrapper error:(NSError*_Nullable*)errorPtr;
-
+- (NSArray<NSURL*>*_Nullable)sortedAndFilteredContents:(NSError*_Nullable*)errorPtr;
+- (NSArray<JSBFSFileComparison*>*_Nonnull)sortedAndFilteredComparisons:(NSError*_Nullable*)errorPtr;
 
 @end
