@@ -30,6 +30,8 @@
 
 @import Foundation;
 
+typedef BOOL(^JSBFSDirectoryFilterBlock)(NSURL* _Nonnull aURL);
+
 @interface NSArray (JSBFS)
 /// Returns an immutable array if the original array is immutable
 /// Returns a mutable array if the original array is mutable
@@ -58,4 +60,10 @@ typedef NS_ENUM(NSInteger, JSBFSDirectorySort) {
 
 @interface NSOperationQueue (JSBFS)
 + (instancetype _Nonnull)JSBFS_serialQueue;
+@end
+
+@interface JSBFSDoubleBool: NSObject
+@property (readonly, nonatomic) BOOL value1;
+@property (readonly, nonatomic) BOOL value2;
+- (instancetype)initWithValue1:(BOOL)value1 value2:(BOOL)value2;
 @end

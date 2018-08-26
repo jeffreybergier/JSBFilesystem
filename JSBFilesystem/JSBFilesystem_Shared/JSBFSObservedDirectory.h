@@ -29,7 +29,6 @@
 //
 
 #import "JSBFSDirectory.h"
-
 @class JSBFSDirectoryChanges;
 
 /*!

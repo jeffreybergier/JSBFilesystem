@@ -29,7 +29,8 @@
 //
 
 #import "JSBFSDirectory.h"
-#import "SmallCategories.h"
+#import "JSBFSFileComparison.h"
+#import "NSFileCoordinator+JSBFS.h"
 
 @implementation JSBFSDirectory
 

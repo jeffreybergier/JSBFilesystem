@@ -28,9 +28,9 @@
 //
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 #import "SmallCategories.h"
-#import "NSFileCoordinator+JSBFS.h"
+@class JSBFSFileComparison;
 
 /*!
  * @discussion An object that attempts to turn a directory into a basic Array

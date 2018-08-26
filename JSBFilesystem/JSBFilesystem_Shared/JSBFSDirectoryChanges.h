@@ -29,7 +29,6 @@
 //
 
 @import IGListKit;
-
 @class JSBFSDirectoryChangesMove;
 typedef NS_ENUM(NSInteger, JSBFSObservedDirectoryChangeKind);
 
