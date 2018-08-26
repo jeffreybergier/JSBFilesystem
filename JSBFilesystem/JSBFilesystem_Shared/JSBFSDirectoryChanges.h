@@ -31,27 +31,74 @@
 @import IGListKit;
 
 @class JSBFSDirectoryChangesMove;
+typedef NS_ENUM(NSInteger, JSBFSObservedDirectoryChangeKind);
 
+/*!
+ * @discussion An object that represents a single 'update' or 'change'.
+ *             The data contained in this update is intended to update
+ *             various collection views but can be used to update an UI.
+ * @discussion This object preserves value semantics.
+ */
 @interface JSBFSDirectoryChanges: NSObject
-@property (readonly, nonatomic, strong) NSIndexSet* _Nonnull insertions;
-@property (readonly, nonatomic, strong) NSIndexSet* _Nonnull deletions;
-@property (readonly, nonatomic, strong) NSArray<JSBFSDirectoryChangesMove*>* _Nonnull moves;
--(instancetype _Nonnull)initWithInsertions:(NSIndexSet* _Nonnull)insertions
-                                 deletions:(NSIndexSet* _Nonnull)deletions
-                                     moves:(NSArray<JSBFSDirectoryChangesMove*>* _Nonnull)moves;
+
+@property (readonly, nonatomic, strong) NSIndexSet*_Nonnull insertions;
+@property (readonly, nonatomic, strong) NSIndexSet*_Nonnull deletions;
+@property (readonly, nonatomic, strong) NSArray<JSBFSDirectoryChangesMove*>*_Nonnull moves;
+
+-(instancetype)init NS_UNAVAILABLE;
+-(instancetype _Nonnull)initWithInsertions:(NSIndexSet*_Nonnull)insertions
+                                 deletions:(NSIndexSet*_Nonnull)deletions
+                                     moves:(NSArray<JSBFSDirectoryChangesMove*>*_Nonnull)moves
+NS_DESIGNATED_INITIALIZER;
+- (NSString*)description;
+
 @end
 
-@interface JSBFSDirectoryChanges (IGListKit)
-/// Returns NIL if there are no changes
-- (instancetype _Nullable)initWithIndexSetResult:(IGListIndexSetResult* _Nonnull)result;
+/*!
+ * @discussion An object that represents a single 'update' or 'change'.
+ *             The data contained in this update is intended to update
+ *             various collection views but can be used to update an UI.
+ * @discussion This object preserves value semantics.
+ */
+@interface JSBFSDirectoryChangesFull: JSBFSDirectoryChanges
+
+@property (readonly, nonatomic, strong) NSIndexSet*_Nonnull updates;
+
+-(instancetype)init NS_UNAVAILABLE;
+-(instancetype _Nonnull)initWithInsertions:(NSIndexSet*_Nonnull)insertions
+                                 deletions:(NSIndexSet*_Nonnull)deletions
+                                     moves:(NSArray<JSBFSDirectoryChangesMove*>*_Nonnull)moves
+NS_UNAVAILABLE;
+-(instancetype _Nonnull)initWithInsertions:(NSIndexSet*_Nonnull)insertions
+                                 deletions:(NSIndexSet*_Nonnull)deletions
+                                     moves:(NSArray<JSBFSDirectoryChangesMove*>*_Nonnull)moves
+                                   updates:(NSIndexSet*_Nonnull)updates
+NS_DESIGNATED_INITIALIZER;
+- (NSString*)description;
+
 @end
 
+/*!
+ * @discussion An object that represents a single move of an item from one index
+ *             to a new index.
+ * @discussion This object preserves value semantics.
+ */
 @interface JSBFSDirectoryChangesMove: NSObject
 @property (readonly, nonatomic) NSInteger from;
 @property (readonly, nonatomic) NSInteger to;
--(instancetype _Nonnull)initWithFromValue:(NSInteger)fromValue toValue:(NSInteger)toValue;
+-(instancetype)init NS_UNAVAILABLE;
+-(instancetype _Nonnull)initWithFromValue:(NSInteger)fromValue toValue:(NSInteger)toValue
+NS_DESIGNATED_INITIALIZER;
 @end
 
-@interface JSBFSDirectoryChangesFull: JSBFSDirectoryChanges
-@property (readonly, nonatomic, strong) NSIndexSet* _Nonnull updates;
+@interface IGListIndexSetResult (JSBFS)
+/*!
+ * @discussion Converts from the IGListKit change type to JSBFilesystem change type.
+ * @return If changeKind is set to JSBFSObservedDirectyChangeKindModificationsAsInsertionsDeletions
+ *         then return type is JSBFSDirectoryChanges. If changeKind is set to
+ *         JSBFSObservedDirectyChangeKindIncludingModifications then the return
+ *         type JSBFSDirectoryChangesFull. If there are no changes in the
+ *         IGListIndexSetResult (self), then NIL is returned.
+ */
+- (JSBFSDirectoryChanges*_Nullable)changeObjectForChangeKind:(JSBFSObservedDirectoryChangeKind)changeKind;
 @end

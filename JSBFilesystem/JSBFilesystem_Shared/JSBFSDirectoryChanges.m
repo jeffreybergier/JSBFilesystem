@@ -30,24 +30,19 @@
 
 #import "JSBFSDirectoryChanges.h"
 #import "SmallCategories.h"
-
-@implementation JSBFSDirectoryChangesMove
--(instancetype)initWithFromValue:(NSInteger)fromValue toValue:(NSInteger)toValue;
-{
-    self = [super init];
-    NSParameterAssert(self);
-    self->_from = fromValue;
-    self->_to = toValue;
-    return self;
-}
-@end
+#import "JSBFSObservedDirectory.h"
 
 @implementation JSBFSDirectoryChanges
 
--(instancetype)initWithInsertions:(NSIndexSet*)insertions
-                                 deletions:(NSIndexSet*)deletions
-                                     moves:(NSArray<JSBFSDirectoryChangesMove*>*)moves;
+@synthesize insertions = _insertions, deletions = _deletions, moves = _moves;
+
+-(instancetype _Nonnull)initWithInsertions:(NSIndexSet*_Nonnull)insertions
+                                 deletions:(NSIndexSet*_Nonnull)deletions
+                                     moves:(NSArray<JSBFSDirectoryChangesMove*>*_Nonnull)moves;
 {
+    NSParameterAssert(insertions);
+    NSParameterAssert(deletions);
+    NSParameterAssert(moves);
     self = [super init];
     NSParameterAssert(self);
     self->_insertions = insertions;
@@ -65,23 +60,77 @@
 @end
 
 @implementation JSBFSDirectoryChangesFull
-- (instancetype _Nullable)initWithIndexSetResult:(IGListIndexSetResult* _Nonnull)r;
+@synthesize updates = _updates;
+-(instancetype _Nonnull)initWithInsertions:(NSIndexSet*_Nonnull)insertions
+                                 deletions:(NSIndexSet*_Nonnull)deletions
+                                     moves:(NSArray<JSBFSDirectoryChangesMove*>*_Nonnull)moves
+                                   updates:(NSIndexSet*_Nonnull)updates;
 {
-    self = [super initWithIndexSetResult:r];
-    if (!self) { return nil; }
-    self->_updates = [r updates];
+    NSParameterAssert(insertions);
+    NSParameterAssert(deletions);
+    NSParameterAssert(moves);
+    NSParameterAssert(updates);
+    self = [super initWithInsertions:insertions deletions:deletions moves:moves];
+    NSParameterAssert(self);
+    self->_updates = updates;
+    return self;
+}
+
+- (NSString *)description;
+{
+    NSString* og = [super description];
+    return [NSString stringWithFormat:@"%@, Updates: %lu",
+            og, (unsigned long)[[self updates] count]];
+}
+
+@end
+
+@implementation JSBFSDirectoryChangesMove
+@synthesize from = _from, to = _to;
+-(instancetype)initWithFromValue:(NSInteger)fromValue toValue:(NSInteger)toValue;
+{
+    self = [super init];
+    NSParameterAssert(self);
+    self->_from = fromValue;
+    self->_to = toValue;
     return self;
 }
 @end
 
-@implementation JSBFSDirectoryChanges (IGListKit)
-- (instancetype _Nullable)initWithIndexSetResult:(IGListIndexSetResult* _Nonnull)r;
+@implementation IGListIndexSetResult (JSBFS)
+- (JSBFSDirectoryChanges*_Nullable)changeObjectForChangeKind:(JSBFSObservedDirectoryChangeKind)changeKind;
 {
-    if (![r hasChanges]) { return nil; }
-    NSArray<JSBFSDirectoryChangesMove *>* moves = [[r moves] JSBFS_arrayByTransformingArrayContentsWithBlock:^id _Nonnull(IGListMoveIndex* item)
-    {
-        return [[JSBFSDirectoryChangesMove alloc] initWithFromValue:[item from] toValue:[item to]];
-    }];
-    return [self initWithInsertions:[r inserts] deletions:[r deletes] moves:moves];
+    // convert to the right type object based on our change kind
+    IGListIndexSetResult* newSelf = nil;
+    switch (changeKind) {
+        case JSBFSObservedDirectoryChangeKindIncludingModifications:
+            newSelf = self;
+            break;
+        case JSBFSObservedDirectoryChangeKindModificationsAsInsertionsDeletions:
+            newSelf = [self resultForBatchUpdates];
+            break;
+    }
+    // make sure we have an object we're dealing with after conversion
+    NSParameterAssert(newSelf);
+    // if there are no changes, return NIL
+    if (![self hasChanges]) { return nil; }
+    // convert from IGListKit moves to my own Moves
+    NSArray<JSBFSDirectoryChangesMove *>* moves =
+    [[self moves] JSBFS_arrayByTransformingArrayContentsWithBlock: ^id _Nonnull(IGListMoveIndex* item)
+     {
+         return [[JSBFSDirectoryChangesMove alloc] initWithFromValue:[item from] toValue:[item to]];
+     }];
+    // now construct the right kind of object based on the changeKind
+    switch (changeKind) {
+        case JSBFSObservedDirectoryChangeKindIncludingModifications:
+            return [[JSBFSDirectoryChangesFull alloc] initWithInsertions:[self inserts]
+                                                               deletions:[self deletes]
+                                                                   moves:moves
+                                                                 updates:[self updates]];
+        case JSBFSObservedDirectoryChangeKindModificationsAsInsertionsDeletions:
+            return [[JSBFSDirectoryChanges alloc] initWithInsertions:[newSelf inserts]
+                                                           deletions:[newSelf deletes]
+                                                               moves:moves];
+    }
 }
 @end

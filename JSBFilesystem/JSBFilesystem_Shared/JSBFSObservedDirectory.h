@@ -28,9 +28,9 @@
 //
 //
 
-@import Foundation;
-#import "JSBFSDirectoryChanges.h"
 #import "JSBFSDirectory.h"
+
+@class JSBFSDirectoryChanges;
 
 /*!
  * @discussion Specifies whether updates from JSBFSObservedDirectory should
@@ -40,9 +40,9 @@
  *             batch update methods and others do not. E.G. UITableView does
  *             but UICollectionView does not.
  */
-typedef NS_ENUM(NSInteger, JSBFSObservedDirectyChangeKind) {
-    JSBFSObservedDirectyChangeKindIncludingModifications,
-    JSBFSObservedDirectyChangeKindModificationsAsInsertionsDeletions,
+typedef NS_ENUM(NSInteger, JSBFSObservedDirectoryChangeKind) {
+    JSBFSObservedDirectoryChangeKindIncludingModifications,
+    JSBFSObservedDirectoryChangeKindModificationsAsInsertionsDeletions,
 };
 
 typedef void(^JSBFSObservedDirectoryChangeBlock)(JSBFSDirectoryChanges* _Nonnull changes);
@@ -98,7 +98,7 @@ typedef void(^JSBFSObservedDirectoryChangeBlock)(JSBFSDirectoryChanges* _Nonnull
  *             Refer to the documentation for JSBFSObservedDirectyChangeKind for
  *             help deciding which option works best for your application.
  */
-@property (nonatomic) JSBFSObservedDirectyChangeKind changeKind;
+@property (nonatomic) JSBFSObservedDirectoryChangeKind changeKind;
 
 /*!
  * @discussion NSFilePresenter protocol conformance requirement.
@@ -149,7 +149,7 @@ NS_UNAVAILABLE;
                                 createIfNeeded:(BOOL)create
                                       sortedBy:(JSBFSDirectorySort)sortedBy
                                     filteredBy:(NSArray<JSBFSDirectoryFilterBlock>* _Nullable)filters
-                                    changeKind:(JSBFSObservedDirectyChangeKind)changeKind
+                                    changeKind:(JSBFSObservedDirectoryChangeKind)changeKind
                                          error:(NSError* _Nullable*)errorPtr;
 
 /*!
@@ -175,7 +175,7 @@ NS_UNAVAILABLE;
                         createIfNeeded:(BOOL)create
                               sortedBy:(JSBFSDirectorySort)sortedBy
                             filteredBy:(NSArray<JSBFSDirectoryFilterBlock>* _Nullable)filters
-                            changeKind:(JSBFSObservedDirectyChangeKind)changeKind
+                            changeKind:(JSBFSObservedDirectoryChangeKind)changeKind
                                  error:(NSError*_Nullable*)errorPtr;
 
 /*!
