@@ -33,22 +33,20 @@
 
 @implementation JSBFSFileComparison
 
-- (instancetype)initWithFileURL:(NSURL*)fileURL modificationDate:(NSDate*)modificationDate;
+@synthesize fileURL = _fileURL, modificationDate = _modificationDate;
+
+- (instancetype _Nonnull)initWithFileURL:(NSURL*_Nonnull)fileURL
+                        modificationDate:(NSDate* _Nonnull)modificationDate;
 {
+    NSParameterAssert(fileURL);
+    NSParameterAssert(modificationDate);
     self = [super init];
     NSParameterAssert(self);
     self->_fileURL = fileURL;
     self->_modificationDate = modificationDate;
     return self;
 }
-- (id)diffIdentifier;
-{
-    return [[self fileURL] path];
-}
-- (BOOL)isEqualToDiffableObject:(id)object;
-{
-    return [self isEqual:object];
-}
+
 - (BOOL)isEqual:(id)object;
 {
     JSBFSFileComparison* lhs = self;
@@ -62,7 +60,7 @@
         return NO;
     }
     // if the paths don't match in the URL's then we fail
-    if (![[[lhs fileURL] path] isEqualToString:[[rhs fileURL] path]]) {
+    if (![[lhs fileURL] isEqual:[rhs fileURL]]) {
         return NO;
     }
     // if the dates do not match, we fail
@@ -73,6 +71,7 @@
     return YES;
 }
 
+/// https://www.mikeash.com/pyblog/friday-qa-2010-06-18-implementing-equality-and-hashing.html
 #define NSUINT_BIT (CHAR_BIT * sizeof(NSUInteger))
 #define NSUINTROTATE(val, howmuch) ((((NSUInteger)val) << howmuch) | (((NSUInteger)val) >> (NSUINT_BIT - howmuch)))
 - (NSUInteger)hash
@@ -82,7 +81,19 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"%@, url: %@, date: %@", [super description], [[self fileURL] lastPathComponent], [self modificationDate]];
+    return [NSString stringWithFormat:@"%@, url: %@, date: %@",
+            [super description], [[self fileURL] lastPathComponent], [self modificationDate]];
 }
 
+@end
+
+@implementation JSBFSFileComparison (IGListKit)
+- (id)diffIdentifier;
+{
+    return [self fileURL];
+}
+- (BOOL)isEqualToDiffableObject:(id)object;
+{
+    return [self isEqual:object];
+}
 @end

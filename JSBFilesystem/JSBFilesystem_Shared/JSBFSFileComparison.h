@@ -28,14 +28,41 @@
 //
 //
 
-@import Foundation;
 @import IGListKit;
 
-@interface JSBFSFileComparison: NSObject <IGListDiffable>
-@property (readonly, nonatomic, strong) NSURL* _Nonnull fileURL;
-@property (readonly, nonatomic, strong) NSDate* _Nonnull modificationDate;
-- (instancetype _Nonnull)initWithFileURL:(NSURL* _Nonnull)fileURL modificationDate:(NSDate* _Nonnull)modificationDate;
-- (id)diffIdentifier;
+/*!
+ * @discussion An object that represents a file on disk and a modification date.
+ *             The object is intended to be Diff'ed with IGListKit
+ * @discussion This object preserves value semantics.
+ */
+@interface JSBFSFileComparison: NSObject
+@property (readonly, nonatomic, strong) NSURL*_Nonnull fileURL;
+@property (readonly, nonatomic, strong) NSDate*_Nonnull modificationDate;
+- (instancetype)init NS_UNAVAILABLE;
+- (instancetype _Nonnull)initWithFileURL:(NSURL*_Nonnull)fileURL
+                        modificationDate:(NSDate* _Nonnull)modificationDate
+NS_DESIGNATED_INITIALIZER;
+/*!
+ * @discussion Custom isEqual implementation that does 4 checks. The first failure
+ *             encountered causes a NO return and the remaining checks are abandoned.
+ * @discussion 1) Pointer Equality, 2) Class Check, 3) NSURL isEqual check,
+ *             4) NSDate isEqualToDate check
+ * @return Returns YES/NO.
+ */
 - (BOOL)isEqual:(id)object;
+- (NSUInteger)hash;
+- (NSString*)description;
+@end
+
+@interface JSBFSFileComparison (IGListKit) <IGListDiffable>
+/*!
+ * @discussion Called by IGListKit. Do not call manually.
+ * @return The NSURL object stored in fileURL.
+ */
+- (id)diffIdentifier;
+/*!
+ * @discussion Called by IGListKit. Do not call manually.
+ * @return Returns YES/NO by calling -isEqual
+ */
 - (BOOL)isEqualToDiffableObject:(id)object;
 @end
