@@ -32,21 +32,6 @@
 @class JSBFSDirectoryChanges;
 
 /*!
- * @discussion Specifies whether updates from JSBFSObservedDirectory should
- *             include modifications in the diff. When modifications are not
- *             included, they appear as a matching set of insertions and deletions
- * @discussion Certain types of collection views support modifications in their
- *             batch update methods and others do not. E.G. UITableView does
- *             but UICollectionView does not.
- */
-typedef NS_ENUM(NSInteger, JSBFSObservedDirectoryChangeKind) {
-    JSBFSObservedDirectoryChangeKindIncludingModifications,
-    JSBFSObservedDirectoryChangeKindModificationsAsInsertionsDeletions,
-};
-
-typedef void(^JSBFSObservedDirectoryChangeBlock)(JSBFSDirectoryChanges* _Nonnull changes);
-
-/*!
  * @discussion An object that attempts to turn a directory into a basic Array
  *             or basic database query. Use filtering, sorting, and methods on
  *             this class in order to treat a directory on the filesystem as a

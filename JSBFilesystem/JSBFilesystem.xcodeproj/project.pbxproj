@@ -49,8 +49,8 @@
 		50C5D8B42110C18B00A2B21E /* ListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C5D8B32110C18B00A2B21E /* ListTableViewController.swift */; };
 		50C5D8B72110C30B00A2B21E /* JSBFilesystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C5D84E2110B3F000A2B21E /* JSBFilesystem.framework */; };
 		50C5D8B82110C30B00A2B21E /* JSBFilesystem.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50C5D84E2110B3F000A2B21E /* JSBFilesystem.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		50FC33092133636700FA0BC6 /* SmallTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 50FC33072133636700FA0BC6 /* SmallTypes.h */; };
-		50FC330A2133636700FA0BC6 /* SmallTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 50FC33072133636700FA0BC6 /* SmallTypes.h */; };
+		50FC33092133636700FA0BC6 /* SmallTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 50FC33072133636700FA0BC6 /* SmallTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		50FC330A2133636700FA0BC6 /* SmallTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 50FC33072133636700FA0BC6 /* SmallTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50FC330B2133636700FA0BC6 /* SmallTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FC33082133636700FA0BC6 /* SmallTypes.m */; };
 		50FC330C2133636700FA0BC6 /* SmallTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FC33082133636700FA0BC6 /* SmallTypes.m */; };
 		5F879FC2271838C6F71D3EA4 /* Pods_JSBFilesystem_macOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B08995D943B066DA503B0AE /* Pods_JSBFilesystem_macOSTests.framework */; };

@@ -34,6 +34,7 @@
 @implementation NSArray (JSBFS)
 - (NSArray*)JSBFS_arrayByTransformingArrayContentsWithBlock:(id _Nonnull (^_Nonnull)(id item))transform;
 {
+    NSParameterAssert(transform);
     NSMutableArray* transformed = [[NSMutableArray alloc] initWithCapacity:[self count]];
     for (id item in self) {
         [transformed addObject:transform(item)];
@@ -46,6 +47,7 @@
 }
 - (NSArray*)JSBFS_arrayByFilteringArrayContentsWithBlock:(BOOL (^_Nonnull)(id item))isIncludedBlock;
 {
+    NSParameterAssert(isIncludedBlock);
     NSMutableArray* filtered = [[NSMutableArray alloc] initWithCapacity:[self count]];
     for (id item in self) {
         BOOL isIncluded = isIncludedBlock(item);
@@ -57,43 +59,6 @@
         return filtered;
     } else {
         return [filtered copy];
-    }
-}
-@end
-
-@implementation JSBFSDirectorySortConverter
-+ (JSBFSDirectorySort)defaultSort;
-{
-    return JSBFSDirectorySortNameAFirst;
-}
-+ (NSURLResourceKey)resourceKeyForSort:(JSBFSDirectorySort)sort;
-{
-    switch (sort) {
-        case JSBFSDirectorySortNameAFirst:
-        case JSBFSDirectorySortNameZFirst:
-            return NSURLLocalizedNameKey;
-
-        case JSBFSDirectorySortCreationNewestFirst:
-        case JSBFSDirectorySortCreationOldestFirst:
-            return NSURLCreationDateKey;
-
-        case JSBFSDirectorySortModificationNewestFirst:
-        case JSBFSDirectorySortModificationOldestFirst:
-            return NSURLContentModificationDateKey;
-    }
-}
-
-+ (BOOL)orderedAscendingForSort:(JSBFSDirectorySort)sort;
-{
-    switch (sort) {
-        case JSBFSDirectorySortNameAFirst:
-        case JSBFSDirectorySortCreationOldestFirst:
-        case JSBFSDirectorySortModificationOldestFirst:
-            return YES;
-        case JSBFSDirectorySortNameZFirst:
-        case JSBFSDirectorySortCreationNewestFirst:
-        case JSBFSDirectorySortModificationNewestFirst:
-            return NO;
     }
 }
 @end

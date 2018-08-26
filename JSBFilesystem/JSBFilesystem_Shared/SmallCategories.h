@@ -33,22 +33,32 @@ typedef NS_ENUM(NSInteger, JSBFSDirectorySort);
 
 
 @interface NSArray (JSBFS)
-/// Returns an immutable array if the original array is immutable
-/// Returns a mutable array if the original array is mutable
+/*!
+ * @discussion A simple, untyped map operation for NSArray.
+ * @param transform A block that allows you to transform the existing object
+ *        into a new object.
+ * @return An array of equal length as the original array, populated with the
+ *         transformed objects. If the original array was Mutable, the returned
+ *         array will also mutable.
+ */
 - (NSArray*)JSBFS_arrayByTransformingArrayContentsWithBlock:(id _Nonnull (^_Nonnull)(id item))transform
 NS_SWIFT_NAME(JSBFS_transformingArrayContents(withTransform:));
-/// Returns an immutable array if the original array is immutable
-/// Returns a mutable array if the original array is mutable
+/*!
+ * @discussion A simple, untyped filter operation for NSArray.
+ * @param isIncluded A filter block. Return YES to keep object, return NO to filter object.
+ * @return An array with the filtered objects removed. If the original array
+ *         was Mutable, the returned array will also mutable.
+ */
 - (NSArray*)JSBFS_arrayByFilteringArrayContentsWithBlock:(BOOL (^_Nonnull)(id item))isIncluded
 NS_SWIFT_NAME(JSBFS_filteringArrayContents(_:));
 @end
 
-@interface JSBFSDirectorySortConverter: NSObject
-@property (class, nonatomic, readonly) JSBFSDirectorySort defaultSort;
-+ (NSURLResourceKey)resourceKeyForSort:(JSBFSDirectorySort)sort;
-+ (BOOL)orderedAscendingForSort:(JSBFSDirectorySort)sort;
-@end
-
 @interface NSOperationQueue (JSBFS)
+/*!
+ * @discussion Internal method to create a new NSOperationQueue to be used by
+ *             JSBFSObservedDirectory and NSFilePresenter.
+ * @return A new NSOperationQueue instance with an underlying serial queue
+ *         that allows only 1 concurrent operation.
+ */
 + (instancetype _Nonnull)JSBFS_serialQueue;
 @end
