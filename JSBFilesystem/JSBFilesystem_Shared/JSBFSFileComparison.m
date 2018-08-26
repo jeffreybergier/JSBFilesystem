@@ -29,7 +29,6 @@
 //
 
 #import "JSBFSFileComparison.h"
-#import "SmallCategories.h"
 
 @implementation JSBFSFileComparison
 

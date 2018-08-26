@@ -29,6 +29,7 @@
 //
 
 #import "SmallCategories.h"
+#import "SmallTypes.h"
 
 @implementation NSArray (JSBFS)
 - (NSArray*)JSBFS_arrayByTransformingArrayContentsWithBlock:(id _Nonnull (^_Nonnull)(id item))transform;
@@ -106,16 +107,5 @@
     [q setUnderlyingQueue:dispatch_queue_create([qLabel UTF8String], DISPATCH_QUEUE_SERIAL)];
     [q setMaxConcurrentOperationCount:1];
     return q;
-}
-@end
-
-@implementation JSBFSDoubleBool
-- (instancetype)initWithValue1:(BOOL)value1 value2:(BOOL)value2;
-{
-    self = [super init];
-    NSParameterAssert(self);
-    self->_value1 = value1;
-    self->_value2 = value2;
-    return self;
 }
 @end

@@ -49,6 +49,10 @@
 		50C5D8B42110C18B00A2B21E /* ListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C5D8B32110C18B00A2B21E /* ListTableViewController.swift */; };
 		50C5D8B72110C30B00A2B21E /* JSBFilesystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C5D84E2110B3F000A2B21E /* JSBFilesystem.framework */; };
 		50C5D8B82110C30B00A2B21E /* JSBFilesystem.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50C5D84E2110B3F000A2B21E /* JSBFilesystem.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		50FC33092133636700FA0BC6 /* SmallTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 50FC33072133636700FA0BC6 /* SmallTypes.h */; };
+		50FC330A2133636700FA0BC6 /* SmallTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 50FC33072133636700FA0BC6 /* SmallTypes.h */; };
+		50FC330B2133636700FA0BC6 /* SmallTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FC33082133636700FA0BC6 /* SmallTypes.m */; };
+		50FC330C2133636700FA0BC6 /* SmallTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FC33082133636700FA0BC6 /* SmallTypes.m */; };
 		5F879FC2271838C6F71D3EA4 /* Pods_JSBFilesystem_macOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B08995D943B066DA503B0AE /* Pods_JSBFilesystem_macOSTests.framework */; };
 		6C2471B0BDCE9DEF30AEEE74 /* Pods_JSBFilesystem_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F879CF00676C3085E1EEC829 /* Pods_JSBFilesystem_iOS.framework */; };
 		7D5DC693D5F4192337C3D193 /* Pods_JSBFilesystem_iOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF97E44A2B6EA8FC5EA8E08B /* Pods_JSBFilesystem_iOSTests.framework */; };
@@ -129,6 +133,8 @@
 		50C5D8AD2110C10E00A2B21E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		50C5D8AF2110C10E00A2B21E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50C5D8B32110C18B00A2B21E /* ListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewController.swift; sourceTree = "<group>"; };
+		50FC33072133636700FA0BC6 /* SmallTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SmallTypes.h; sourceTree = "<group>"; };
+		50FC33082133636700FA0BC6 /* SmallTypes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SmallTypes.m; sourceTree = "<group>"; };
 		65D4B3B06FB43C8E0B939B3C /* Pods-JSBFilesystem_iOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JSBFilesystem_iOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JSBFilesystem_iOSTests/Pods-JSBFilesystem_iOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		699AB61DFC6D00EE7B3E6172 /* Pods-JSBFilesystem_macOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JSBFilesystem_macOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-JSBFilesystem_macOSTests/Pods-JSBFilesystem_macOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		7627DF88759B53B31A275B9F /* Pods-JSBFilesystem_sample_app.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JSBFilesystem_sample_app.release.xcconfig"; path = "Pods/Target Support Files/Pods-JSBFilesystem_sample_app/Pods-JSBFilesystem_sample_app.release.xcconfig"; sourceTree = "<group>"; };
@@ -278,6 +284,8 @@
 				50C5D8682110B57200A2B21E /* NSFileCoordinator+JSBFS.m */,
 				50C5D86E2110B57200A2B21E /* SmallCategories.h */,
 				50C5D8732110B57200A2B21E /* SmallCategories.m */,
+				50FC33072133636700FA0BC6 /* SmallTypes.h */,
+				50FC33082133636700FA0BC6 /* SmallTypes.m */,
 			);
 			path = JSBFilesystem_shared;
 			sourceTree = "<group>";
@@ -329,6 +337,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50FC33092133636700FA0BC6 /* SmallTypes.h in Headers */,
 				50C5D8832110B57300A2B21E /* SmallCategories.h in Headers */,
 				50C5D8752110B57300A2B21E /* JSBFSFileComparison.h in Headers */,
 				50C5D87D2110B57300A2B21E /* JSBFSObservedDirectory.h in Headers */,
@@ -343,6 +352,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50FC330A2133636700FA0BC6 /* SmallTypes.h in Headers */,
 				50C5D8842110B57300A2B21E /* SmallCategories.h in Headers */,
 				50C5D8762110B57300A2B21E /* JSBFSFileComparison.h in Headers */,
 				50C5D87E2110B57300A2B21E /* JSBFSObservedDirectory.h in Headers */,
@@ -703,6 +713,7 @@
 				50C5D88D2110B57300A2B21E /* SmallCategories.m in Sources */,
 				50C5D88F2110B57300A2B21E /* JSBFSFileComparison.m in Sources */,
 				50C5D8772110B57300A2B21E /* NSFileCoordinator+JSBFS.m in Sources */,
+				50FC330B2133636700FA0BC6 /* SmallTypes.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -726,6 +737,7 @@
 				50C5D88E2110B57300A2B21E /* SmallCategories.m in Sources */,
 				50C5D8902110B57300A2B21E /* JSBFSFileComparison.m in Sources */,
 				50C5D8782110B57300A2B21E /* NSFileCoordinator+JSBFS.m in Sources */,
+				50FC330C2133636700FA0BC6 /* SmallTypes.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

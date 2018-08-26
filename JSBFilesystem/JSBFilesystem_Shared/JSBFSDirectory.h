@@ -29,7 +29,7 @@
 //
 
 @import Foundation;
-#import "SmallCategories.h"
+#import "SmallTypes.h"
 @class JSBFSFileComparison;
 
 /*!
