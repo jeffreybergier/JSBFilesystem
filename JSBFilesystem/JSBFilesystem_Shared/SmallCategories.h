@@ -57,5 +57,5 @@ typedef NS_ENUM(NSInteger, JSBFSDirectorySort) {
 @end
 
 @interface NSOperationQueue (JSBFS)
-+ (instancetype _Nonnull)serialQueue;
++ (instancetype _Nonnull)JSBFS_serialQueue;
 @end

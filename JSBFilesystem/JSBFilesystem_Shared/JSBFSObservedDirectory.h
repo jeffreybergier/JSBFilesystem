@@ -100,6 +100,20 @@ typedef void(^JSBFSObservedDirectoryChangeBlock)(JSBFSDirectoryChanges* _Nonnull
  */
 @property (nonatomic) JSBFSObservedDirectyChangeKind changeKind;
 
+/*!
+ * @discussion NSFilePresenter protocol conformance requirement.
+ * @discussion This URL always matches the -[JSBDirectory url].
+ */
+@property (nullable, readonly, copy, nonatomic) NSURL *presentedItemURL;
+
+/*!
+ * @discussion NSFilePresenter protocol conformance requirement.
+ * @discussion Updates, filtering, sorting, and diffing are performed on the
+ *             underlying DispatchQueue of this Operation Queue. Use the
+ *             underlying queue to add work to the serial queue.
+ */
+@property (readonly, strong, nonatomic) NSOperationQueue *presentedItemOperationQueue;
+
 - (instancetype)init
 NS_UNAVAILABLE;
 - (instancetype _Nullable)initWithBase:(NSSearchPathDirectory)base
@@ -181,6 +195,13 @@ NS_UNAVAILABLE;
  *             reading and writing data safely.
  */
 - (void)performBatchUpdates:(void(^NS_NOESCAPE _Nonnull)(void))updates;
+
+/*!
+ * @discussion NSFilePresenter protocol conformance requirement.
+ * @discussion Do not call this method manually, only call -forceUpdate.
+ */
+- (void)presentedItemDidChange;
+
 
 @end
 

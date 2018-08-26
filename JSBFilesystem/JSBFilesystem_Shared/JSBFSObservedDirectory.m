@@ -38,15 +38,14 @@
     JSBFSObservedDirectoryChangeBlock _changesObserved;
 }
 @property (nonatomic, strong) NSArray<JSBFSFileComparison*>* _Nonnull internalState;
-@property (readonly, nonatomic, strong) NSOperationQueue* _Nonnull queue;
 @property (nonatomic, strong) NSTimer* _Nullable updateWaitTimer;
 @end
 
 @implementation JSBFSObservedDirectory
 
-@synthesize changeKind = _changeKind, updateDelay = _updateDelay;
-@synthesize internalState = _internalState, queue = _queue, updateWaitTimer = _updateWaitTimer;
-@dynamic changesObserved;
+@synthesize changeKind = _changeKind, updateDelay = _updateDelay, presentedItemOperationQueue = _presentedItemOperationQueue;
+@synthesize internalState = _internalState, updateWaitTimer = _updateWaitTimer;
+@dynamic changesObserved, presentedItemURL;
 
 // MARK: Init
 
@@ -63,6 +62,10 @@
                             filteredBy:filters
                                  error:errorPtr];
     self->_changeKind = changeKind;
+    self->_changesObserved = nil;
+    self->_updateDelay = 0.2;
+    self->_internalState = [[NSArray alloc] init];
+    self->_presentedItemOperationQueue = [NSOperationQueue JSBFS_serialQueue];
     return self;
 }
 
@@ -81,6 +84,10 @@
                     filteredBy:filters
                          error:errorPtr];
     self->_changeKind = changeKind;
+    self->_changesObserved = nil;
+    self->_updateDelay = 0.2;
+    self->_internalState = [[NSArray alloc] init];
+    self->_presentedItemOperationQueue = [NSOperationQueue JSBFS_serialQueue];
     return self;
 }
 
@@ -162,30 +169,26 @@
     return [self url];
 }
 
-- (NSOperationQueue*)presentedItemOperationQueue;
-{
-    return [self queue];
-}
-
 - (void)presentedItemDidChange;
 {
     [[self updateWaitTimer] invalidate];
     id __weak welf = self;
-    [self setUpdateWaitTimer:[NSTimer timerWithTimeInterval:[self updateDelay] repeats:NO block:^(NSTimer * _Nonnull timer) {
+    NSTimer* newTimer = [NSTimer timerWithTimeInterval:[self updateDelay] repeats:NO block:^(NSTimer * _Nonnull timer) {
         // silence the objective c welf warning
-        if (!welf) { return; }
         id __strong strong_welf = welf;
+        if (!strong_welf) { return; }
         // make sure this timer doesn't repeat
         [timer invalidate];
         [[strong_welf updateWaitTimer] invalidate];
         [strong_welf setUpdateWaitTimer:nil];
         // hop back onto the serial queue and force an update
-        NSOperationQueue* queue = [strong_welf queue];
+        NSOperationQueue* queue = [strong_welf presentedItemOperationQueue];
         if (!queue) { return; }
         dispatch_async([queue underlyingQueue], ^{
             [strong_welf forceUpdate];
         });
-    }]];
+    }];
+    [self setUpdateWaitTimer:newTimer];
     // NSTimer only appears to work on the main thread
     [[NSRunLoop mainRunLoop] addTimer:[self updateWaitTimer] forMode:NSDefaultRunLoopMode];
 }
