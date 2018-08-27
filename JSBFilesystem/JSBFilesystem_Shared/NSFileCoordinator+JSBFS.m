@@ -266,7 +266,7 @@
                               error:&error
                          byAccessor:^(void (^ _Nonnull completionHandler)(void))
      {
-         if (error) { return; }
+         if (error) { completionHandler(); return; }
          [c coordinateReadingItemAtURL:url
                                options:NSFileCoordinatorReadingResolvesSymbolicLink
                                  error:&error
@@ -286,8 +286,8 @@
                                sortedByResourceKey:resourceKey
                                   orderedAscending:ascending
                                              error:&error];
+             completionHandler();
          }];
-         completionHandler();
      }];
     // check if that operation failed
     if (error) {
@@ -301,11 +301,11 @@
     }
 }
 
-+ (NSArray<JSBFSFileComparison*>* _Nullable)JSBFS_urlComparisonsForFilesInDirectoryURL:(NSURL*_Nonnull)url
-                                                                              sortedBy:(JSBFSDirectorySort)sortedBy
-                                                                            filteredBy:(NSArray<JSBFSDirectoryFilterBlock>*_Nullable)filters
-                                                                         filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
-                                                                                 error:(NSError*_Nullable*)errorPtr;
++ (NSArray<JSBFSFileComparison*>* _Nullable)JSBFS_comparableContentsOfDirectoryAtURL:(NSURL*_Nonnull)url
+                                                                            sortedBy:(JSBFSDirectorySort)sortedBy
+                                                                          filteredBy:(NSArray<JSBFSDirectoryFilterBlock>*_Nullable)filters
+                                                                       filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
+                                                                               error:(NSError*_Nullable*)errorPtr;
 {
     NSError* error = nil;
     NSArray<NSURL*>* contents = [self JSBFS_contentsOfDirectoryAtURL:url

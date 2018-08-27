@@ -51,7 +51,7 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
         let data = Data(string.utf8)
         let url = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID)
         do {
-            try NSFileCoordinator.JSBFS_write(data, to: url)
+            try NSFileCoordinator.JSBFS_write(data, to: url, filePresenter: nil)
             let dataFromDisk = try Data(contentsOf: url)
             let stringFromDisk = String(data: dataFromDisk, encoding: .utf8)
             XCTAssertNotNil(stringFromDisk)
@@ -67,7 +67,7 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
         let url = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID)
         do {
             try data.write(to: url)
-            let dataFromDisk = try NSFileCoordinator.JSBFS_readData(from: url)
+            let dataFromDisk = try NSFileCoordinator.JSBFS_readData(from: url, filePresenter: nil)
             let stringFromDisk = String(data: dataFromDisk, encoding: .utf8)
             XCTAssertNotNil(stringFromDisk)
             XCTAssert(stringFromDisk == string)
@@ -78,7 +78,7 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
 
     func testCreateDirectory() {
         do {
-            try NSFileCoordinator.JSBFS_createDirectory(at: self.dirURL)
+            try NSFileCoordinator.JSBFS_createDirectory(at: self.dirURL, filePresenter: nil)
             var isDirectory: ObjCBool = false
             let isExisting = FileManager.default.fileExists(atPath: self.dirURL.path, isDirectory: &isDirectory)
             XCTAssert(isExisting && isDirectory.boolValue)
@@ -90,7 +90,7 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
     func testFileExistsAndIsDirectory_Directory() {
         do {
             try FileManager.default.createDirectory(at: self.dirURL, withIntermediateDirectories: true, attributes: nil)
-            let value = try NSFileCoordinator.JSBFS_fileExistsAndIsDirectory(at: self.dirURL)
+            let value = try NSFileCoordinator.JSBFS_fileExistsAndIsDirectory(at: self.dirURL, filePresenter: nil)
             let (isExisting, isDirectory) = (value.value1, value.value2)
             XCTAssert(isExisting && isDirectory)
         } catch {
@@ -104,7 +104,7 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
         do {
             try FileManager.default.createDirectory(at: self.dirURL, withIntermediateDirectories: true, attributes: nil)
             try data.write(to: url)
-            let value = try NSFileCoordinator.JSBFS_fileExistsAndIsDirectory(at: url)
+            let value = try NSFileCoordinator.JSBFS_fileExistsAndIsDirectory(at: url, filePresenter: nil)
             let (isExisting, isDirectory) = (value.value1, value.value2)
             XCTAssert(isExisting == true && isDirectory == false)
         } catch {
@@ -126,24 +126,6 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
         }
     }
 
-    func testMove() {
-        let dir1URL = self.dirURL.appendingPathComponent(UUID, isDirectory: true)
-        let dir2URL = self.dirURL.appendingPathComponent(UUID, isDirectory: true)
-        let beforeURL = dir1URL.appendingPathComponent(UUID, isDirectory: false)
-        let afterURL = dir2URL.appendingPathComponent(UUID, isDirectory: false)
-        let data = Data(UUID.utf8)
-        do {
-            try FileManager.default.createDirectory(at: dir1URL, withIntermediateDirectories: true, attributes: nil)
-            try data.write(to: beforeURL)
-            try NSFileCoordinator.JSBFS_move(sourceFile: beforeURL, toDestinationFile: afterURL)
-            let beforeExists = FileManager.default.fileExists(atPath: beforeURL.path)
-            let afterExists = FileManager.default.fileExists(atPath: afterURL.path)
-            XCTAssert(beforeExists == false && afterExists == true)
-        } catch {
-            XCTFail(String(describing: error))
-        }
-    }
-
     func testFileCountInDirectory() {
         do {
             let testCount = 100
@@ -153,7 +135,10 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
                 let url = self.dirURL.appendingPathComponent("\(i).txt", isDirectory: false)
                 try data.write(to: url)
             }
-            let count = try NSFileCoordinator.JSBFS_fileCount(inDirectoryURL: self.dirURL)
+            let count = try NSFileCoordinator.JSBFS_contentsOfDirectory(at: self.dirURL,
+                                                                        sortedBy:JSBFSDirectorySortConverter.defaultSort,
+                                                                        filteredBy:nil,
+                                                                        filePresenter: nil).count
             XCTAssert(count == testCount)
         } catch {
             XCTFail(String(describing: error))
@@ -171,9 +156,10 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
                 let data = Data(file.utf8)
                 try data.write(to: url)
             }
-            let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: self.dirURL,
-                                                                          sortedBy: .nameAFirst,
-                                                                          filteredBy: [])
+            let urls = try NSFileCoordinator.JSBFS_comparableContentsOfDirectory(at: self.dirURL,
+                                                                                 sortedBy: .nameAFirst,
+                                                                                 filteredBy: nil,
+                                                                                 filePresenter: nil)
             XCTAssert(urls.count == count)
             XCTAssert(urls.first!.fileURL.lastPathComponent == "0.file")
             XCTAssert(urls.last!.fileURL.lastPathComponent == "99.file")
@@ -193,9 +179,10 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
                 let data = Data(file.utf8)
                 try data.write(to: url)
             }
-            let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: self.dirURL,
-                                                                          sortedBy: .nameZFirst,
-                                                                          filteredBy: [])
+            let urls = try NSFileCoordinator.JSBFS_comparableContentsOfDirectory(at: self.dirURL,
+                                                                                 sortedBy: .nameZFirst,
+                                                                                 filteredBy: nil,
+                                                                                 filePresenter: nil)
             XCTAssert(urls.count == count)
             XCTAssert(urls.last!.fileURL.lastPathComponent == "0.file")
             XCTAssert(urls.first!.fileURL.lastPathComponent == "99.file")
@@ -215,9 +202,10 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
                 let data = Data(file.utf8)
                 try data.write(to: url)
             }
-            let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: self.dirURL,
-                                                                          sortedBy: .creationOldestFirst,
-                                                                          filteredBy: [])
+            let urls = try NSFileCoordinator.JSBFS_comparableContentsOfDirectory(at: self.dirURL,
+                                                                                 sortedBy: .creationOldestFirst,
+                                                                                 filteredBy: nil,
+                                                                                 filePresenter: nil)
             XCTAssert(urls.count == count)
             XCTAssert(urls.first!.fileURL.lastPathComponent == "0.file")
             XCTAssert(urls.last!.fileURL.lastPathComponent == "99.file")
@@ -237,9 +225,10 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
                 let data = Data(file.utf8)
                 try data.write(to: url)
             }
-            let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: self.dirURL,
-                                                                          sortedBy: .creationNewestFirst,
-                                                                          filteredBy: [])
+            let urls = try NSFileCoordinator.JSBFS_comparableContentsOfDirectory(at: self.dirURL,
+                                                                                 sortedBy: .creationNewestFirst,
+                                                                                 filteredBy: nil,
+                                                                                 filePresenter: nil)
             XCTAssert(urls.count == count)
             XCTAssert(urls.last!.fileURL.lastPathComponent == "0.file")
             XCTAssert(urls.first!.fileURL.lastPathComponent == "99.file")
@@ -262,9 +251,10 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
             let modURL = self.dirURL.appendingPathComponent("10.file")
             let data = Data("MODIFIED".utf8)
             try data.write(to: modURL)
-            let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: self.dirURL,
-                                                                          sortedBy: .modificationOldestFirst,
-                                                                          filteredBy: [])
+            let urls = try NSFileCoordinator.JSBFS_comparableContentsOfDirectory(at: self.dirURL,
+                                                                                 sortedBy: .modificationOldestFirst,
+                                                                                 filteredBy: nil,
+                                                                                 filePresenter: nil)
             XCTAssert(urls.count == count)
             XCTAssert(urls.last!.fileURL.lastPathComponent == "10.file")
         } catch {
@@ -286,9 +276,10 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
             let modURL = self.dirURL.appendingPathComponent("10.file")
             let data = Data("MODIFIED".utf8)
             try data.write(to: modURL)
-            let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: self.dirURL,
-                                                                          sortedBy: .modificationNewestFirst,
-                                                                          filteredBy: [])
+            let urls = try NSFileCoordinator.JSBFS_comparableContentsOfDirectory(at: self.dirURL,
+                                                                                 sortedBy: .modificationNewestFirst,
+                                                                                 filteredBy: nil,
+                                                                                 filePresenter: nil)
             XCTAssert(urls.count == count)
             XCTAssert(urls.first!.fileURL.lastPathComponent == "10.file")
         } catch {
@@ -298,9 +289,11 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
 
     func testFileComparisonsWhenNoDirectoryPresent() {
         do {
-            _ = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: self.dirURL,
-                                                                   sortedBy: .modificationNewestFirst,
-                                                                   filteredBy: [])
+            _ = try NSFileCoordinator.JSBFS_comparableContentsOfDirectory(at: self.dirURL,
+                                                                          sortedBy: .modificationNewestFirst,
+                                                                          filteredBy: nil,
+                                                                          filePresenter: nil)
+
             XCTFail("An error should have been thrown")
         } catch {
             XCTAssert(true, String(describing: error))
@@ -309,10 +302,11 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
 
     func testFileComparisonsNotNilWhenDirectoryEmpty() {
         do {
-            try NSFileCoordinator.JSBFS_createDirectory(at: self.dirURL)
-            let urls = try NSFileCoordinator.JSBFS_urlComparisonsForFiles(inDirectory: self.dirURL,
-                                                                          sortedBy: .modificationNewestFirst,
-                                                                          filteredBy: [])
+            try NSFileCoordinator.JSBFS_createDirectory(at: self.dirURL, filePresenter: nil)
+            let urls = try NSFileCoordinator.JSBFS_comparableContentsOfDirectory(at: self.dirURL,
+                                                                                 sortedBy: .modificationNewestFirst,
+                                                                                 filteredBy: nil,
+                                                                                 filePresenter: nil)
             XCTAssert(urls.isEmpty)
         } catch {
             XCTFail(String(describing: error))
@@ -327,7 +321,7 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
             try FileManager.default.createDirectory(at: self.dirURL, withIntermediateDirectories: true, attributes: nil)
             let innerData = Data(rawString.utf8)
             try innerData.write(to: self.dirURL.appendingPathComponent("innerFile.txt"))
-            let parentWrapper = try NSFileCoordinator.JSBFS_readFileWrapper(from: self.dirURL)
+            let parentWrapper = try NSFileCoordinator.JSBFS_readFileWrapper(from: self.dirURL, filePresenter: nil)
             XCTAssert(parentWrapper.isDirectory)
             XCTAssert(parentWrapper.fileWrappers!.count == 1)
             let fileWrapper = parentWrapper.fileWrappers?["innerFile.txt"]
@@ -352,8 +346,8 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
             XCTAssert(parentFileWrapper.isDirectory)
             XCTAssert(parentFileWrapper.fileWrappers!.count == 1)
             try FileManager.default.createDirectory(at: destinationURL.deletingLastPathComponent(), withIntermediateDirectories: true, attributes: nil)
-            try NSFileCoordinator.JSBFS_write(parentFileWrapper, to: destinationURL)
-            let value = try NSFileCoordinator.JSBFS_fileExistsAndIsDirectory(at: destinationURL)
+            try NSFileCoordinator.JSBFS_write(parentFileWrapper, to: destinationURL, filePresenter: nil)
+            let value = try NSFileCoordinator.JSBFS_fileExistsAndIsDirectory(at: destinationURL, filePresenter: nil)
             XCTAssert(value.value1 && value.value2)
             let childFileDestinationData = try Data(contentsOf: destinationURL.appendingPathComponent(childFileName))
             let childFileDestinationString = String(data: childFileDestinationData, encoding: .utf8)!
@@ -389,7 +383,7 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
                 "Child2" : child2Wrapper
                 ])
             try FileManager.default.createDirectory(at: parentWrapperURL, withIntermediateDirectories: true, attributes: nil)
-            try NSFileCoordinator.JSBFS_write(parentWrapper, to: parentWrapperURL)
+            try NSFileCoordinator.JSBFS_write(parentWrapper, to: parentWrapperURL, filePresenter: nil)
             XCTAssert(true)
         } catch {
             XCTFail(String(describing: error))
