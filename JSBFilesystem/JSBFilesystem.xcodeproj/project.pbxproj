@@ -49,6 +49,8 @@
 		50C5D8B42110C18B00A2B21E /* ListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C5D8B32110C18B00A2B21E /* ListTableViewController.swift */; };
 		50C5D8B72110C30B00A2B21E /* JSBFilesystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C5D84E2110B3F000A2B21E /* JSBFilesystem.framework */; };
 		50C5D8B82110C30B00A2B21E /* JSBFilesystem.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50C5D84E2110B3F000A2B21E /* JSBFilesystem.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		50C98CBE2134BB42008313DE /* NSFileCoordinator_NilParameter_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C98CBD2134BB42008313DE /* NSFileCoordinator_NilParameter_tests.m */; };
+		50C98CBF2134BB42008313DE /* NSFileCoordinator_NilParameter_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C98CBD2134BB42008313DE /* NSFileCoordinator_NilParameter_tests.m */; };
 		50FC33092133636700FA0BC6 /* SmallTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 50FC33072133636700FA0BC6 /* SmallTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50FC330A2133636700FA0BC6 /* SmallTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 50FC33072133636700FA0BC6 /* SmallTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50FC330B2133636700FA0BC6 /* SmallTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FC33082133636700FA0BC6 /* SmallTypes.m */; };
@@ -137,6 +139,9 @@
 		50C5D8AD2110C10E00A2B21E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		50C5D8AF2110C10E00A2B21E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50C5D8B32110C18B00A2B21E /* ListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewController.swift; sourceTree = "<group>"; };
+		50C98CBB2134BB41008313DE /* JSBFilesystem_macOSTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JSBFilesystem_macOSTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		50C98CBC2134BB42008313DE /* JSBFilesystem_iOSTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JSBFilesystem_iOSTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		50C98CBD2134BB42008313DE /* NSFileCoordinator_NilParameter_tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSFileCoordinator_NilParameter_tests.m; sourceTree = "<group>"; };
 		50FC33072133636700FA0BC6 /* SmallTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SmallTypes.h; sourceTree = "<group>"; };
 		50FC33082133636700FA0BC6 /* SmallTypes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SmallTypes.m; sourceTree = "<group>"; };
 		50FC330D2133726B00FA0BC6 /* NSErrors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSErrors.h; sourceTree = "<group>"; };
@@ -253,6 +258,7 @@
 		50C5D83E2110B3D800A2B21E /* JSBFilesystem_macOSTests */ = {
 			isa = PBXGroup;
 			children = (
+				50C98CBB2134BB41008313DE /* JSBFilesystem_macOSTests-Bridging-Header.h */,
 				50C5D8412110B3D800A2B21E /* Info.plist */,
 			);
 			path = JSBFilesystem_macOSTests;
@@ -269,6 +275,7 @@
 		50C5D85A2110B3F000A2B21E /* JSBFilesystem_iOSTests */ = {
 			isa = PBXGroup;
 			children = (
+				50C98CBC2134BB42008313DE /* JSBFilesystem_iOSTests-Bridging-Header.h */,
 				50C5D85D2110B3F000A2B21E /* Info.plist */,
 			);
 			path = JSBFilesystem_iOSTests;
@@ -304,6 +311,7 @@
 				50C5D8932110B59D00A2B21E /* Directory_Tests.swift */,
 				50C5D8922110B59D00A2B21E /* DirectoryObserver_Tests.swift */,
 				50C5D8912110B59D00A2B21E /* NSFileCoordinator+Easy_Tests.swift */,
+				50C98CB82134BADD008313DE /* NSFileCoordinator_tests */,
 				50AD03FD2112218F00C0C88D /* FileWrapperTestImage.png */,
 			);
 			path = JSBFielsystem_shared_tests;
@@ -319,6 +327,30 @@
 				50C5D8AF2110C10E00A2B21E /* Info.plist */,
 			);
 			path = JSBFilesystem_sample_app;
+			sourceTree = "<group>";
+		};
+		50C98CB82134BADD008313DE /* NSFileCoordinator_tests */ = {
+			isa = PBXGroup;
+			children = (
+				50C98CBA2134BAFA008313DE /* NilParameter_tests */,
+				50C98CB92134BAEF008313DE /* Error_tests */,
+			);
+			path = NSFileCoordinator_tests;
+			sourceTree = "<group>";
+		};
+		50C98CB92134BAEF008313DE /* Error_tests */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Error_tests;
+			sourceTree = "<group>";
+		};
+		50C98CBA2134BAFA008313DE /* NilParameter_tests */ = {
+			isa = PBXGroup;
+			children = (
+				50C98CBD2134BB42008313DE /* NSFileCoordinator_NilParameter_tests.m */,
+			);
+			path = NilParameter_tests;
 			sourceTree = "<group>";
 		};
 		A30D0EFCC06D5616FC7C249E /* Pods */ = {
@@ -489,12 +521,14 @@
 					};
 					50C5D8392110B3D800A2B21E = {
 						CreatedOnToolsVersion = 9.4;
+						LastSwiftMigration = 1000;
 					};
 					50C5D84D2110B3F000A2B21E = {
 						CreatedOnToolsVersion = 9.4;
 					};
 					50C5D8552110B3F000A2B21E = {
 						CreatedOnToolsVersion = 9.4;
+						LastSwiftMigration = 1000;
 					};
 					50C5D8A02110C10C00A2B21E = {
 						CreatedOnToolsVersion = 9.4;
@@ -735,6 +769,7 @@
 				50C5D8962110B5A100A2B21E /* NSFileCoordinator+Easy_Tests.swift in Sources */,
 				50C5D8942110B5A100A2B21E /* Directory_Tests.swift in Sources */,
 				50C5D8952110B5A100A2B21E /* DirectoryObserver_Tests.swift in Sources */,
+				50C98CBE2134BB42008313DE /* NSFileCoordinator_NilParameter_tests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -760,6 +795,7 @@
 				50C5D8992110B5A200A2B21E /* NSFileCoordinator+Easy_Tests.swift in Sources */,
 				50C5D8972110B5A200A2B21E /* Directory_Tests.swift in Sources */,
 				50C5D8982110B5A200A2B21E /* DirectoryObserver_Tests.swift in Sources */,
+				50C98CBF2134BB42008313DE /* NSFileCoordinator_NilParameter_tests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1088,6 +1124,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.saturdayapps.JSBFilesystem-macOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "JSBFilesystem_macOSTests/JSBFilesystem_macOSTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
@@ -1152,6 +1190,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.saturdayapps.JSBFilesystem-macOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "JSBFilesystem_macOSTests/JSBFilesystem_macOSTests-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
@@ -1374,6 +1413,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.saturdayapps.JSBFilesystem-iOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "JSBFilesystem_iOSTests/JSBFilesystem_iOSTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1438,6 +1479,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.saturdayapps.JSBFilesystem-iOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "JSBFilesystem_iOSTests/JSBFilesystem_iOSTests-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
