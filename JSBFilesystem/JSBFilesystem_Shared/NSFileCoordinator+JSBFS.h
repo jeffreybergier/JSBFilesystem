@@ -41,31 +41,73 @@
 
 @interface NSFileCoordinator (JSBFS)
 
-+ (BOOL)JSBFS_writeData:(NSData* _Nonnull)data
-                  toURL:(NSURL* _Nonnull)url
-                  error:(NSError * _Nullable *)errorPtr
-NS_SWIFT_NAME(JSBFS_write(_:to:));
+/*!
+ * @discussion Write data to the specified URL.
+ * @param data Data to write
+ * @param url URL on disk to write to.
+ * @param filePresenter Optional NSFilePresenter object. This will be passed to
+ *        the NSFileCoordinator so that this File Presenter should not recieve
+ *        updates for the changes made in this method.
+ * @param errorPtr Error parameter. Will always be populated if return is NO.
+ * @return Success of writing.
+ */
++ (BOOL)JSBFS_writeData:(NSData*_Nonnull)data
+                  toURL:(NSURL*_Nonnull)url
+          filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
+                  error:(NSError*_Nullable*)errorPtr
+NS_SWIFT_NAME(JSBFS_write(_:to:filePresenter:));
 
-+ (BOOL)JSBFS_writeFileWrapper:(NSFileWrapper* _Nonnull)fileWrapper
-                         toURL:(NSURL* _Nonnull)url
-                         error:(NSError * _Nullable *)errorPtr
-NS_SWIFT_NAME(JSBFS_write(_:to:));
+/*!
+ * @discussion Write Filewrapper to the specified URL.
+ * @param fileWrapper Filewrapper to write
+ * @param url URL on disk to write to.
+ * @param filePresenter Optional NSFilePresenter object. This will be passed to
+ *        the NSFileCoordinator so that this File Presenter should not recieve
+ *        updates for the changes made in this method.
+ * @param errorPtr Error parameter. Will always be populated if return is NO.
+ * @return Success of writing.
+ */
++ (BOOL)JSBFS_writeFileWrapper:(NSFileWrapper*_Nonnull)fileWrapper
+                         toURL:(NSURL*_Nonnull)url
+                 filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
+                         error:(NSError*_Nullable*)errorPtr
+NS_SWIFT_NAME(JSBFS_write(_:to:filePresenter:));
 
-+ (NSData* _Nullable)JSBFS_readDataFromURL:(NSURL* _Nonnull)url
-                                     error:(NSError* _Nullable*)errorPtr
-NS_SWIFT_NAME(JSBFS_readData(from:));
+/*!
+ * @discussion Read data from the URL.
+ * @param url URL on disk to read from.
+ * @param filePresenter Optional NSFilePresenter object. This will be passed to
+ *        the NSFileCoordinator so that this File Presenter should not recieve
+ *        requests to save the file before it can be read.
+ * @param errorPtr Error parameter. Will always be populated if return is NIL.
+ * @return Data or NIL.
+ */
++ (NSData*_Nullable)JSBFS_readDataFromURL:(NSURL*_Nonnull)url
+                            filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
+                                     error:(NSError*_Nullable*)errorPtr
+NS_SWIFT_NAME(JSBFS_readData(from:filePresenter:));
 
+/*!
+ * @discussion Read file wrapper from the URL.
+ * @param url URL on disk to read from.
+ * @param filePresenter Optional NSFilePresenter object. This will be passed to
+ *        the NSFileCoordinator so that this File Presenter should not recieve
+ *        requests to save the file before it can be read.
+ * @param errorPtr Error parameter. Will always be populated if return is NIL.
+ * @return FileWrapper or NIL.
+ */
 + (NSFileWrapper* _Nullable)JSBFS_readFileWrapperFromURL:(NSURL* _Nonnull)url
+                                           filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
                                                    error:(NSError* _Nullable*)errorPtr
-NS_SWIFT_NAME(JSBFS_readFileWrapper(from:));
+NS_SWIFT_NAME(JSBFS_readFileWrapper(from:filePresenter:));
 
 /*!
  * @discussion Delete the directory or file at the URL. On the Mac, items will
  *             be put into the Trash. On iOS, they are deleted.
  * @param url Directory or file on disk.
  * @param filePresenter Optional NSFilePresenter object. This will be passed to
- *        the NSFileCoordinator used so the filePresenter should not be notified
- *        about the deleted files.
+ *        the NSFileCoordinator so that this File Presenter should not recieve
+ *        updates for the changes made in this method.
  * @param errorPtr Error parameter. Will always be populated if return is NO.
  * @return Success of delete.
  */
@@ -82,8 +124,8 @@ NS_SWIFT_NAME(JSBFS_delete(url:filePresenter:));
  *             files are not restored.
  * @param urls Array of directories or files on disk.
  * @param filePresenter Optional NSFilePresenter object. This will be passed to
- *        the NSFileCoordinator used so the filePresenter should not be notified
- *        about the deleted files.
+ *        the NSFileCoordinator so that this File Presenter should not recieve
+ *        updates for the changes made in this method.
  * @param errorPtr Error parameter. Will always be populated if return is NO.
  * @return Success of delete.
  */
@@ -92,17 +134,60 @@ NS_SWIFT_NAME(JSBFS_delete(url:filePresenter:));
                         error:(NSError*_Nullable*)errorPtr
 NS_SWIFT_NAME(JSBFS_batchDelete(urls:filePresenter:));
 
-+ (BOOL)JSBFS_moveSourceFileURL:(NSURL* _Nonnull)sourceURL
-           toDestinationFileURL:(NSURL* _Nonnull)destinationURL
-                          error:(NSError* _Nullable*)errorPtr
-NS_SWIFT_NAME(JSBFS_move(sourceFile:toDestinationFile:));
+/*!
+ * @discussion Create a new directory at the specified URL. This method uses
+ *             -[NSFileManager createDirectoryAtURL:withIntermediateDirectories:attributes:error:]
+ *             and therefore has all of its behaviors. Create intermediate
+ *             directories is set to YES.
+ * @param url Location of desired new directory.
+ * @param filePresenter Optional NSFilePresenter object. This will be passed to
+ *        the NSFileCoordinator so that this File Presenter should not recieve
+ *        updates for the changes made in this method.
+ * @param errorPtr Error parameter. Will always be populated if return is NO.
+ * @return Success of directory creation.
+ */
++ (BOOL)JSBFS_createDirectoryAtURL:(NSURL*_Nonnull)url
+                     filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
+                             error:(NSError*_Nullable*)errorPtr
+NS_SWIFT_NAME(JSBFS_createDirectory(at:filePresenter:));
 
-+ (BOOL)JSBFS_createDirectoryAtURL:(NSURL* _Nonnull)url error:(NSError* _Nullable*)errorPtr
-NS_SWIFT_NAME(JSBFS_createDirectory(at:));
+/*!
+ * @discussion Read the contents of a directory.
+ * @param url Directory to read from
+ * @param sortedBy Desired sort order of contents
+ * @param filters Optional Array of blocks to filter items out of the
+ *        returned contents.
+ * @param filePresenter Optional NSFilePresenter object. This will be passed to
+ *        the NSFileCoordinator so that this File Presenter should not recieve
+ *        requests to save the file before it can be read.
+ * @param errorPtr Error parameter. Will always be populated if return is NIL.
+ * @return NSArray<NSURL> or NIL.
+ */
++ (NSArray<NSURL*>*_Nullable)JSBFS_contentsOfDirectoryAtURL:(NSURL*_Nonnull)url
+                                                   sortedBy:(JSBFSDirectorySort)sortedBy
+                                                 filteredBy:(NSArray<JSBFSDirectoryFilterBlock>*_Nullable)filters
+                                              filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
+                                                      error:(NSError*_Nullable*)errorPtr
+NS_SWIFT_NAME(JSBFS_contentsOfDirectory(at:sortedBy:filteredBy:filePresenter:));
 
-+ (NSInteger)JSBFS_fileCountInDirectoryURL:(NSURL* _Nonnull)url error:(NSError* _Nullable*)errorPtr
-__attribute__((swift_error(nonnull_error)))
-NS_SWIFT_NAME(JSBFS_fileCount(inDirectoryURL:));
+/*!
+ * @discussion Read the contents of a directory and convert them to JSBFSFileComparison objects.
+ * @param url Directory to read from
+ * @param sortedBy Desired sort order of contents
+ * @param filters Optional Array of blocks to filter items out of the
+ *        returned contents.
+ * @param filePresenter Optional NSFilePresenter object. This will be passed to
+ *        the NSFileCoordinator so that this File Presenter should not recieve
+ *        requests to save the file before it can be read.
+ * @param errorPtr Error parameter. Will always be populated if return is NIL.
+ * @return NSArray<JSBFSFileComparison> or NIL.
+ */
++ (NSArray<JSBFSFileComparison*>* _Nullable)JSBFS_comparableContentsOfDirectoryAtURL:(NSURL*_Nonnull)url
+                                                                            sortedBy:(JSBFSDirectorySort)sortedBy
+                                                                          filteredBy:(NSArray<JSBFSDirectoryFilterBlock>*_Nullable)filters
+                                                                       filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
+                                                                               error:(NSError*_Nullable*)errorPtr
+NS_SWIFT_NAME(JSBFS_comparableContentsOfDirectory(at:sortedBy:filteredBy:filePresenter:));
 
 /// Value1 = FileExists, Value2 = isDirectory
 + (JSBFSDoubleBool* _Nullable)JSBFS_fileExistsAndIsDirectoryAtURL:(NSURL* _Nonnull)url error:(NSError* _Nullable*)errorPtr
@@ -112,15 +197,5 @@ NS_SWIFT_NAME(JSBFS_fileExistsAndIsDirectory(at:));
 whileCoordinatingAccessAtURL:(NSURL* _Nonnull)url
                        error:(NSError* _Nullable*)errorPtr
 NS_SWIFT_NAME(JSBFS_execute(_:whileCoordinatingAccessAt:));
-
-/// Only supports URLResourceKey.localizedNameKey, .contentModificationDateKey, .creationDateKey
-/// The filteredBy array is executed within the file coordination block
-/// It is safe to read those file but not to write to them. Only read them for the purpose of testing them
-/// All tests must return YES for a file to be included. If it fails even one test, it will be filtered from the results.
-+ (NSArray<JSBFSFileComparison*>* _Nullable)JSBFS_urlComparisonsForFilesInDirectoryURL:(NSURL* _Nonnull)url
-                                                                              sortedBy:(JSBFSDirectorySort)sortedBy
-                                                                            filteredBy:(NSArray<JSBFSDirectoryFilterBlock>* _Nullable)filters
-                                                                                 error:(NSError* _Nullable*)errorPtr
-NS_SWIFT_NAME(JSBFS_urlComparisonsForFiles(inDirectory:sortedBy:filteredBy:));
 
 @end

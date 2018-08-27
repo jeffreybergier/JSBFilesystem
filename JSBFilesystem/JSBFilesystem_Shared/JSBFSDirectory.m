@@ -80,7 +80,7 @@
         return nil;
     } else if (isExisting == NO && create == YES) {
         // if the file doesn't exist, and the developer wants us to create it, we need to do that
-        [NSFileCoordinator JSBFS_createDirectoryAtURL:url error:&error];
+        [NSFileCoordinator JSBFS_createDirectoryAtURL:url filePresenter:nil error:&error];
     } else if (isExisting == NO && create == NO) {
         // if the file doesn't exist and the developer does not want us to create it we need to fail
         error = [[NSError alloc] initWithDomain:@"" code:0 userInfo:nil];
@@ -138,13 +138,11 @@
 
 - (NSUInteger)contentsCount:(NSError*_Nullable*)errorPtr __attribute__((swift_error(nonnull_error)));
 {
-    NSArray* filteredBy = [self filteredBy];
-    if ((!filteredBy) || [filteredBy count] == 0) {
-        // do the fast way if there are no filters
-        return [NSFileCoordinator JSBFS_fileCountInDirectoryURL:[self url] error:errorPtr];
-    } else {
-        return [[self sortedAndFilteredComparisons:errorPtr] count];
-    }
+    return [[NSFileCoordinator JSBFS_contentsOfDirectoryAtURL:[self url]
+                                                     sortedBy:[self sortedBy]
+                                                   filteredBy:[self filteredBy]
+                                                filePresenter:nil
+                                                        error:errorPtr] count];
 }
 
 // MARK: -sortedAndFiltered:
@@ -165,6 +163,7 @@
     NSArray* contents = [NSFileCoordinator JSBFS_urlComparisonsForFilesInDirectoryURL:[self url]
                                                                              sortedBy:[self sortedBy]
                                                                            filteredBy:[self filteredBy]
+                                                                        filePresenter:nil
                                                                                 error:errorPtr];
     return contents;
 }

@@ -99,10 +99,11 @@
     NSError* error = nil;
     NSArray<JSBFSFileComparison*>* lhs = [self internalState];
     NSArray<JSBFSFileComparison*>* rhs =
-    [NSFileCoordinator JSBFS_urlComparisonsForFilesInDirectoryURL:[self url]
-                                                         sortedBy:[self sortedBy]
-                                                       filteredBy:[self filteredBy]
-                                                            error:&error];
+    [NSFileCoordinator JSBFS_comparableContentsOfDirectoryAtURL:[self url]
+                                                       sortedBy:[self sortedBy]
+                                                     filteredBy:[self filteredBy]
+                                                  filePresenter:nil
+                                                          error:&error];
     if (error) { NSLog(@"%@", error); }
     IGListIndexSetResult* result = IGListDiff(lhs, rhs, IGListDiffEquality);
     JSBFSDirectoryChanges* changes = [result changeObjectForChangeKind:[self changeKind]];
