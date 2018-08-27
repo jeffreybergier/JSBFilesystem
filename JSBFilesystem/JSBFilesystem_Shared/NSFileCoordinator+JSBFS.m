@@ -31,6 +31,7 @@
 #import "NSFileCoordinator+JSBFS.h"
 #import "JSBFSFileComparison.h"
 #import "SmallCategories.h"
+#import "NSErrors.h"
 
 @implementation NSFileCoordinator (JSBFS)
 
@@ -135,103 +136,75 @@
     }
 }
 
-+ (BOOL)JSBFS_recursivelyDeleteDirectoryOrFileAtURL:(NSURL*)url
-                                              error:(NSError**)errorPtr;
++ (BOOL)JSBFS_deleteURL:(NSURL*_Nonnull)url
+          filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
+                  error:(NSError*_Nullable*)errorPtr;
 {
-    NSError* outerError = nil;
-    __block NSError* innerError = nil;
-    NSFileCoordinator* c = [[NSFileCoordinator alloc] init];
+    __block NSError* error = nil;
+    __block BOOL success = NO;
+    NSFileCoordinator* c = [[NSFileCoordinator alloc] initWithFilePresenter:filePresenter];
     [c coordinateWritingItemAtURL:url
                           options:NSFileCoordinatorWritingForDeleting
-                            error:&outerError
+                            error:&error
                        byAccessor:^(NSURL * _Nonnull newURL)
      {
+         if (error) { return; }
         #if TARGET_OS_IPHONE
-         [[NSFileManager defaultManager] removeItemAtURL:newURL error:&innerError];
+         success = [[NSFileManager defaultManager] removeItemAtURL:newURL error:&error];
         #else
-         [[NSFileManager defaultManager] trashItemAtURL:newURL resultingItemURL:nil error:&innerError];
+         success = [[NSFileManager defaultManager] trashItemAtURL:newURL resultingItemURL:nil error:&error];
         #endif
      }];
-    if (outerError) {
-        if (errorPtr != NULL) { *errorPtr = outerError; }
+    if (error) {
+        if (errorPtr != NULL) { *errorPtr = error; }
         return NO;
-    } else if (innerError) {
-        if (errorPtr != NULL) { *errorPtr = innerError; }
-        return NO;
-    } else {
-        return YES;
-    }
-}
-
-+ (BOOL)JSBFS_recursivelyDeleteContentsOfDirectoryAtURL:(NSURL* _Nonnull)url
-                                                  error:(NSError* _Nullable*)errorPtr;
-{
-    NSError* outerError = nil;
-    __block NSError* innerError = nil;
-    NSFileCoordinator* c = [[NSFileCoordinator alloc] init];
-    [c coordinateWritingItemAtURL:url
-                          options:NSFileCoordinatorWritingForDeleting
-                            error:&outerError
-                       byAccessor:^(NSURL * _Nonnull newURL)
-     {
-         NSFileManager* fm = [NSFileManager defaultManager];
-         NSArray<NSURL*>* contents = [fm contentsOfDirectoryAtURL:newURL
-                                       includingPropertiesForKeys:nil
-                                                          options:NSDirectoryEnumerationSkipsHiddenFiles
-                                                            error:&innerError];
-         if (innerError) { return; }
-         for (NSURL* item in contents) {
-            #if TARGET_OS_IPHONE
-             [[NSFileManager defaultManager] removeItemAtURL:item error:&innerError];
-            #else
-             [[NSFileManager defaultManager] trashItemAtURL:item resultingItemURL:nil error:&innerError];
-            #endif
-         }
-     }];
-    if (outerError) {
-        if (errorPtr != NULL) { *errorPtr = outerError; }
-        return NO;
-    } else if (innerError) {
-        if (errorPtr != NULL) { *errorPtr = innerError; }
+    } else if (!success) {
+        if (errorPtr != NULL) { *errorPtr = [NSError JSBFS_operationFailedButNoCocoaErrorThrown]; }
         return NO;
     } else {
         return YES;
     }
 }
 
-+ (BOOL)JSBFS_batchDeleteURLs:(NSArray<NSURL*>* _Nonnull)contents error:(NSError* _Nullable*)errorPtr;
++ (BOOL)JSBFS_batchDeleteURLs:(NSArray<NSURL*>*_Nonnull)contents
+                filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
+                        error:(NSError*_Nullable*)errorPtr;
 {
-    if (!contents || [contents count] == 0) { return YES; } // bail early if the array is empty
-
-    NSError* outerError = nil;
-    __block NSError* innerError = nil;
-    __block BOOL innerSuccess = YES;
-    NSFileCoordinator* c = [[NSFileCoordinator alloc] init];
+    // if there is no Array or its empty, bail early with success.
+    if (!contents || [contents count] == 0) {
+        return YES;
+    }
+    __block NSError* error = nil;
+    __block BOOL success = YES;
+    NSFileCoordinator* c = [[NSFileCoordinator alloc] initWithFilePresenter:filePresenter];
     [c prepareForReadingItemsAtURLs:contents
                             options:0
                  writingItemsAtURLs:contents
                             options:NSFileCoordinatorWritingForDeleting
-                              error:&outerError
+                              error:&error
                          byAccessor:^(void (^ _Nonnull completionHandler)(void))
      {
-         NSFileManager* fm = [NSFileManager defaultManager];
-         for (NSURL* item in contents) {
-             if (innerError || !innerSuccess) { break; }
-            #if TARGET_OS_IPHONE
-             innerSuccess = [fm removeItemAtURL:item error:&innerError];
-            #else
-             innerSuccess = [fm trashItemAtURL:item resultingItemURL:nil error:&innerError];
-            #endif
+         // if an error ocurred before we start looping, bail
+         if (error || !success) {
+             completionHandler();
+             return;
          }
+         for (NSURL* item in contents) {
+             // if an error ocurred while looping, bail from the loop
+             if (error || !success) {
+                 completionHandler();
+                 break;
+             }
+             [self JSBFS_deleteURL:item filePresenter:filePresenter error:&error];
+         }
+         // if everything went well, call the completion handler
+         completionHandler();
      }];
-    if (outerError) {
-        if (errorPtr != NULL) { *errorPtr = outerError; }
+    if (error) {
+        if (errorPtr != NULL) { *errorPtr = error; }
         return NO;
-    } else if (innerError) {
-        if (errorPtr != NULL) { *errorPtr = innerError; }
-        return NO;
-    } else if (!innerSuccess) {
-        if (errorPtr != NULL) { *errorPtr = [NSError errorWithDomain:@"JSBFilesystem" code:0 userInfo:nil]; }
+    } else if (!success) {
+        if (errorPtr != NULL) { *errorPtr = [NSError JSBFS_operationFailedButNoCocoaErrorThrown]; }
         return NO;
     } else {
         return YES;

@@ -118,7 +118,7 @@ class NSFileCoordinator_Easy_BasicTests: XCTestCase {
         do {
             try FileManager.default.createDirectory(at: self.dirURL, withIntermediateDirectories: true, attributes: nil)
             try data.write(to: fileURL)
-            try NSFileCoordinator.JSBFS_recursivelyDeleteDirectoryOrFile(at: self.dirURL)
+            try NSFileCoordinator.JSBFS_delete(url: self.dirURL, filePresenter: nil)
             let isExisting = FileManager.default.fileExists(atPath: self.dirURL.path)
             XCTAssertFalse(isExisting)
         } catch {

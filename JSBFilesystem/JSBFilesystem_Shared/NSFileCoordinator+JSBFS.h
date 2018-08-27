@@ -51,18 +51,46 @@ NS_SWIFT_NAME(JSBFS_write(_:to:));
                          error:(NSError * _Nullable *)errorPtr
 NS_SWIFT_NAME(JSBFS_write(_:to:));
 
-+ (NSData* _Nullable)JSBFS_readDataFromURL:(NSURL* _Nonnull)url error:(NSError* _Nullable*)errorPtr
++ (NSData* _Nullable)JSBFS_readDataFromURL:(NSURL* _Nonnull)url
+                                     error:(NSError* _Nullable*)errorPtr
 NS_SWIFT_NAME(JSBFS_readData(from:));
 
-+ (NSFileWrapper* _Nullable)JSBFS_readFileWrapperFromURL:(NSURL* _Nonnull)url error:(NSError* _Nullable*)errorPtr
++ (NSFileWrapper* _Nullable)JSBFS_readFileWrapperFromURL:(NSURL* _Nonnull)url
+                                                   error:(NSError* _Nullable*)errorPtr
 NS_SWIFT_NAME(JSBFS_readFileWrapper(from:));
 
-+ (BOOL)JSBFS_recursivelyDeleteDirectoryOrFileAtURL:(NSURL* _Nonnull)url error:(NSError* _Nullable*)errorPtr
-NS_SWIFT_NAME(JSBFS_recursivelyDeleteDirectoryOrFile(at:));
-+ (BOOL)JSBFS_recursivelyDeleteContentsOfDirectoryAtURL:(NSURL* _Nonnull)url error:(NSError* _Nullable*)errorPtr
-NS_SWIFT_NAME(JSBFS_recursivelyDeleteContentsOfDirectory(at:));
-+ (BOOL)JSBFS_batchDeleteURLs:(NSArray<NSURL*>* _Nonnull)contents error:(NSError* _Nullable*)errorPtr
-NS_SWIFT_NAME(JSBFS_batchDelete(urls:));
+/*!
+ * @discussion Delete the directory or file at the URL. On the Mac, items will
+ *             be put into the Trash. On iOS, they are deleted.
+ * @param url Directory or file on disk.
+ * @param filePresenter Optional NSFilePresenter object. This will be passed to
+ *        the NSFileCoordinator used so the filePresenter should not be notified
+ *        about the deleted files.
+ * @param errorPtr Error parameter. Will always be populated if return is NO.
+ * @return Success of delete.
+ */
++ (BOOL)JSBFS_deleteURL:(NSURL*_Nonnull)url
+          filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
+                  error:(NSError*_Nullable*)errorPtr
+NS_SWIFT_NAME(JSBFS_delete(url:filePresenter:));
+
+/*!
+ * @discussion Delete the directories or files in the Array. On the Mac, items will
+ *             be put into the Trash. On iOS, they are deleted. This operation is
+ *             not atomic. Each item is deleted 1 by 1, if any item fails to
+ *             delete, the whole operation is abandoned and the already deleted
+ *             files are not restored.
+ * @param urls Array of directories or files on disk.
+ * @param filePresenter Optional NSFilePresenter object. This will be passed to
+ *        the NSFileCoordinator used so the filePresenter should not be notified
+ *        about the deleted files.
+ * @param errorPtr Error parameter. Will always be populated if return is NO.
+ * @return Success of delete.
+ */
++ (BOOL)JSBFS_batchDeleteURLs:(NSArray<NSURL*>*_Nonnull)urls
+                filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
+                        error:(NSError*_Nullable*)errorPtr
+NS_SWIFT_NAME(JSBFS_batchDelete(urls:filePresenter:));
 
 + (BOOL)JSBFS_moveSourceFileURL:(NSURL* _Nonnull)sourceURL
            toDestinationFileURL:(NSURL* _Nonnull)destinationURL
