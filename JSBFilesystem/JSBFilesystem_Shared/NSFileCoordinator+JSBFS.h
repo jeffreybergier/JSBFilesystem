@@ -189,13 +189,35 @@ NS_SWIFT_NAME(JSBFS_contentsOfDirectory(at:sortedBy:filteredBy:filePresenter:));
                                                                                error:(NSError*_Nullable*)errorPtr
 NS_SWIFT_NAME(JSBFS_comparableContentsOfDirectory(at:sortedBy:filteredBy:filePresenter:));
 
-/// Value1 = FileExists, Value2 = isDirectory
-+ (JSBFSDoubleBool* _Nullable)JSBFS_fileExistsAndIsDirectoryAtURL:(NSURL* _Nonnull)url error:(NSError* _Nullable*)errorPtr
-NS_SWIFT_NAME(JSBFS_fileExistsAndIsDirectory(at:));
+/*!
+ * @discussion Read a URL and determine whether it exists and if its a directory.
+ * @param url Directory to read from
+ * @param filePresenter Optional NSFilePresenter object. This will be passed to
+ *        the NSFileCoordinator so that this File Presenter should not recieve
+ *        requests to save the directory before it can be read.
+ * @param errorPtr Error parameter. Will always be populated if return is NIL.
+ * @return JSBFSDoubleBool where value1 is fileExists and value2 is isDirectory or NIL.
+ */
++ (JSBFSDoubleBool*_Nullable)JSBFS_fileExistsAndIsDirectoryAtURL:(NSURL*_Nonnull)url
+                                                   filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
+                                                           error:(NSError*_Nullable*)errorPtr
+NS_SWIFT_NAME(JSBFS_fileExistsAndIsDirectory(at:filePresenter:));
 
+/*!
+ * @discussion Ask NSFileCoordinator to read the file at the specified URL and
+ *             then execute the provided block while coordinating the read.
+ * @param executionBlock Block to execute while coordinating the file read.
+ * @param url Directory to read from.
+ * @param filePresenter Optional NSFilePresenter object. This will be passed to
+ *        the NSFileCoordinator so that this File Presenter should not recieve
+ *        requests to save the directory before it can be read.
+ * @param errorPtr Error parameter. Will always be populated if return is NIL.
+ * @return JSBFSDoubleBool where value1 is fileExists and value2 is isDirectory or NIL.
+ */
 +   (BOOL)JSBFS_executeBlock:(void (^_Nonnull)(void))executionBlock
 whileCoordinatingAccessAtURL:(NSURL* _Nonnull)url
+               filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
                        error:(NSError* _Nullable*)errorPtr
-NS_SWIFT_NAME(JSBFS_execute(_:whileCoordinatingAccessAt:));
+NS_SWIFT_NAME(JSBFS_execute(_:whileCoordinatingAccessAt:filePresenter:));
 
 @end

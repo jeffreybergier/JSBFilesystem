@@ -129,7 +129,9 @@
             [self forceUpdate];
             self->_changesObserved = changesObserved;
             [NSFileCoordinator addFilePresenter:self];
-        } whileCoordinatingAccessAtURL:[self url] error:nil];
+        } whileCoordinatingAccessAtURL:[self url]
+                                filePresenter:nil
+                                        error:nil];
     } else {
         [NSFileCoordinator removeFilePresenter:self];
     }

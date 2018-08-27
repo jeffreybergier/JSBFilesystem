@@ -334,26 +334,29 @@
 }
 
 
-+ (JSBFSDoubleBool*)JSBFS_fileExistsAndIsDirectoryAtURL:(NSURL*)url error:(NSError**)errorPtr;
++ (JSBFSDoubleBool*_Nullable)JSBFS_fileExistsAndIsDirectoryAtURL:(NSURL*_Nonnull)url
+                                                   filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
+                                                           error:(NSError*_Nullable*)errorPtr;
 {
-    NSError* outerError = nil;
-    __block NSError* innerError = nil;
+    __block NSError* error = nil;
     __block JSBFSDoubleBool* value = nil;
-    NSFileCoordinator* c = [[NSFileCoordinator alloc] init];
+    NSFileCoordinator* c = [[NSFileCoordinator alloc] initWithFilePresenter:filePresenter];
     [c coordinateReadingItemAtURL:url
                           options:NSFileCoordinatorReadingResolvesSymbolicLink
-                            error:&outerError
+                            error:&error
                        byAccessor:^(NSURL* _Nonnull newURL)
      {
          BOOL isDirectory = NO;
-         BOOL isExisting = [[NSFileManager defaultManager] fileExistsAtPath:[newURL path] isDirectory:&isDirectory];
-         value = [[JSBFSDoubleBool alloc] initWithValue1:isExisting value2:isDirectory];
+         BOOL isExisting = [[NSFileManager defaultManager] fileExistsAtPath:[newURL path]
+                                                                isDirectory:&isDirectory];
+         value = [[JSBFSDoubleBool alloc] initWithValue1:isExisting
+                                                  value2:isDirectory];
      }];
-    if (outerError) {
-        if (errorPtr != NULL) { *errorPtr = outerError; }
+    if (error) {
+        if (errorPtr != NULL) { *errorPtr = error; }
         return nil;
-    } else if (innerError || !value) {
-        if (errorPtr != NULL) { *errorPtr = innerError; }
+    } else if (!value) {
+        if (errorPtr != NULL) { *errorPtr = [NSError JSBFS_operationFailedButNoCocoaErrorThrown]; }
         return nil;
     } else {
         return value;
@@ -362,14 +365,16 @@
 
 +   (BOOL)JSBFS_executeBlock:(void (^_Nonnull)(void))executionBlock
 whileCoordinatingAccessAtURL:(NSURL* _Nonnull)url
+               filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
                        error:(NSError* _Nullable*)errorPtr;
 {
+    NSParameterAssert(executionBlock);
     __block NSError* error = nil;
-    NSFileCoordinator* c = [[NSFileCoordinator alloc] init];
+    NSFileCoordinator* c = [[NSFileCoordinator alloc] initWithFilePresenter:filePresenter];
     [c coordinateReadingItemAtURL:url
                           options:NSFileCoordinatorReadingResolvesSymbolicLink
                             error:&error
-                       byAccessor:^(NSURL* _Nonnull newURL)
+                       byAccessor:^(NSURL* _Nonnull newURL __attribute__((unused)))
      {
          executionBlock();
      }];

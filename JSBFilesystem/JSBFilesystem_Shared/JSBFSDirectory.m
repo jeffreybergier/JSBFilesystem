@@ -70,7 +70,9 @@
 {
     // check if the URL is valid
     NSError* error = nil;
-    JSBFSDoubleBool* check = [NSFileCoordinator JSBFS_fileExistsAndIsDirectoryAtURL:url error:&error];
+    JSBFSDoubleBool* check = [NSFileCoordinator JSBFS_fileExistsAndIsDirectoryAtURL:url
+                                                                      filePresenter:nil
+                                                                              error:&error];
     BOOL isExisting = [check value1];
     BOOL isDirectory = [check value2];
 
@@ -160,11 +162,11 @@
 
 - (NSArray<JSBFSFileComparison*>*_Nonnull)sortedAndFilteredComparisons:(NSError*_Nullable*)errorPtr;
 {
-    NSArray* contents = [NSFileCoordinator JSBFS_urlComparisonsForFilesInDirectoryURL:[self url]
-                                                                             sortedBy:[self sortedBy]
-                                                                           filteredBy:[self filteredBy]
-                                                                        filePresenter:nil
-                                                                                error:errorPtr];
+    NSArray* contents = [NSFileCoordinator JSBFS_comparableContentsOfDirectoryAtURL:[self url]
+                                                                           sortedBy:[self sortedBy]
+                                                                         filteredBy:[self filteredBy]
+                                                                      filePresenter:nil
+                                                                              error:errorPtr];
     return contents;
 }
 
