@@ -111,7 +111,8 @@ NS_DESIGNATED_INITIALIZER;
  * @param errorPtr Error parameter. Will always be populated if return is NSNotFound.
  * @return Directory count after filters applied or NSNotFound if there is an error.
  */
-- (NSUInteger)contentsCount:(NSError*_Nullable*)errorPtr __attribute__((swift_error(nonnull_error)));
+- (NSUInteger)contentsCount:(NSError*_Nullable*)errorPtr
+__attribute__((swift_error(nonnull_error)));
 
 /*!
  * @discussion Finds the URL at the given index after applying filters and sorting.
