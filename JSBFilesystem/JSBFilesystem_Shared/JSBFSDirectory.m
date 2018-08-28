@@ -178,6 +178,7 @@
 - (NSUInteger)indexOfItemWithURL:(NSURL*_Nonnull)rhs error:(NSError*_Nullable*)errorPtr
 __attribute__((swift_error(nonnull_error)));
 {
+    NSParameterAssert(rhs);
     NSError* error = nil;
     NSUInteger index = NSNotFound;
     NSArray<JSBFSFileComparison*>* comparisons = [self sortedAndFilteredComparisons:&error];
@@ -186,9 +187,6 @@ __attribute__((swift_error(nonnull_error)));
              {
                  return [[lhs fileURL] isEqual:rhs];
              }];
-    if (index == NSNotFound && !error) {
-        error = [[NSError alloc] initWithDomain:@"JSBFilesystem" code:1 userInfo:nil];
-    }
     if (error) {
         if (errorPtr != NULL) { *errorPtr = error; }
         return NSNotFound;

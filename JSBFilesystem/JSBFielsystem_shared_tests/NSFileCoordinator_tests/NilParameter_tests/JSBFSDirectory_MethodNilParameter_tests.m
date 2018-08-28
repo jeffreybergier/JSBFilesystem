@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) JSBFSDirectory* directory;
 @property (nonatomic, strong) NSURL* temporaryLocation;
+@property (nonatomic, strong) NSURL* validRemoteURL;
 
 
 @end
@@ -26,6 +27,8 @@
                                                  filteredBy:nil
                                                       error:nil]];
     [self setTemporaryLocation:[[self directory] url]];
+    [self setValidRemoteURL:[NSURL URLWithString:@"https://www.apple.com"]];
+    XCTAssertNotNil([self validRemoteURL]);
     XCTAssertNotNil([self temporaryLocation]);
     XCTAssertNotNil([self directory]);
 }
@@ -63,6 +66,33 @@
     XCTAssertNoThrowSpecificNamed([[self directory] urlAtIndex:0 error:&error],
                                   NSException,
                                   @"");
+}
+
+- (void)testJSBFSDirDeleteContentsNilParameters;
+{
+    XCTAssertNoThrowSpecificNamed([[self directory] deleteContents:nil],
+                                  NSException,
+                                  @"");
+    NSError* error = nil;
+    XCTAssertNoThrowSpecificNamed([[self directory] deleteContents:&error],
+                                  NSException,
+                                  @"");
+}
+
+- (void)testJSBFSDirIndexOfURLNilParameters;
+{
+    XCTAssertThrowsSpecificNamed([[self directory] indexOfItemWithURL:nil error:nil],
+                                 NSException,
+                                 NSInternalInconsistencyException,
+                                 @"");
+    NSError* error = nil;
+    XCTAssertThrowsSpecificNamed([[self directory] indexOfItemWithURL:nil error:&error],
+                                 NSException,
+                                 NSInternalInconsistencyException,
+                                 @"");
+    XCTAssertNoThrowSpecificNamed([[self directory] indexOfItemWithURL:[self validRemoteURL] error:nil],
+                                 NSException,
+                                 @"");
 }
 
 @end
