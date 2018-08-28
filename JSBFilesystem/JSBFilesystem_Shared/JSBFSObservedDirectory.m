@@ -57,6 +57,8 @@
                                     changeKind:(JSBFSObservedDirectoryChangeKind)changeKind
                                          error:(NSError* _Nullable*)errorPtr;
 {
+    NSParameterAssert(changeKind >= JSBFSObservedDirectoryChangeKindIncludingModifications);
+    NSParameterAssert(changeKind <= JSBFSObservedDirectoryChangeKindModificationsAsInsertionsDeletions);
     self = [super initWithDirectoryURL:url
                         createIfNeeded:create
                               sortedBy:sortedBy
@@ -78,6 +80,8 @@
                             changeKind:(JSBFSObservedDirectoryChangeKind)changeKind
                                  error:(NSError*_Nullable*)errorPtr;
 {
+    NSParameterAssert(changeKind >= JSBFSObservedDirectoryChangeKindIncludingModifications);
+    NSParameterAssert(changeKind <= JSBFSObservedDirectoryChangeKindModificationsAsInsertionsDeletions);
     self = [super initWithBase:base
         appendingPathComponent:pathComponent
                 createIfNeeded:create

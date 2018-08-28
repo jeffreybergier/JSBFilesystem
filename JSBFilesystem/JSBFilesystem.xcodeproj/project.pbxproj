@@ -11,6 +11,10 @@
 		506CC3F12135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 506CC3EF2135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m */; };
 		506CC3F32135B100008A1D70 /* JSBFSDirectory_MethodNilParameter_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 506CC3F22135B100008A1D70 /* JSBFSDirectory_MethodNilParameter_tests.m */; };
 		506CC3F42135B100008A1D70 /* JSBFSDirectory_MethodNilParameter_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 506CC3F22135B100008A1D70 /* JSBFSDirectory_MethodNilParameter_tests.m */; };
+		506CC3F62135B9DE008A1D70 /* JSBFSObservedDirectory_MethodNilParameter_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 506CC3F52135B9DE008A1D70 /* JSBFSObservedDirectory_MethodNilParameter_tests.m */; };
+		506CC3F72135B9DE008A1D70 /* JSBFSObservedDirectory_MethodNilParameter_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 506CC3F52135B9DE008A1D70 /* JSBFSObservedDirectory_MethodNilParameter_tests.m */; };
+		506CC3FA2135BBD4008A1D70 /* JSBFSObservedDirectory_InitNilParameter_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 506CC3F92135BBD4008A1D70 /* JSBFSObservedDirectory_InitNilParameter_tests.m */; };
+		506CC3FB2135BBD4008A1D70 /* JSBFSObservedDirectory_InitNilParameter_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 506CC3F92135BBD4008A1D70 /* JSBFSObservedDirectory_InitNilParameter_tests.m */; };
 		506D736E2134D30000E83EB2 /* NSFileCoordinator_ErrorPropogation_tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D736B2134D2DE00E83EB2 /* NSFileCoordinator_ErrorPropogation_tests.swift */; };
 		506D736F2134D30100E83EB2 /* NSFileCoordinator_ErrorPropogation_tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D736B2134D2DE00E83EB2 /* NSFileCoordinator_ErrorPropogation_tests.swift */; };
 		50AD03FE2112218F00C0C88D /* FileWrapperTestImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 50AD03FD2112218F00C0C88D /* FileWrapperTestImage.png */; };
@@ -116,6 +120,9 @@
 		38463B70BFE62FBCD17EA35A /* Pods-JSBFilesystem_iOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JSBFilesystem_iOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-JSBFilesystem_iOSTests/Pods-JSBFilesystem_iOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		506CC3EF2135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSBFSDirectory_InitNilParameter_tests.m; sourceTree = "<group>"; };
 		506CC3F22135B100008A1D70 /* JSBFSDirectory_MethodNilParameter_tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSBFSDirectory_MethodNilParameter_tests.m; sourceTree = "<group>"; };
+		506CC3F52135B9DE008A1D70 /* JSBFSObservedDirectory_MethodNilParameter_tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSBFSObservedDirectory_MethodNilParameter_tests.m; sourceTree = "<group>"; };
+		506CC3F82135BA47008A1D70 /* JSBFSDirectory_MethodNilParameter_tests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSBFSDirectory_MethodNilParameter_tests.h; sourceTree = "<group>"; };
+		506CC3F92135BBD4008A1D70 /* JSBFSObservedDirectory_InitNilParameter_tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSBFSObservedDirectory_InitNilParameter_tests.m; sourceTree = "<group>"; };
 		506D736B2134D2DE00E83EB2 /* NSFileCoordinator_ErrorPropogation_tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSFileCoordinator_ErrorPropogation_tests.swift; sourceTree = "<group>"; };
 		50AD03FD2112218F00C0C88D /* FileWrapperTestImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FileWrapperTestImage.png; sourceTree = "<group>"; };
 		50C5D8312110B3D700A2B21E /* JSBFilesystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JSBFilesystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -360,7 +367,10 @@
 			children = (
 				50C98CBD2134BB42008313DE /* NSFileCoordinator_NilParameter_tests.m */,
 				506CC3EF2135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m */,
+				506CC3F92135BBD4008A1D70 /* JSBFSObservedDirectory_InitNilParameter_tests.m */,
+				506CC3F82135BA47008A1D70 /* JSBFSDirectory_MethodNilParameter_tests.h */,
 				506CC3F22135B100008A1D70 /* JSBFSDirectory_MethodNilParameter_tests.m */,
+				506CC3F52135B9DE008A1D70 /* JSBFSObservedDirectory_MethodNilParameter_tests.m */,
 			);
 			path = NilParameter_tests;
 			sourceTree = "<group>";
@@ -781,12 +791,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				506CC3F02135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m in Sources */,
+				506CC3F62135B9DE008A1D70 /* JSBFSObservedDirectory_MethodNilParameter_tests.m in Sources */,
 				506D736E2134D30000E83EB2 /* NSFileCoordinator_ErrorPropogation_tests.swift in Sources */,
 				50C5D8962110B5A100A2B21E /* NSFileCoordinator+Easy_Tests.swift in Sources */,
 				50C5D8942110B5A100A2B21E /* Directory_Tests.swift in Sources */,
 				506CC3F32135B100008A1D70 /* JSBFSDirectory_MethodNilParameter_tests.m in Sources */,
 				50C5D8952110B5A100A2B21E /* DirectoryObserver_Tests.swift in Sources */,
 				50C98CBE2134BB42008313DE /* NSFileCoordinator_NilParameter_tests.m in Sources */,
+				506CC3FA2135BBD4008A1D70 /* JSBFSObservedDirectory_InitNilParameter_tests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -810,12 +822,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				506CC3F12135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m in Sources */,
+				506CC3F72135B9DE008A1D70 /* JSBFSObservedDirectory_MethodNilParameter_tests.m in Sources */,
 				506D736F2134D30100E83EB2 /* NSFileCoordinator_ErrorPropogation_tests.swift in Sources */,
 				50C5D8992110B5A200A2B21E /* NSFileCoordinator+Easy_Tests.swift in Sources */,
 				50C5D8972110B5A200A2B21E /* Directory_Tests.swift in Sources */,
 				506CC3F42135B100008A1D70 /* JSBFSDirectory_MethodNilParameter_tests.m in Sources */,
 				50C5D8982110B5A200A2B21E /* DirectoryObserver_Tests.swift in Sources */,
 				50C98CBF2134BB42008313DE /* NSFileCoordinator_NilParameter_tests.m in Sources */,
+				506CC3FB2135BBD4008A1D70 /* JSBFSObservedDirectory_InitNilParameter_tests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
