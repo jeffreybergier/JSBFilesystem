@@ -42,19 +42,22 @@
 {
     NSParameterAssert(data);
     NSParameterAssert(url);
-    __block NSError* error = nil;
+    NSError* coError = nil;
+    __block NSError* opError = nil;
     __block BOOL success = NO;
     NSFileCoordinator* c = [[NSFileCoordinator alloc] initWithFilePresenter:filePresenter];
     [c coordinateWritingItemAtURL:url
                           options:NSFileCoordinatorWritingForReplacing
-                            error:&error
-                       byAccessor:^(NSURL * _Nonnull newURL)
+                            error:&coError
+                       byAccessor:^(NSURL*_Nonnull newURL)
     {
-        if (error) { return; }
-        success = [data writeToURL:newURL options:NSDataWritingAtomic error:&error];
+        success = [data writeToURL:newURL options:NSDataWritingAtomic error:&opError];
     }];
-    if (error) {
-        if (errorPtr != NULL) { *errorPtr = error; }
+    if (coError) {
+        if (errorPtr != NULL) { *errorPtr = coError; }
+        return NO;
+    } else if (opError) {
+        if (errorPtr != NULL) { *errorPtr = opError; }
         return NO;
     } else if (!success) {
         if (errorPtr != NULL) { *errorPtr = [NSError JSBFS_operationFailedButNoCocoaErrorThrown]; }
@@ -71,21 +74,25 @@
 {
     NSParameterAssert(fileWrapper);
     NSParameterAssert(url);
-    __block NSError* error = nil;
+    NSError* coError = nil;
+    __block NSError* opError = nil;
     __block BOOL success = NO;
     NSFileCoordinator* c = [[NSFileCoordinator alloc] initWithFilePresenter:filePresenter];
     [c coordinateWritingItemAtURL:url
                           options:NSFileCoordinatorWritingForReplacing
-                            error:&error
-                       byAccessor:^(NSURL * _Nonnull newURL)
+                            error:&coError
+                       byAccessor:^(NSURL*_Nonnull newURL)
      {
-         if (error) { return; }
          success = [fileWrapper writeToURL:newURL
                                    options:NSFileWrapperWritingAtomic
-                       originalContentsURL:nil error:&error];
+                       originalContentsURL:nil
+                                     error:&opError];
      }];
-    if (error) {
-        if (errorPtr != NULL) { *errorPtr = error; }
+    if (coError) {
+        if (errorPtr != NULL) { *errorPtr = coError; }
+        return NO;
+    } else if (opError) {
+        if (errorPtr != NULL) { *errorPtr = opError; }
         return NO;
     } else if (!success) {
         if (errorPtr != NULL) { *errorPtr = [NSError JSBFS_operationFailedButNoCocoaErrorThrown]; }
@@ -100,19 +107,22 @@
                                     error:(NSError*_Nullable*)errorPtr;
 {
     NSParameterAssert(url);
-    __block NSError* error = nil;
+    NSError* coError = nil;
+    __block NSError* opError = nil;
     __block NSData* data = nil;
     NSFileCoordinator* c = [[NSFileCoordinator alloc] initWithFilePresenter:filePresenter];
     [c coordinateReadingItemAtURL:url
                           options:NSFileCoordinatorReadingResolvesSymbolicLink
-                            error:&error
-                       byAccessor:^(NSURL * _Nonnull newURL)
+                            error:&coError
+                       byAccessor:^(NSURL*_Nonnull newURL)
     {
-        if (error) { return; }
-        data = [NSData dataWithContentsOfURL:newURL options:0 error:&error];
+        data = [NSData dataWithContentsOfURL:newURL options:0 error:&opError];
     }];
-    if (error) {
-        if (errorPtr != NULL) { *errorPtr = error; }
+    if (coError) {
+        if (errorPtr != NULL) { *errorPtr = coError; }
+        return nil;
+    } else if (opError) {
+        if (errorPtr != NULL) { *errorPtr = opError; }
         return nil;
     } else if (!data) {
         if (errorPtr != NULL) { *errorPtr = [NSError JSBFS_operationFailedButNoCocoaErrorThrown]; }
@@ -127,21 +137,24 @@
                                                    error:(NSError* _Nullable*)errorPtr;
 {
     NSParameterAssert(url);
-    __block NSError* error = nil;
+    NSError* coError = nil;
+    __block NSError* opError = nil;
     __block NSFileWrapper* fileWrapper = nil;
     NSFileCoordinator* c = [[NSFileCoordinator alloc] initWithFilePresenter:filePresenter];
     [c coordinateReadingItemAtURL:url
                           options:NSFileCoordinatorReadingResolvesSymbolicLink
-                            error:&error
-                       byAccessor:^(NSURL * _Nonnull newURL)
+                            error:&coError
+                       byAccessor:^(NSURL*_Nonnull newURL)
      {
-         if (error) { return; }
          fileWrapper = [[NSFileWrapper alloc] initWithURL:newURL
                                                   options:NSFileWrapperReadingImmediate
-                                                    error:&error];
+                                                    error:&opError];
      }];
-    if (error) {
-        if (errorPtr != NULL) { *errorPtr = error; }
+    if (coError) {
+        if (errorPtr != NULL) { *errorPtr = coError; }
+        return nil;
+    } else if (opError) {
+        if (errorPtr != NULL) { *errorPtr = opError; }
         return nil;
     } else if (!fileWrapper) {
         if (errorPtr != NULL) { *errorPtr = [NSError JSBFS_operationFailedButNoCocoaErrorThrown]; }
@@ -156,23 +169,26 @@
                   error:(NSError*_Nullable*)errorPtr;
 {
     NSParameterAssert(url);
-    __block NSError* error = nil;
+    NSError* coError = nil;
+    __block NSError* opError = nil;
     __block BOOL success = NO;
     NSFileCoordinator* c = [[NSFileCoordinator alloc] initWithFilePresenter:filePresenter];
     [c coordinateWritingItemAtURL:url
                           options:NSFileCoordinatorWritingForDeleting
-                            error:&error
-                       byAccessor:^(NSURL * _Nonnull newURL)
+                            error:&coError
+                       byAccessor:^(NSURL*_Nonnull newURL)
      {
-         if (error) { return; }
         #if TARGET_OS_IPHONE
-         success = [[NSFileManager defaultManager] removeItemAtURL:newURL error:&error];
+         success = [[NSFileManager defaultManager] removeItemAtURL:newURL error:&opError];
         #else
-         success = [[NSFileManager defaultManager] trashItemAtURL:newURL resultingItemURL:nil error:&error];
+         success = [[NSFileManager defaultManager] trashItemAtURL:newURL resultingItemURL:nil error:&opError];
         #endif
      }];
-    if (error) {
-        if (errorPtr != NULL) { *errorPtr = error; }
+    if (coError) {
+        if (errorPtr != NULL) { *errorPtr = coError; }
+        return NO;
+    } else if (opError) {
+        if (errorPtr != NULL) { *errorPtr = opError; }
         return NO;
     } else if (!success) {
         if (errorPtr != NULL) { *errorPtr = [NSError JSBFS_operationFailedButNoCocoaErrorThrown]; }
@@ -190,34 +206,28 @@
     if (!contents || [contents count] == 0) {
         return YES;
     }
-    __block NSError* error = nil;
-    __block BOOL success = YES;
+    NSError* coError = nil;
+    __block NSError* opError = nil;
+    __block BOOL success = NO;
     NSFileCoordinator* c = [[NSFileCoordinator alloc] initWithFilePresenter:filePresenter];
     [c prepareForReadingItemsAtURLs:contents
-                            options:0
+                            options:NSFileCoordinatorReadingResolvesSymbolicLink
                  writingItemsAtURLs:contents
                             options:NSFileCoordinatorWritingForDeleting
-                              error:&error
-                         byAccessor:^(void (^ _Nonnull completionHandler)(void))
+                              error:&coError
+                         byAccessor:^(void (^_Nonnull completionHandler)(void))
      {
-         // if an error ocurred before we start looping, bail
-         if (error || !success) {
-             completionHandler();
-             return;
-         }
          for (NSURL* item in contents) {
-             // if an error ocurred while looping, bail from the loop
-             if (error || !success) {
-                 completionHandler();
-                 break;
-             }
-             [self JSBFS_deleteURL:item filePresenter:filePresenter error:&error];
+             if (opError) { break; }
+             [self JSBFS_deleteURL:item filePresenter:filePresenter error:&opError];
          }
-         // if everything went well, call the completion handler
          completionHandler();
      }];
-    if (error) {
-        if (errorPtr != NULL) { *errorPtr = error; }
+    if (coError) {
+        if (errorPtr != NULL) { *errorPtr = coError; }
+        return NO;
+    } if (opError) {
+        if (errorPtr != NULL) { *errorPtr = opError; }
         return NO;
     } else if (!success) {
         if (errorPtr != NULL) { *errorPtr = [NSError JSBFS_operationFailedButNoCocoaErrorThrown]; }
@@ -232,22 +242,25 @@
                              error:(NSError*_Nullable*)errorPtr;
 {
     NSParameterAssert(url);
-    __block NSError* error = nil;
+    NSError* coError = nil;
+    __block NSError* opError = nil;
     __block BOOL success = NO;
     NSFileCoordinator* c = [[NSFileCoordinator alloc] initWithFilePresenter:filePresenter];
     [c coordinateWritingItemAtURL:url
                           options:NSFileCoordinatorWritingForReplacing
-                            error:&error
-                       byAccessor:^(NSURL * _Nonnull newURL)
+                            error:&coError
+                       byAccessor:^(NSURL*_Nonnull newURL)
      {
-         if (error) { return; }
          success = [[NSFileManager defaultManager] createDirectoryAtURL:newURL
                                                  withIntermediateDirectories:YES
                                                                   attributes:nil
-                                                                       error:&error];
+                                                                       error:&opError];
      }];
-    if (error) {
-        if (errorPtr != NULL) { *errorPtr = error; }
+    if (coError) {
+        if (errorPtr != NULL) { *errorPtr = coError; }
+        return NO;
+    } if (opError) {
+        if (errorPtr != NULL) { *errorPtr = opError; }
         return NO;
     } else if (!success) {
         if (errorPtr != NULL) { *errorPtr = [NSError JSBFS_operationFailedButNoCocoaErrorThrown]; }
@@ -266,7 +279,8 @@
     NSParameterAssert(url);
     NSParameterAssert(sortedBy >= JSBFSDirectorySortNameAFirst);
     NSParameterAssert(sortedBy <= JSBFSDirectorySortModificationOldestFirst);
-    __block NSError* error = nil;
+    __block NSError* coError = nil;
+    __block NSError* opError = nil;
     __block NSArray<NSURL*>* contents = nil;
     __block NSArray<JSBFSDirectoryFilterBlock>* filters = _filters;
     NSFileCoordinator* c = [[NSFileCoordinator alloc] initWithFilePresenter:filePresenter];
@@ -274,35 +288,37 @@
                             options:NSFileCoordinatorReadingResolvesSymbolicLink
                  writingItemsAtURLs:@[]
                             options:0
-                              error:&error
-                         byAccessor:^(void (^ _Nonnull completionHandler)(void))
+                              error:&coError
+                         byAccessor:^(void (^_Nonnull completionHandler)(void))
      {
-         if (error) { completionHandler(); return; }
          [c coordinateReadingItemAtURL:url
                                options:NSFileCoordinatorReadingResolvesSymbolicLink
-                                 error:&error
-                            byAccessor:^(NSURL * _Nonnull newURL)
+                                 error:&coError
+                            byAccessor:^(NSURL*_Nonnull newURL)
          {
-             if (error) { completionHandler(); return; }
              NSArray<NSURL*>* allContents =
              [[NSFileManager defaultManager] contentsOfDirectoryAtURL:newURL
-                                           includingPropertiesForKeys:@[NSURLLocalizedNameKey, NSURLContentModificationDateKey, NSURLCreationDateKey]
+                                           includingPropertiesForKeys:@[NSURLLocalizedNameKey,
+                                                                        NSURLContentModificationDateKey,
+                                                                        NSURLCreationDateKey]
                                                               options:NSDirectoryEnumerationSkipsHiddenFiles
-                                                                error:&error];
-             if (error) { completionHandler(); return; }
+                                                                error:&opError];
+             if (opError) { completionHandler(); return; }
              NSArray<NSURL*>* unsortedContents = [self __JSBFS_filterContents:allContents withFilters:filters];
              NSURLResourceKey resourceKey = [JSBFSDirectorySortConverter resourceKeyForSort:sortedBy];
              BOOL ascending = [JSBFSDirectorySortConverter orderedAscendingForSort:sortedBy];
              contents = [self __JSBFS_sortContents:[unsortedContents mutableCopy]
                                sortedByResourceKey:resourceKey
                                   orderedAscending:ascending
-                                             error:&error];
+                                             error:&opError];
              completionHandler();
          }];
      }];
-    // check if that operation failed
-    if (error) {
-        if (errorPtr != NULL) { *errorPtr = error; }
+    if (coError) {
+        if (errorPtr != NULL) { *errorPtr = coError; }
+        return nil;
+    } if (opError) {
+        if (errorPtr != NULL) { *errorPtr = opError; }
         return nil;
     } else if (!contents) {
         if (errorPtr != NULL) { *errorPtr = [NSError JSBFS_operationFailedButNoCocoaErrorThrown]; }
@@ -323,10 +339,10 @@
     NSParameterAssert(sortedBy <= JSBFSDirectorySortModificationOldestFirst);
     NSError* error = nil;
     NSArray<NSURL*>* contents = [self JSBFS_contentsOfDirectoryAtURL:url
-                                                           sortedBy:sortedBy
-                                                         filteredBy:filters
-                                                      filePresenter:filePresenter
-                                                              error:&error];
+                                                            sortedBy:sortedBy
+                                                          filteredBy:filters
+                                                       filePresenter:filePresenter
+                                                               error:&error];
     BOOL success = [contents count] == 0 ? YES : NO;
     NSMutableArray<JSBFSFileComparison*>* values = [[NSMutableArray alloc] initWithCapacity:[contents count]];
     for (NSURL* contentURL in contents) {
@@ -353,13 +369,13 @@
                                                            error:(NSError*_Nullable*)errorPtr;
 {
     NSParameterAssert(url);
-    __block NSError* error = nil;
+    NSError* coError = nil;
     __block JSBFSDoubleBool* value = nil;
     NSFileCoordinator* c = [[NSFileCoordinator alloc] initWithFilePresenter:filePresenter];
     [c coordinateReadingItemAtURL:url
                           options:NSFileCoordinatorReadingResolvesSymbolicLink
-                            error:&error
-                       byAccessor:^(NSURL* _Nonnull newURL)
+                            error:&coError
+                       byAccessor:^(NSURL*_Nonnull newURL)
      {
          BOOL isDirectory = NO;
          BOOL isExisting = [[NSFileManager defaultManager] fileExistsAtPath:[newURL path]
@@ -367,8 +383,8 @@
          value = [[JSBFSDoubleBool alloc] initWithValue1:isExisting
                                                   value2:isDirectory];
      }];
-    if (error) {
-        if (errorPtr != NULL) { *errorPtr = error; }
+    if (coError) {
+        if (errorPtr != NULL) { *errorPtr = coError; }
         return nil;
     } else if (!value) {
         if (errorPtr != NULL) { *errorPtr = [NSError JSBFS_operationFailedButNoCocoaErrorThrown]; }
@@ -385,17 +401,17 @@ whileCoordinatingAccessAtURL:(NSURL* _Nonnull)url
 {
     NSParameterAssert(url);
     NSParameterAssert(executionBlock);
-    __block NSError* error = nil;
+    NSError* coError = nil;
     NSFileCoordinator* c = [[NSFileCoordinator alloc] initWithFilePresenter:filePresenter];
     [c coordinateReadingItemAtURL:url
                           options:NSFileCoordinatorReadingResolvesSymbolicLink
-                            error:&error
-                       byAccessor:^(NSURL* _Nonnull newURL __attribute__((unused)))
+                            error:&coError
+                       byAccessor:^(NSURL*_Nonnull newURL __attribute__((unused)))
      {
          executionBlock();
      }];
-    if (error) {
-        if (errorPtr != NULL) { *errorPtr = error; }
+    if (coError) {
+        if (errorPtr != NULL) { *errorPtr = coError; }
         return NO;
     } else {
         return YES;

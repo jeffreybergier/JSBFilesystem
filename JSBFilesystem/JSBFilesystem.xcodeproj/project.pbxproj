@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		506D736E2134D30000E83EB2 /* NSFileCoordinator_ErrorPropogation_tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D736B2134D2DE00E83EB2 /* NSFileCoordinator_ErrorPropogation_tests.swift */; };
+		506D736F2134D30100E83EB2 /* NSFileCoordinator_ErrorPropogation_tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D736B2134D2DE00E83EB2 /* NSFileCoordinator_ErrorPropogation_tests.swift */; };
 		50AD03FE2112218F00C0C88D /* FileWrapperTestImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 50AD03FD2112218F00C0C88D /* FileWrapperTestImage.png */; };
 		50AD03FF2112218F00C0C88D /* FileWrapperTestImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 50AD03FD2112218F00C0C88D /* FileWrapperTestImage.png */; };
 		50C5D83B2110B3D800A2B21E /* JSBFilesystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C5D8312110B3D700A2B21E /* JSBFilesystem.framework */; };
@@ -108,6 +110,7 @@
 		0CE89C957CF6CF483A0DC6FA /* Pods_JSBFilesystem_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JSBFilesystem_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E41E0F0924344DAB0EB0EDD /* Pods-JSBFilesystem_macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JSBFilesystem_macOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-JSBFilesystem_macOS/Pods-JSBFilesystem_macOS.release.xcconfig"; sourceTree = "<group>"; };
 		38463B70BFE62FBCD17EA35A /* Pods-JSBFilesystem_iOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JSBFilesystem_iOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-JSBFilesystem_iOSTests/Pods-JSBFilesystem_iOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		506D736B2134D2DE00E83EB2 /* NSFileCoordinator_ErrorPropogation_tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSFileCoordinator_ErrorPropogation_tests.swift; sourceTree = "<group>"; };
 		50AD03FD2112218F00C0C88D /* FileWrapperTestImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FileWrapperTestImage.png; sourceTree = "<group>"; };
 		50C5D8312110B3D700A2B21E /* JSBFilesystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JSBFilesystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		50C5D8352110B3D700A2B21E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -341,6 +344,7 @@
 		50C98CB92134BAEF008313DE /* Error_tests */ = {
 			isa = PBXGroup;
 			children = (
+				506D736B2134D2DE00E83EB2 /* NSFileCoordinator_ErrorPropogation_tests.swift */,
 			);
 			path = Error_tests;
 			sourceTree = "<group>";
@@ -518,6 +522,7 @@
 				TargetAttributes = {
 					50C5D8302110B3D700A2B21E = {
 						CreatedOnToolsVersion = 9.4;
+						LastSwiftMigration = 1000;
 					};
 					50C5D8392110B3D800A2B21E = {
 						CreatedOnToolsVersion = 9.4;
@@ -525,6 +530,7 @@
 					};
 					50C5D84D2110B3F000A2B21E = {
 						CreatedOnToolsVersion = 9.4;
+						LastSwiftMigration = 1000;
 					};
 					50C5D8552110B3F000A2B21E = {
 						CreatedOnToolsVersion = 9.4;
@@ -766,6 +772,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				506D736E2134D30000E83EB2 /* NSFileCoordinator_ErrorPropogation_tests.swift in Sources */,
 				50C5D8962110B5A100A2B21E /* NSFileCoordinator+Easy_Tests.swift in Sources */,
 				50C5D8942110B5A100A2B21E /* Directory_Tests.swift in Sources */,
 				50C5D8952110B5A100A2B21E /* DirectoryObserver_Tests.swift in Sources */,
@@ -792,6 +799,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				506D736F2134D30100E83EB2 /* NSFileCoordinator_ErrorPropogation_tests.swift in Sources */,
 				50C5D8992110B5A200A2B21E /* NSFileCoordinator+Easy_Tests.swift in Sources */,
 				50C5D8972110B5A200A2B21E /* Directory_Tests.swift in Sources */,
 				50C5D8982110B5A200A2B21E /* DirectoryObserver_Tests.swift in Sources */,
@@ -979,6 +987,8 @@
 				PRODUCT_NAME = JSBFilesystem;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1052,6 +1062,7 @@
 				PRODUCT_NAME = JSBFilesystem;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1268,6 +1279,8 @@
 				PRODUCT_NAME = JSBFilesystem;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1340,6 +1353,7 @@
 				PRODUCT_NAME = JSBFilesystem;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
