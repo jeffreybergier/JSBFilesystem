@@ -64,6 +64,7 @@
                               sortedBy:sortedBy
                             filteredBy:filters
                                  error:errorPtr];
+    if (!self) { return nil; }
     self->_changeKind = changeKind;
     self->_changesObserved = nil;
     self->_updateDelay = 0.2;
@@ -88,6 +89,7 @@
                       sortedBy:sortedBy
                     filteredBy:filters
                          error:errorPtr];
+    if (!self) { return nil; }
     self->_changeKind = changeKind;
     self->_changesObserved = nil;
     self->_updateDelay = 0.2;
@@ -148,6 +150,7 @@
 
 - (void)performBatchUpdates:(void(^NS_NOESCAPE _Nonnull)(void))updates;
 {
+    NSParameterAssert(updates);
     [NSFileCoordinator removeFilePresenter:self];
     updates();
     [self forceUpdate];
@@ -159,7 +162,7 @@
 
 // MARK: NSFilePresenter Delegate
 
-- (NSURL*)presentedItemURL;
+- (NSURL *)presentedItemURL;
 {
     return [self url];
 }
@@ -231,7 +234,7 @@
     if ([self changesObserved] == NULL) {
         return [super sortedAndFilteredContents:errorPtr];
     }
-    NSArray<JSBFSFileComparison*>* comparisons = [self sortedAndFilteredComparisons:errorPtr];
+    NSArray<JSBFSFileComparison*>* comparisons = [self internalState];
     NSArray<NSURL*>* urls = [comparisons JSBFS_arrayByTransformingArrayContentsWithBlock:
                              ^id _Nonnull(JSBFSFileComparison* item)
                              {

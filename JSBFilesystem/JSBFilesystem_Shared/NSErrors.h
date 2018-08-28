@@ -36,7 +36,10 @@
  *             this library.
  */
 typedef NS_ENUM(NSInteger, JSBFSErrorCode) {
-    JSBFSErrorCodeOperationFailedButNoCocoaErrorThrown
+    JSBFSErrorCodeOperationFailedButNoCocoaErrorThrown,
+    JSBFSErrorDirectoryNotFoundAndNotCreated,
+    JSBFSErrorSpecifiedURLIsFileExpectedDirectory,
+    JSBFSErrorItemNotFound
 };
 
 /*!
@@ -66,6 +69,12 @@ NS_SWIFT_NAME(JSBFS_directoryNotFoundAndNotCreated());
  */
 + (instancetype _Nonnull)JSBFS_specifiedURLIsFileExpectedDirectory
 NS_SWIFT_NAME(JSBFS_specifiedURLIsFileExpectedDirectory());
+/*!
+ * @discussion Error thrown when trying to find the index of an NSURL object.
+ *             This throws an error to improve how it works in Swift.
+ */
++ (instancetype _Nonnull)JSBFS_itemNotFound
+NS_SWIFT_NAME(JSBFS_itemNotFound());
 @end
 
 @interface NSException (JSBFS)

@@ -154,12 +154,11 @@
 
 - (NSArray<NSURL*>*_Nullable)sortedAndFilteredContents:(NSError*_Nullable*)errorPtr;
 {
-    NSArray<JSBFSFileComparison*>* comparisons = [self sortedAndFilteredComparisons:errorPtr];
-    NSArray<NSURL*>* urls = [comparisons JSBFS_arrayByTransformingArrayContentsWithBlock:
-                             ^id _Nonnull(JSBFSFileComparison* item)
-                             {
-                                 return [item fileURL];
-                             }];
+    NSArray<NSURL*>* urls = [NSFileCoordinator JSBFS_contentsOfDirectoryAtURL:[self url]
+                                                                     sortedBy:[self sortedBy]
+                                                                   filteredBy:[self filteredBy]
+                                                                filePresenter:nil
+                                                                        error:errorPtr];
     return urls;
 }
 
@@ -189,6 +188,9 @@ __attribute__((swift_error(nonnull_error)));
              }];
     if (error) {
         if (errorPtr != NULL) { *errorPtr = error; }
+        return NSNotFound;
+    } else if (index == NSNotFound) {
+        if (errorPtr != NULL) { *errorPtr = [NSError JSBFS_itemNotFound]; }
         return NSNotFound;
     }
     return index;

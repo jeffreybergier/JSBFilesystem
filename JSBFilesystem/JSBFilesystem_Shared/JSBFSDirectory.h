@@ -138,7 +138,8 @@ NS_DESIGNATED_INITIALIZER;
 
 /*!
  * @discussion Find the index of a given URL after filtering and sorting.
- * @param errorPtr Error parameter. Will always be populated if return is NSNotFound.
+ * @param errorPtr Error parameter will always be populated if return is NSNotFound.
+ *        This is done to make Swift Error handling better for this method.
  * @return Index of item or NSNotFound if there is an error.
  */
 - (NSUInteger)indexOfItemWithURL:(NSURL*_Nonnull)rhs error:(NSError*_Nullable*)errorPtr

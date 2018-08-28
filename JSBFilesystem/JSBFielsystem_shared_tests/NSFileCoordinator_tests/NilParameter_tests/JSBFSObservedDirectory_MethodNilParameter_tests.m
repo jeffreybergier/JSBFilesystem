@@ -9,6 +9,8 @@
 
 @interface JSBFSObservedDirectory_MethodNilParameter_tests : JSBFSDirectory_MethodNilParameter_tests
 
+@property (nonatomic, strong) JSBFSObservedDirectory* directory;
+
 @end
 
 @implementation JSBFSObservedDirectory_MethodNilParameter_tests
@@ -26,6 +28,17 @@
     XCTAssertNotNil([self validRemoteURL]);
     XCTAssertNotNil([self temporaryLocation]);
     XCTAssertNotNil([self directory]);
+}
+
+- (void)testBatchExecuteNilParameter;
+{
+    XCTAssertThrowsSpecificNamed([[self directory] performBatchUpdates:nil],
+                                 NSException,
+                                 NSInternalInconsistencyException,
+                                 @"");
+    XCTAssertNoThrowSpecificNamed([[self directory] performBatchUpdates:^{}],
+                                  NSException,
+                                  @"");
 }
 
 @end

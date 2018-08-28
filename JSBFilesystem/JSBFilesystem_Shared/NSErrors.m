@@ -31,10 +31,31 @@
 #import "NSErrors.h"
 
 @implementation NSError (JSBFS)
-+ (instancetype _Nonnull)JSBFS_operationFailedButNoCocoaErrorThrown
++ (instancetype _Nonnull)JSBFS_operationFailedButNoCocoaErrorThrown;
 {
-    return [[NSError alloc] initWithDomain:kJSBFSErrorDomain code:JSBFSErrorCodeOperationFailedButNoCocoaErrorThrown userInfo:nil];
+    return [[NSError alloc] initWithDomain:kJSBFSErrorDomain
+                                      code:JSBFSErrorCodeOperationFailedButNoCocoaErrorThrown
+                                  userInfo:nil];
 }
++ (instancetype _Nonnull)JSBFS_directoryNotFoundAndNotCreated;
+{
+    return [[NSError alloc] initWithDomain:kJSBFSErrorDomain
+                                      code:JSBFSErrorDirectoryNotFoundAndNotCreated
+                                  userInfo:nil];
+}
++ (instancetype _Nonnull)JSBFS_specifiedURLIsFileExpectedDirectory;
+{
+    return [[NSError alloc] initWithDomain:kJSBFSErrorDomain
+                                      code:JSBFSErrorSpecifiedURLIsFileExpectedDirectory
+                                  userInfo:nil];
+}
++ (instancetype _Nonnull)JSBFS_itemNotFound;
+{
+    return [[NSError alloc] initWithDomain:kJSBFSErrorDomain
+                                      code:JSBFSErrorItemNotFound
+                                  userInfo:nil];
+}
+
 @end
 
 @implementation NSException (JSBFS)

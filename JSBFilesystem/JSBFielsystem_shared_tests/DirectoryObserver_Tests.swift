@@ -228,7 +228,8 @@ class DirectoryObserver_BasicTests: XCTestCase {
             let _ = try self.observer.indexOfItem(with: fakeURL)
             XCTFail("An error should have been thrown")
         } catch (let error as NSError) {
-            XCTAssert(error.domain == "JSBFilesystem" && error.code == 1, String(describing: error))
+            XCTAssert(error.domain == kJSBFSErrorDomain)
+            XCTAssert(JSBFSErrorCode(rawValue: error.code)! == .itemNotFound)
         } catch {
             XCTFail(String(describing: error))
         }
