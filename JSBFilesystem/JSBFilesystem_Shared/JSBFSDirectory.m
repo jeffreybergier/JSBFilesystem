@@ -55,7 +55,6 @@
     } else {
         url = baseURL;
     }
-    NSParameterAssert(url);
     self = [self initWithDirectoryURL:url createIfNeeded:create sortedBy:sortedBy filteredBy:filters error:errorPtr];
     return self;
 }
@@ -121,7 +120,7 @@
 {
     NSError* error = nil;
     NSArray<NSURL*>* contents = [self sortedAndFilteredContents:&error];
-    if (error || !contents) {
+    if (error) {
         if (errorPtr != NULL) { *errorPtr = error; }
         return NO;
     }
@@ -141,13 +140,21 @@
 
 // MARK: -contentsCount:
 
-- (NSUInteger)contentsCount:(NSError*_Nullable*)errorPtr __attribute__((swift_error(nonnull_error)));
+- (NSUInteger)contentsCount:(NSError*_Nullable*)
+errorPtr __attribute__((swift_error(nonnull_error)));
 {
-    return [[NSFileCoordinator JSBFS_contentsOfDirectoryAtURL:[self url]
-                                                     sortedBy:[self sortedBy]
-                                                   filteredBy:[self filteredBy]
-                                                filePresenter:nil
-                                                        error:errorPtr] count];
+    NSError* error = nil;
+    NSArray<NSURL*>* contents = [NSFileCoordinator JSBFS_contentsOfDirectoryAtURL:[self url]
+                                                                         sortedBy:[self sortedBy]
+                                                                       filteredBy:[self filteredBy]
+                                                                    filePresenter:nil
+                                                                            error:&error];
+    if (error) {
+        if (errorPtr != NULL) { *errorPtr = error; }
+        return NSNotFound;
+    } else {
+        return [contents count];
+    }
 }
 
 // MARK: -sortedAndFiltered:
@@ -179,21 +186,23 @@ __attribute__((swift_error(nonnull_error)));
 {
     NSParameterAssert(rhs);
     NSError* error = nil;
-    NSUInteger index = NSNotFound;
     NSArray<JSBFSFileComparison*>* comparisons = [self sortedAndFilteredComparisons:&error];
-    index = [comparisons indexOfObjectPassingTest:
-             ^BOOL(JSBFSFileComparison* lhs, NSUInteger idx __attribute__((unused)), BOOL* stop __attribute__((unused)))
-             {
-                 return [[lhs fileURL] isEqual:rhs];
-             }];
+    NSUInteger index = [comparisons indexOfObjectPassingTest:
+                        ^BOOL(JSBFSFileComparison* lhs,
+                              NSUInteger idx __attribute__((unused)),
+                              BOOL* stop __attribute__((unused)))
+                        {
+                            return [[lhs fileURL] isEqual:rhs];
+                        }];
     if (error) {
         if (errorPtr != NULL) { *errorPtr = error; }
         return NSNotFound;
     } else if (index == NSNotFound) {
         if (errorPtr != NULL) { *errorPtr = [NSError JSBFS_itemNotFound]; }
         return NSNotFound;
+    } else {
+        return index;
     }
-    return index;
 }
 
 @end

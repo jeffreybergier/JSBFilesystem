@@ -18,6 +18,7 @@ class NSFileCoordinator_ErrorPropogation_tests: XCTestCase {
     func testNSFCWriteErrorProp() {
         do {
             try NSFileCoordinator.JSBFS_write(self.validData, to: self.invalidLocalURL, filePresenter: nil)
+            XCTFail()
         } catch let error as NSError {
             XCTAssert(error.domain == NSCocoaErrorDomain)
             XCTAssert(error.code == 513)
@@ -33,12 +34,14 @@ class NSFileCoordinator_ErrorPropogation_tests: XCTestCase {
     func testNSFCReadErrorProp() {
         do {
             try NSFileCoordinator.JSBFS_readData(from: self.invalidLocalURL, filePresenter: nil)
+            XCTFail()
         } catch let error as NSError {
             XCTAssert(error.domain == NSCocoaErrorDomain)
             XCTAssert(error.code == 260)
         }
         do {
             try NSFileCoordinator.JSBFS_readFileWrapper(from: self.invalidLocalURL, filePresenter: nil)
+            XCTFail()
         } catch let error as NSError {
             XCTAssert(error.domain == NSCocoaErrorDomain)
             XCTAssert(error.code == 260)
@@ -48,12 +51,14 @@ class NSFileCoordinator_ErrorPropogation_tests: XCTestCase {
     func testNSFCDeleteErrorProp() {
         do {
             try NSFileCoordinator.JSBFS_delete(url: self.invalidLocalURL, filePresenter: nil)
+            XCTFail()
         } catch let error as NSError {
             XCTAssert(error.domain == NSCocoaErrorDomain)
             XCTAssert(error.code == 4)
         }
         do {
             try NSFileCoordinator.JSBFS_batchDelete(urls: [self.invalidLocalURL, self.validRemoteURL], filePresenter: nil)
+            XCTFail()
         } catch let error as NSError {
             XCTAssert(error.domain == NSCocoaErrorDomain)
             XCTAssert(error.code == 4)
@@ -63,6 +68,7 @@ class NSFileCoordinator_ErrorPropogation_tests: XCTestCase {
     func testNSFCCreateDirectoryErrorProp() {
         do {
             try NSFileCoordinator.JSBFS_createDirectory(at: self.validRemoteURL, filePresenter: nil)
+            XCTFail()
         } catch let error as NSError {
             XCTAssert(error.domain == NSCocoaErrorDomain)
             XCTAssert(error.code == 518)
@@ -75,6 +81,7 @@ class NSFileCoordinator_ErrorPropogation_tests: XCTestCase {
                                                             sortedBy: .nameAFirst,
                                                             filteredBy: nil,
                                                             filePresenter: nil)
+            XCTFail()
         } catch let error as NSError {
             XCTAssert(error.domain == NSCocoaErrorDomain)
             XCTAssert(error.code == 260)
@@ -84,6 +91,7 @@ class NSFileCoordinator_ErrorPropogation_tests: XCTestCase {
                                                                       sortedBy: .nameAFirst,
                                                                       filteredBy: nil,
                                                                       filePresenter: nil)
+            XCTFail()
         } catch let error as NSError {
             XCTAssert(error.domain == NSCocoaErrorDomain)
             XCTAssert(error.code == 260)
