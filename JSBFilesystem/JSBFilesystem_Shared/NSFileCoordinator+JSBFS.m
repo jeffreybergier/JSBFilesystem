@@ -291,28 +291,27 @@
                               error:&coError
                          byAccessor:^(void (^_Nonnull completionHandler)(void))
      {
-         [c coordinateReadingItemAtURL:url
-                               options:NSFileCoordinatorReadingResolvesSymbolicLink
-                                 error:&coError
-                            byAccessor:^(NSURL*_Nonnull newURL)
-         {
-             NSArray<NSURL*>* allContents =
-             [[NSFileManager defaultManager] contentsOfDirectoryAtURL:newURL
-                                           includingPropertiesForKeys:@[NSURLLocalizedNameKey,
-                                                                        NSURLContentModificationDateKey,
-                                                                        NSURLCreationDateKey]
-                                                              options:NSDirectoryEnumerationSkipsHiddenFiles
-                                                                error:&opError];
-             if (opError) { completionHandler(); return; }
-             NSArray<NSURL*>* unsortedContents = [self __JSBFS_filterContents:allContents withFilters:filters];
-             NSURLResourceKey resourceKey = [JSBFSDirectorySortConverter resourceKeyForSort:sortedBy];
-             BOOL ascending = [JSBFSDirectorySortConverter orderedAscendingForSort:sortedBy];
-             contents = [self __JSBFS_sortContents:[unsortedContents mutableCopy]
-                               sortedByResourceKey:resourceKey
-                                  orderedAscending:ascending
-                                             error:&opError];
-             completionHandler();
-         }];
+         NSArray<NSURL*>* allUnsortedContents =
+         [[NSFileManager defaultManager] contentsOfDirectoryAtURL:url
+                                       includingPropertiesForKeys:@[NSURLLocalizedNameKey,
+                                                                    NSURLContentModificationDateKey,
+                                                                    NSURLCreationDateKey]
+                                                          options:NSDirectoryEnumerationSkipsHiddenFiles
+                                                            error:&opError];
+         if (opError) { completionHandler(); return; }
+         NSURLResourceKey resourceKey = [JSBFSDirectorySortConverter resourceKeyForSort:sortedBy];
+         BOOL ascending = [JSBFSDirectorySortConverter orderedAscendingForSort:sortedBy];
+         NSArray<NSURL*>* allSortedContents = [self __JSBFS_sortContents:[allUnsortedContents mutableCopy]
+                                                     sortedByResourceKey:resourceKey
+                                                        orderedAscending:ascending
+                                                                   error:&opError];
+         if (opError) { completionHandler(); return; }
+         contents = [self __JSBFS_filterContents:allSortedContents
+                                     withFilters:filters
+                                   filePresenter:filePresenter
+                                           error:&opError];
+         if (opError) { completionHandler(); return; }
+         completionHandler();
      }];
     if (coError) {
         if (errorPtr != NULL) { *errorPtr = coError; }
@@ -355,7 +354,7 @@
     if (error) {
         if (errorPtr != NULL) { *errorPtr = error; }
         return nil;
-    } else if (([values count] != [contents count]) || (!success)) {
+    } else if (!success) {
         if (errorPtr != NULL) { *errorPtr = [NSError JSBFS_operationFailedButNoCocoaErrorThrown]; }
         return nil;
     } else {
@@ -451,7 +450,7 @@ whileCoordinatingAccessAtURL:(NSURL* _Nonnull)url
                 return [rhsDate compare:lhsDate];
             }
         } else {
-            @throw [[NSException alloc] initWithName:@"Unsupported NSURLResourceKey" reason:@"This function only supports NSURLLocalizedNameKey, NSURLContentModificationDateKey, NSURLCreationDateKey" userInfo:nil];
+            @throw [NSException JSBFS_unsupportedURLResourceKey];
         }
     }];
     if (error) {
@@ -465,46 +464,39 @@ whileCoordinatingAccessAtURL:(NSURL* _Nonnull)url
     }
 }
 
-+ (NSArray<NSURL*>*_Nonnull)__JSBFS_filterContents:(NSArray<NSURL*>*_Nonnull)allContents
-                                       withFilters:(NSArray<JSBFSDirectoryFilterBlock>*_Nullable)filters;
++ (NSArray<NSURL*>*_Nullable)__JSBFS_filterContents:(NSArray<NSURL*>*_Nonnull)allContents
+                                       withFilters:(NSArray<JSBFSDirectoryFilterBlock>*_Nullable)filters
+                                     filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
+                                             error:(NSError*_Nullable*)errorPtr;
 {
-    NSArray<NSURL*>* contents = nil;
-    if ((!filters) || ([filters count] == 0)) {
-        // if there are no filters, bail out
-        contents = allContents;
-    } else {
-        // if there are filters, we need to do several things
-        // 1) filter the contents of the array using our Array of test Blocks
-        contents = [allContents JSBFS_arrayByFilteringArrayContentsWithBlock:^BOOL(id item) {
-            // 2) Map the filters array into an array of NSNumber objects that represent a YES/NO for passing the filter
-            // This could be optimized to bail out if a test returns NO, but for now, that optimization is not present
-            NSArray<NSNumber*>* testResult = [filters JSBFS_arrayByTransformingArrayContentsWithBlock:^id _Nonnull(id _block) {
-                JSBFSDirectoryFilterBlock block = _block;
-                BOOL test = block(item);
-                return [NSNumber numberWithBool:test];
-            }];
-            // 3) we want to AND the answers together
-            // They have to be all YES or it doesn't pass
-            // We will just check if a NO was ever present
-            // If it was we flag it
-            BOOL noWasPresent = NO;
-            for (NSNumber* number in testResult) {
-                BOOL result = [number boolValue];
-                if (!result) {
-                    noWasPresent = YES;
-                    break;
-                }
+    if ((!filters) || ([filters count] == 0)) { return allContents; }
+    NSMutableArray<NSURL*>* contents = [[NSMutableArray alloc] init];
+    NSError* coError = nil;
+    NSFileCoordinator* c = [[NSFileCoordinator alloc] initWithFilePresenter:filePresenter];
+    for (NSURL* oldURL in allContents) {
+        [c coordinateReadingItemAtURL:oldURL
+                              options:NSFileCoordinatorReadingResolvesSymbolicLink
+                                error:&coError
+                           byAccessor:^(NSURL*_Nonnull newURL)
+        {
+            BOOL allFiltersPass = YES;
+            for (JSBFSDirectoryFilterBlock filter in filters) {
+                // stop executing filters if one fails
+                if (!allFiltersPass) { break; }
+                allFiltersPass = filter(newURL);
             }
-            // 4) check if NO was ever present
-            // if it was, then they do not pass and should be filtered out
-            if (noWasPresent) {
-                return NO;
-            } else {
-                return YES;
+            // if they all pass, add the object for output
+            if (allFiltersPass) {
+                [contents addObject:newURL];
             }
         }];
     }
-    return contents;
+    if (coError) {
+        if (errorPtr != NULL) { *errorPtr = coError; }
+        return nil;
+    } else {
+        return [contents copy];
+    }
 }
 
 @end

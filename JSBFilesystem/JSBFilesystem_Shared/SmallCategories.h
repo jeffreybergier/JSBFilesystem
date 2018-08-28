@@ -34,7 +34,8 @@ typedef NS_ENUM(NSInteger, JSBFSDirectorySort);
 
 @interface NSArray (JSBFS)
 /*!
- * @discussion A simple, untyped map operation for NSArray.
+ * @discussion A simple, untyped map operation for NSArray. Throws an exception
+ *             if input and output arrays counts do not match.
  * @param transform A block that allows you to transform the existing object
  *        into a new object.
  * @return An array of equal length as the original array, populated with the

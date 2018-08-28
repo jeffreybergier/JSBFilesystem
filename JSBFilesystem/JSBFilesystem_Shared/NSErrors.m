@@ -31,10 +31,23 @@
 #import "NSErrors.h"
 
 @implementation NSError (JSBFS)
-
 + (instancetype _Nonnull)JSBFS_operationFailedButNoCocoaErrorThrown
 {
     return [[NSError alloc] initWithDomain:kJSBFSErrorDomain code:JSBFSErrorCodeOperationFailedButNoCocoaErrorThrown userInfo:nil];
 }
+@end
 
+@implementation NSException (JSBFS)
++ (instancetype _Nonnull)JSBFS_arrayMapFailedInputCountDoesNotMatchOutputCount;
+{
+    return [[NSException alloc] initWithName:NSInternalInconsistencyException
+                                      reason:@"Array Map Failed: Input Count and Output Count Mismatch."
+                                    userInfo:nil];
+}
++ (instancetype _Nonnull)JSBFS_unsupportedURLResourceKey;
+{
+    return [[NSException alloc] initWithName:NSInvalidArgumentException
+                                      reason:@"Unsupported NSURLResourceKey specified. Only NSURLLocalizedNameKey, NSURLContentModificationDateKey, NSURLCreationDateKey are supported."
+                                    userInfo:nil];
+}
 @end

@@ -47,7 +47,6 @@ typedef NS_ENUM(NSInteger, JSBFSErrorCode) {
 static NSString* kJSBFSErrorDomain = @"kJSBFSErrorDomain";
 
 @interface NSError (JSBFS)
-
 /*!
  * @discussion In the rare case that an NSFileManager or other error throwing
  *             method returns NO for success but does not populate the NSError**
@@ -55,5 +54,19 @@ static NSString* kJSBFSErrorDomain = @"kJSBFSErrorDomain";
  */
 + (instancetype _Nonnull)JSBFS_operationFailedButNoCocoaErrorThrown
 NS_SWIFT_NAME(JSBFS_operationFailedButNoCocoaErrorThrown());
+@end
 
+@interface NSException (JSBFS)
+/*!
+ * @discussion In the case the array map fails because the input and output
+ *             arrays counts do not match.
+ */
++ (instancetype _Nonnull)JSBFS_arrayMapFailedInputCountDoesNotMatchOutputCount
+NS_SWIFT_NAME(JSBFS_arrayMapFailedInputCountDoesNotMatchOutputCount());
+/*!
+ * @discussion In the case an unsupported URLResourceKey is specified for sorting
+ *             file contents is used.
+ */
++ (instancetype _Nonnull)JSBFS_unsupportedURLResourceKey
+NS_SWIFT_NAME(JSBFS_unsupportedURLResourceKey());
 @end

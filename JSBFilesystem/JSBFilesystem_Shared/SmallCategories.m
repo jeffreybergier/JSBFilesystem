@@ -30,6 +30,7 @@
 
 #import "SmallCategories.h"
 #import "SmallTypes.h"
+#import "NSErrors.h"
 
 @implementation NSArray (JSBFS)
 - (NSArray*)JSBFS_arrayByTransformingArrayContentsWithBlock:(id _Nonnull (^_Nonnull)(id item))transform;
@@ -38,6 +39,9 @@
     NSMutableArray* transformed = [[NSMutableArray alloc] initWithCapacity:[self count]];
     for (id item in self) {
         [transformed addObject:transform(item)];
+    }
+    if ([self count] != [transformed count]) {
+        @throw [NSException JSBFS_arrayMapFailedInputCountDoesNotMatchOutputCount];
     }
     if ([self isKindOfClass:[NSMutableArray self]]) {
         return transformed;
