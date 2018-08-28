@@ -54,6 +54,18 @@ static NSString* kJSBFSErrorDomain = @"kJSBFSErrorDomain";
  */
 + (instancetype _Nonnull)JSBFS_operationFailedButNoCocoaErrorThrown
 NS_SWIFT_NAME(JSBFS_operationFailedButNoCocoaErrorThrown());
+/*!
+ * @discussion Error created when you asked a JSBFSDirectory to be created at
+ *             a directory that does not exist AND specified NO for createIfNeeded.
+ */
++ (instancetype _Nonnull)JSBFS_directoryNotFoundAndNotCreated
+NS_SWIFT_NAME(JSBFS_directoryNotFoundAndNotCreated());
+/*!
+ * @discussion Error created when URL specified is a file on disk and a directory
+ *             was expected.
+ */
++ (instancetype _Nonnull)JSBFS_specifiedURLIsFileExpectedDirectory
+NS_SWIFT_NAME(JSBFS_specifiedURLIsFileExpectedDirectory());
 @end
 
 @interface NSException (JSBFS)

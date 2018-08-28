@@ -48,16 +48,14 @@
                                  error:(NSError*_Nullable*)errorPtr;
 {
     NSURL* baseURL = [[[NSFileManager defaultManager] URLsForDirectory:base inDomains:NSUserDomainMask] firstObject];
+    NSParameterAssert(baseURL);
     NSURL* url = nil;
     if (pathComponent) {
         url = [baseURL URLByAppendingPathComponent:pathComponent];
     } else {
         url = baseURL;
     }
-    if (!url) {
-        if (errorPtr != NULL) { *errorPtr = [[NSError alloc] initWithDomain:@"" code:0 userInfo:nil]; }
-        return nil;
-    }
+    NSParameterAssert(url);
     self = [self initWithDirectoryURL:url createIfNeeded:create sortedBy:sortedBy filteredBy:filters error:errorPtr];
     return self;
 }
@@ -68,6 +66,9 @@
                                     filteredBy:(NSArray<JSBFSDirectoryFilterBlock>* _Nullable)filters
                                          error:(NSError*_Nullable*)errorPtr;
 {
+    NSParameterAssert(url);
+    NSParameterAssert(sortedBy >= JSBFSDirectorySortNameAFirst);
+    NSParameterAssert(sortedBy <= JSBFSDirectorySortModificationOldestFirst);
     // check if the URL is valid
     NSError* error = nil;
     JSBFSDoubleBool* check = [NSFileCoordinator JSBFS_fileExistsAndIsDirectoryAtURL:url
@@ -85,10 +86,10 @@
         [NSFileCoordinator JSBFS_createDirectoryAtURL:url filePresenter:nil error:&error];
     } else if (isExisting == NO && create == NO) {
         // if the file doesn't exist and the developer does not want us to create it we need to fail
-        error = [[NSError alloc] initWithDomain:@"" code:0 userInfo:nil];
+        error = [NSError JSBFS_directoryNotFoundAndNotCreated];
     } else if (isExisting == YES && isDirectory == NO) {
         // if the file exists but is not a directory, we can't continue, this class only loads directories
-        error = [[NSError alloc] initWithDomain:@"" code:0 userInfo:nil];
+        error = [NSError JSBFS_specifiedURLIsFileExpectedDirectory];
     }
     // one last error check before initializing
     if (error) {
@@ -108,6 +109,8 @@
 
 - (NSURL*_Nullable)urlAtIndex:(NSUInteger)index error:(NSError*_Nullable*)errorPtr;
 {
+    NSParameterAssert(index >= 0);
+    NSParameterAssert(index < NSNotFound);
     NSArray<JSBFSFileComparison*>* contents = [self sortedAndFilteredComparisons:errorPtr];
     return [[contents objectAtIndex:index] fileURL];
 }
