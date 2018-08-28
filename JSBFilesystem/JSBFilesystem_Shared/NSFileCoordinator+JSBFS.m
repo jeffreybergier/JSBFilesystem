@@ -40,6 +40,8 @@
           filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
                   error:(NSError*_Nullable*)errorPtr;
 {
+    NSParameterAssert(data);
+    NSParameterAssert(url);
     __block NSError* error = nil;
     __block BOOL success = NO;
     NSFileCoordinator* c = [[NSFileCoordinator alloc] initWithFilePresenter:filePresenter];
@@ -67,6 +69,8 @@
                  filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
                          error:(NSError*_Nullable*)errorPtr;
 {
+    NSParameterAssert(fileWrapper);
+    NSParameterAssert(url);
     __block NSError* error = nil;
     __block BOOL success = NO;
     NSFileCoordinator* c = [[NSFileCoordinator alloc] initWithFilePresenter:filePresenter];
@@ -95,6 +99,7 @@
                             filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
                                     error:(NSError*_Nullable*)errorPtr;
 {
+    NSParameterAssert(url);
     __block NSError* error = nil;
     __block NSData* data = nil;
     NSFileCoordinator* c = [[NSFileCoordinator alloc] initWithFilePresenter:filePresenter];
@@ -121,6 +126,7 @@
                                            filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
                                                    error:(NSError* _Nullable*)errorPtr;
 {
+    NSParameterAssert(url);
     __block NSError* error = nil;
     __block NSFileWrapper* fileWrapper = nil;
     NSFileCoordinator* c = [[NSFileCoordinator alloc] initWithFilePresenter:filePresenter];
@@ -149,6 +155,7 @@
           filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
                   error:(NSError*_Nullable*)errorPtr;
 {
+    NSParameterAssert(url);
     __block NSError* error = nil;
     __block BOOL success = NO;
     NSFileCoordinator* c = [[NSFileCoordinator alloc] initWithFilePresenter:filePresenter];
@@ -224,6 +231,7 @@
                      filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
                              error:(NSError*_Nullable*)errorPtr;
 {
+    NSParameterAssert(url);
     __block NSError* error = nil;
     __block BOOL success = NO;
     NSFileCoordinator* c = [[NSFileCoordinator alloc] initWithFilePresenter:filePresenter];
@@ -255,6 +263,9 @@
                                               filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
                                                       error:(NSError*_Nullable*)errorPtr;
 {
+    NSParameterAssert(url);
+    NSParameterAssert(sortedBy >= JSBFSDirectorySortNameAFirst);
+    NSParameterAssert(sortedBy <= JSBFSDirectorySortModificationOldestFirst);
     __block NSError* error = nil;
     __block NSArray<NSURL*>* contents = nil;
     __block NSArray<JSBFSDirectoryFilterBlock>* filters = _filters;
@@ -307,6 +318,9 @@
                                                                        filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
                                                                                error:(NSError*_Nullable*)errorPtr;
 {
+    NSParameterAssert(url);
+    NSParameterAssert(sortedBy >= JSBFSDirectorySortNameAFirst);
+    NSParameterAssert(sortedBy <= JSBFSDirectorySortModificationOldestFirst);
     NSError* error = nil;
     NSArray<NSURL*>* contents = [self JSBFS_contentsOfDirectoryAtURL:url
                                                            sortedBy:sortedBy
@@ -338,6 +352,7 @@
                                                    filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
                                                            error:(NSError*_Nullable*)errorPtr;
 {
+    NSParameterAssert(url);
     __block NSError* error = nil;
     __block JSBFSDoubleBool* value = nil;
     NSFileCoordinator* c = [[NSFileCoordinator alloc] initWithFilePresenter:filePresenter];
@@ -368,6 +383,7 @@ whileCoordinatingAccessAtURL:(NSURL* _Nonnull)url
                filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
                        error:(NSError* _Nullable*)errorPtr;
 {
+    NSParameterAssert(url);
     NSParameterAssert(executionBlock);
     __block NSError* error = nil;
     NSFileCoordinator* c = [[NSFileCoordinator alloc] initWithFilePresenter:filePresenter];
