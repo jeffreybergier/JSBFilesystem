@@ -33,6 +33,7 @@
 #import "JSBFSFileComparison.h"
 #import "SmallCategories.h"
 #import "JSBFSDirectoryChanges.h"
+#import "NSErrors.h"
 @import IGListKit;
 
 @interface JSBFSObservedDirectory () {
@@ -202,11 +203,15 @@
     } else {
         url = [super urlAtIndex:index error:&error];
     }
-    if (error || !url) {
+    if (error) {
         if (errorPtr != NULL) { *errorPtr = error; }
         return nil;
+    } else if (!url) {
+        if (errorPtr != NULL) { *errorPtr = [NSError JSBFS_itemNotFound]; }
+        return nil;
+    } else {
+        return url;
     }
-    return url;
 }
 
 // MARK: OVERRIDE -contentsCount:
@@ -220,11 +225,15 @@
     } else {
         count = [super contentsCount:&error];
     }
-    if (error || count == NSNotFound) {
+    if (error) {
         if (errorPtr != NULL) { *errorPtr = error; }
-        return 0;
+        return NSNotFound;
+    } else if (count == NSNotFound) {
+        if (errorPtr != NULL) { *errorPtr = [NSError JSBFS_operationFailedButNoCocoaErrorThrown]; }
+        return NSNotFound;
+    } else {
+        return count;
     }
-    return count;
 }
 
 // MARK: OVERRIDE -sortedAndFiltered:
@@ -253,7 +262,6 @@
 
 - (void)dealloc;
 {
-    self->_changesObserved = nil;
     [self->_updateWaitTimer invalidate];
 }
 
