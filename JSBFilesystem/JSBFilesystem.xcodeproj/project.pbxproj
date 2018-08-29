@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		500A8D8F213700F90094C7B4 /* NSFileCoordinator_Op_tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A8D8E213700F90094C7B4 /* NSFileCoordinator_Op_tests.swift */; };
-		500A8D90213700F90094C7B4 /* NSFileCoordinator_Op_tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A8D8E213700F90094C7B4 /* NSFileCoordinator_Op_tests.swift */; };
+		500A8D8F213700F90094C7B4 /* NSFileCoordinator_CreateMethod_NormOp_tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A8D8E213700F90094C7B4 /* NSFileCoordinator_CreateMethod_NormOp_tests.swift */; };
+		500A8D90213700F90094C7B4 /* NSFileCoordinator_CreateMethod_NormOp_tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A8D8E213700F90094C7B4 /* NSFileCoordinator_CreateMethod_NormOp_tests.swift */; };
 		506CC3F02135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 506CC3EF2135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m */; };
 		506CC3F12135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 506CC3EF2135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m */; };
 		506CC3F32135B100008A1D70 /* JSBFSDirectory_MethodNilParameter_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 506CC3F22135B100008A1D70 /* JSBFSDirectory_MethodNilParameter_tests.m */; };
@@ -126,7 +126,7 @@
 		0CE89C957CF6CF483A0DC6FA /* Pods_JSBFilesystem_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JSBFilesystem_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E41E0F0924344DAB0EB0EDD /* Pods-JSBFilesystem_macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JSBFilesystem_macOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-JSBFilesystem_macOS/Pods-JSBFilesystem_macOS.release.xcconfig"; sourceTree = "<group>"; };
 		38463B70BFE62FBCD17EA35A /* Pods-JSBFilesystem_iOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JSBFilesystem_iOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-JSBFilesystem_iOSTests/Pods-JSBFilesystem_iOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		500A8D8E213700F90094C7B4 /* NSFileCoordinator_Op_tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSFileCoordinator_Op_tests.swift; sourceTree = "<group>"; };
+		500A8D8E213700F90094C7B4 /* NSFileCoordinator_CreateMethod_NormOp_tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSFileCoordinator_CreateMethod_NormOp_tests.swift; sourceTree = "<group>"; };
 		506CC3EF2135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSBFSDirectory_InitNilParameter_tests.m; sourceTree = "<group>"; };
 		506CC3F22135B100008A1D70 /* JSBFSDirectory_MethodNilParameter_tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSBFSDirectory_MethodNilParameter_tests.m; sourceTree = "<group>"; };
 		506CC3F52135B9DE008A1D70 /* JSBFSObservedDirectory_MethodNilParameter_tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSBFSObservedDirectory_MethodNilParameter_tests.m; sourceTree = "<group>"; };
@@ -250,7 +250,7 @@
 		500A8D8D213700A80094C7B4 /* Normal_Operation_tests */ = {
 			isa = PBXGroup;
 			children = (
-				500A8D8E213700F90094C7B4 /* NSFileCoordinator_Op_tests.swift */,
+				500A8D8E213700F90094C7B4 /* NSFileCoordinator_CreateMethod_NormOp_tests.swift */,
 			);
 			path = Normal_Operation_tests;
 			sourceTree = "<group>";
@@ -818,7 +818,7 @@
 				506CC40321360299008A1D70 /* JSBFSObservedDirectory_MethodErrorPropogation_tests.swift in Sources */,
 				506CC3F62135B9DE008A1D70 /* JSBFSObservedDirectory_MethodNilParameter_tests.m in Sources */,
 				506CC3FD2135F8E0008A1D70 /* JSBFSDirectory_InitErrorPropogation_tests.swift in Sources */,
-				500A8D8F213700F90094C7B4 /* NSFileCoordinator_Op_tests.swift in Sources */,
+				500A8D8F213700F90094C7B4 /* NSFileCoordinator_CreateMethod_NormOp_tests.swift in Sources */,
 				506D736E2134D30000E83EB2 /* NSFileCoordinator_ErrorPropogation_tests.swift in Sources */,
 				50C5D8962110B5A100A2B21E /* NSFileCoordinator+Easy_Tests.swift in Sources */,
 				50C5D8942110B5A100A2B21E /* Directory_Tests.swift in Sources */,
@@ -853,7 +853,7 @@
 				506CC40421360299008A1D70 /* JSBFSObservedDirectory_MethodErrorPropogation_tests.swift in Sources */,
 				506CC3F72135B9DE008A1D70 /* JSBFSObservedDirectory_MethodNilParameter_tests.m in Sources */,
 				506CC3FE2135F8E0008A1D70 /* JSBFSDirectory_InitErrorPropogation_tests.swift in Sources */,
-				500A8D90213700F90094C7B4 /* NSFileCoordinator_Op_tests.swift in Sources */,
+				500A8D90213700F90094C7B4 /* NSFileCoordinator_CreateMethod_NormOp_tests.swift in Sources */,
 				506D736F2134D30100E83EB2 /* NSFileCoordinator_ErrorPropogation_tests.swift in Sources */,
 				50C5D8992110B5A200A2B21E /* NSFileCoordinator+Easy_Tests.swift in Sources */,
 				50C5D8972110B5A200A2B21E /* Directory_Tests.swift in Sources */,
