@@ -82,14 +82,14 @@ class ListTableViewController: UITableViewController {
                     let v = self.tableView.indexPathsForVisibleRows ?? []
                     guard v.isEmpty == false else { return }
                     let indexPath = v[Int.random(in: 0..<v.count)]
-                    let url = try self.directory.url(at: UInt(indexPath.row))
+                    let url = try self.directory.url(at: indexPath.row)
                     try NSFileCoordinator.JSBFS_delete(url: url, filePresenter: nil)
                 case 8..<10:
                     let v = self.tableView.indexPathsForVisibleRows ?? []
                     guard v.isEmpty == false else { return }
                     let indexPath = v[Int.random(in: 0..<v.count)]
                     let data = Data("This file was modified".utf8)
-                    let url = try self.directory.url(at: UInt(indexPath.row))
+                    let url = try self.directory.url(at: indexPath.row)
                     try NSFileCoordinator.JSBFS_write(data, to: url, filePresenter: nil)
                 default:
                     fatalError()
@@ -115,7 +115,7 @@ class ListTableViewController: UITableViewController {
         cell.textLabel?.text = ""
         cell.detailTextLabel?.text = ""
         do {
-            let url = try self.directory.url(at: UInt(indexPath.row))
+            let url = try self.directory.url(at: indexPath.row)
             let data = try NSFileCoordinator.JSBFS_readData(from: url, filePresenter: nil)
             let fileContents = String(data: data, encoding: .utf8) ?? "Invalid Data"
             cell.textLabel?.text = fileContents
@@ -125,7 +125,4 @@ class ListTableViewController: UITableViewController {
         }
         return cell
     }
-
-
-
 }

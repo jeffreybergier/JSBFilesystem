@@ -113,7 +113,7 @@ NS_DESIGNATED_INITIALIZER;
  * @param errorPtr Error parameter. Will always be populated if return is NSNotFound.
  * @return Directory count after filters applied or NSNotFound if there is an error.
  */
-- (NSUInteger)contentsCount:(NSError*_Nullable*)errorPtr
+- (NSInteger)contentsCount:(NSError*_Nullable*)errorPtr
 __attribute__((swift_error(nonnull_error)));
 
 /*!
@@ -123,7 +123,7 @@ __attribute__((swift_error(nonnull_error)));
  * @param errorPtr Error parameter. Will always be populated if return is NIL.
  * @return URL at the given index or NIL if there is an error.
  */
-- (NSURL*_Nullable)urlAtIndex:(NSUInteger)index error:(NSError*_Nullable*)errorPtr;
+- (NSURL*_Nullable)urlAtIndex:(NSInteger)index error:(NSError*_Nullable*)errorPtr;
 
 // MARK: Advanced API
 
@@ -145,7 +145,7 @@ __attribute__((swift_error(nonnull_error)));
  *        This is done to make Swift Error handling better for this method.
  * @return Index of item or NSNotFound if there is an error.
  */
-- (NSUInteger)indexOfItemWithURL:(NSURL*_Nonnull)rhs error:(NSError*_Nullable*)errorPtr
+- (NSInteger)indexOfItemWithURL:(NSURL*_Nonnull)rhs error:(NSError*_Nullable*)errorPtr
 __attribute__((swift_error(nonnull_error)));
 
 @end

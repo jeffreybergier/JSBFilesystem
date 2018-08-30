@@ -106,12 +106,13 @@
 
 // MARK: -urlAtIndex:error:
 
-- (NSURL*_Nullable)urlAtIndex:(NSUInteger)index error:(NSError*_Nullable*)errorPtr;
+- (NSURL*_Nullable)urlAtIndex:(NSInteger)index error:(NSError*_Nullable*)errorPtr;
 {
     NSParameterAssert(index >= 0);
     NSParameterAssert(index < NSNotFound);
+    NSUInteger safelyCastedIndex = (NSUInteger)index;
     NSArray<JSBFSFileComparison*>* contents = [self comparableContentsSortedAndFiltered:errorPtr];
-    return [[contents objectAtIndex:index] fileURL];
+    return [[contents objectAtIndex:safelyCastedIndex] fileURL];
 }
 
 // MARK: -deleteContents:
@@ -140,7 +141,7 @@
 
 // MARK: -contentsCount:
 
-- (NSUInteger)contentsCount:(NSError*_Nullable*)
+- (NSInteger)contentsCount:(NSError*_Nullable*)
 errorPtr __attribute__((swift_error(nonnull_error)));
 {
     NSError* error = nil;
@@ -149,13 +150,16 @@ errorPtr __attribute__((swift_error(nonnull_error)));
         if (errorPtr != NULL) { *errorPtr = error; }
         return NSNotFound;
     } else {
-        return [contents count];
+        NSUInteger count = [contents count];
+        NSParameterAssert(count >= 0);
+        NSParameterAssert(count < NSNotFound);
+        return (NSInteger)count;
     }
 }
 
 // MARK: -indexOfItem:error:
 
-- (NSUInteger)indexOfItemWithURL:(NSURL*_Nonnull)rhs error:(NSError*_Nullable*)errorPtr
+- (NSInteger)indexOfItemWithURL:(NSURL*_Nonnull)rhs error:(NSError*_Nullable*)errorPtr
 __attribute__((swift_error(nonnull_error)));
 {
     NSParameterAssert(rhs);
@@ -168,6 +172,8 @@ __attribute__((swift_error(nonnull_error)));
                         {
                             return [[lhs fileURL] isEqual:rhs];
                         }];
+    NSParameterAssert(index >= 0);
+    NSParameterAssert(index <= NSNotFound);
     if (error) {
         if (errorPtr != NULL) { *errorPtr = error; }
         return NSNotFound;
@@ -175,7 +181,7 @@ __attribute__((swift_error(nonnull_error)));
         if (errorPtr != NULL) { *errorPtr = [NSError JSBFS_itemNotFound]; }
         return NSNotFound;
     } else {
-        return index;
+        return (NSInteger)index;
     }
 }
 

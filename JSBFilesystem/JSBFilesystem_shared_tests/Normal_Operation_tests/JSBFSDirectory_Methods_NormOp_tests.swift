@@ -10,12 +10,12 @@ import JSBFilesystem
 
 class JSBFSDirectory_Methods_NormOp_tests: XCTestCase {
 
-    class func fileName(for index: UInt) -> String {
+    class func fileName(for index: Int) -> String {
         return String(format:"%02.0f", Float(index)) + ".testfile"
     }
 
     var directory: JSBFSDirectory!
-    let fileCount: UInt = 20
+    let fileCount: Int = 20
 
     override func setUp() {
         self.directory = try! JSBFSDirectory(base: .cachesDirectory,
