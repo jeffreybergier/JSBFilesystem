@@ -260,28 +260,28 @@
                                   @"");
 }
 
-- (void)testNSFCExecuteBlockNilParameters;
-{
-    XCTAssertThrowsSpecificNamed([NSFileCoordinator JSBFS_executeBlock:nil
-                                          whileCoordinatingAccessAtURL:[self nonNilURL]
-                                                         filePresenter:nil
-                                                                 error:nil],
-                                 NSException,
-                                 NSInternalInconsistencyException,
-                                 @"");
-    XCTAssertThrowsSpecificNamed([NSFileCoordinator JSBFS_executeBlock:^{}
-                                          whileCoordinatingAccessAtURL:nil
-                                                         filePresenter:nil
-                                                                 error:nil],
-                                 NSException,
-                                 NSInternalInconsistencyException,
-                                 @"");
-    XCTAssertNoThrowSpecificNamed([NSFileCoordinator JSBFS_executeBlock:^{}
-                                           whileCoordinatingAccessAtURL:[self nonNilURL]
-                                                          filePresenter:nil
-                                                                  error:nil],
-                                  NSException,
-                                  @"");
-}
+//- (void)testNSFCExecuteBlockNilParameters;
+//{
+//    XCTAssertThrowsSpecificNamed([NSFileCoordinator JSBFS_executeBlock:nil
+//                                          whileCoordinatingAccessAtURL:[self nonNilURL]
+//                                                         filePresenter:nil
+//                                                                 error:nil],
+//                                 NSException,
+//                                 NSInternalInconsistencyException,
+//                                 @"");
+//    XCTAssertThrowsSpecificNamed([NSFileCoordinator JSBFS_executeBlock:^{}
+//                                          whileCoordinatingAccessAtURL:nil
+//                                                         filePresenter:nil
+//                                                                 error:nil],
+//                                 NSException,
+//                                 NSInternalInconsistencyException,
+//                                 @"");
+//    XCTAssertNoThrowSpecificNamed([NSFileCoordinator JSBFS_executeBlock:^{}
+//                                           whileCoordinatingAccessAtURL:[self nonNilURL]
+//                                                          filePresenter:nil
+//                                                                  error:nil],
+//                                  NSException,
+//                                  @"");
+//}
 
 @end

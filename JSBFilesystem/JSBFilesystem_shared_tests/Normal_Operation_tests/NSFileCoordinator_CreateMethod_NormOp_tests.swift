@@ -123,17 +123,17 @@ class NSFileCoordinator_CreateMethod_NormOp_tests: XCTestCase {
         }
     }
 
-    func testNSFCNormOpExecuteBlock() {
-        do {
-            let expectation = XCTestExpectation(description: "")
-            try NSFileCoordinator.JSBFS_execute({ expectation.fulfill() },
-                                                whileCoordinatingAccessAt: self.directory,
-                                                filePresenter: nil)
-            XCTWaiter().wait(for: [expectation], timeout: 0.1)
-        } catch {
-            let e = String(describing: error)
-            XCTFail(e)
-        }
-    }
+//    func testNSFCNormOpExecuteBlock() {
+//        do {
+//            let expectation = XCTestExpectation(description: "")
+//            try NSFileCoordinator.JSBFS_execute({ expectation.fulfill() },
+//                                                whileCoordinatingAccessAt: self.directory,
+//                                                filePresenter: nil)
+//            XCTWaiter().wait(for: [expectation], timeout: 0.1)
+//        } catch {
+//            let e = String(describing: error)
+//            XCTFail(e)
+//        }
+//    }
 
 }

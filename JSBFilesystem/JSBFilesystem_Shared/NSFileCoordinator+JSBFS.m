@@ -301,28 +301,4 @@
     }
 }
 
-+   (BOOL)JSBFS_executeBlock:(void (^_Nonnull)(void))executionBlock
-whileCoordinatingAccessAtURL:(NSURL* _Nonnull)url
-               filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
-                       error:(NSError* _Nullable*)errorPtr;
-{
-    NSParameterAssert(url);
-    NSParameterAssert(executionBlock);
-    NSError* coError = nil;
-    NSFileCoordinator* c = [[NSFileCoordinator alloc] initWithFilePresenter:filePresenter];
-    [c coordinateReadingItemAtURL:url
-                          options:NSFileCoordinatorReadingResolvesSymbolicLink
-                            error:&coError
-                       byAccessor:^(NSURL*_Nonnull newURL __attribute__((unused)))
-     {
-         executionBlock();
-     }];
-    if (coError) {
-        if (errorPtr != NULL) { *errorPtr = coError; }
-        return NO;
-    } else {
-        return YES;
-    }
-}
-
 @end

@@ -50,7 +50,8 @@
 @synthesize changeKind = _changeKind, updateDelay = _updateDelay,
                         presentedItemOperationQueue = _presentedItemOperationQueue,
                         internalState = _internalState, updateWaitTimer = _updateWaitTimer,
-                        changesObserved = _changesObserved, presentedItemURL = _presentedItemURL;
+                        changesObserved = _changesObserved;
+@dynamic presentedItemURL;
 
 // MARK: Init
 
@@ -118,23 +119,14 @@
 
 - (void)setChangesObserved:(JSBFSObservedDirectoryChangeBlock)changesObserved;
 {
-    // clear out the internal state and block
     self->_changesObserved = nil;
     [self setInternalState:[[NSArray alloc] init]];
+    [NSFileCoordinator removeFilePresenter:self];
 
-    // if we were passed a new block
-    // We need to do things in sync with the FileCoordinator
-    if (changesObserved != NULL) {
-        [NSFileCoordinator JSBFS_executeBlock:^{
-            [self forceUpdate];
-            self->_changesObserved = changesObserved;
-            [NSFileCoordinator addFilePresenter:self];
-        } whileCoordinatingAccessAtURL:[self url]
-                                filePresenter:nil
-                                        error:nil];
-    } else {
-        [NSFileCoordinator removeFilePresenter:self];
-    }
+    if (!changesObserved) { return; }
+    [self forceUpdate];
+    self->_changesObserved = changesObserved;
+    [NSFileCoordinator addFilePresenter:self];
 }
 
 - (void)forceUpdate;
@@ -149,14 +141,13 @@
                                                           error:&error];
     if (error) {
         NSLog(@"%@", error);
-        [self setInternalState:[[NSArray alloc] init]];
-        return;
+        rhs = [[NSArray alloc] init];
     }
     IGListIndexSetResult* result = IGListDiff(lhs, rhs, IGListDiffEquality);
     JSBFSDirectoryChanges* changes = [result changeObjectForChangeKind:[self changeKind]];
     JSBFSObservedDirectoryChangeBlock block = [self changesObserved];
     [self setInternalState:rhs];
-    if (changes && block != NULL) {
+    if (changes && block) {
         dispatch_async(dispatch_get_main_queue(), ^{
             block(changes);
         });
@@ -169,8 +160,7 @@
     [NSFileCoordinator removeFilePresenter:self];
     updates();
     [self forceUpdate];
-    if ([self changesObserved] != NULL) {
-        // only add the file presenter back if we're supposed to be observing
+    if ([self changesObserved]) {
         [NSFileCoordinator addFilePresenter:self];
     }
 }
@@ -206,55 +196,11 @@
     [[NSRunLoop mainRunLoop] addTimer:[self updateWaitTimer] forMode:NSDefaultRunLoopMode];
 }
 
-// MARK: OVERRIDE -urlAtIndex:error:
-
-- (NSURL* _Nullable)urlAtIndex:(NSUInteger)index error:(NSError*_Nullable*)errorPtr;
-{
-    __block NSError* error = nil;
-    __block NSURL* url = nil;
-    if ([self changesObserved] != NULL) {
-        url = [[[self comparableContentsSortedAndFiltered:&error] objectAtIndex:index] fileURL];
-    } else {
-        url = [super urlAtIndex:index error:&error];
-    }
-    if (error) {
-        if (errorPtr != NULL) { *errorPtr = error; }
-        return nil;
-    } else if (!url) {
-        if (errorPtr != NULL) { *errorPtr = [NSError JSBFS_itemNotFound]; }
-        return nil;
-    } else {
-        return url;
-    }
-}
-
-// MARK: OVERRIDE -contentsCount:
-
-- (NSUInteger)contentsCount:(NSError*_Nullable*)errorPtr;
-{
-    __block NSError* error = nil;
-    __block NSUInteger count = NSNotFound;
-    if ([self changesObserved] != NULL) {
-        count = [[self internalState] count];
-    } else {
-        count = [super contentsCount:&error];
-    }
-    if (error) {
-        if (errorPtr != NULL) { *errorPtr = error; }
-        return NSNotFound;
-    } else if (count == NSNotFound) {
-        if (errorPtr != NULL) { *errorPtr = [NSError JSBFS_operationFailedButNoCocoaErrorThrown]; }
-        return NSNotFound;
-    } else {
-        return count;
-    }
-}
-
 // MARK: OVERRIDE -sortedAndFiltered:
 
 - (NSArray<NSURL*>* _Nullable)contentsSortedAndFiltered:(NSError*_Nullable*)errorPtr;
 {
-    if ([self changesObserved] == NULL) {
+    if (![self changesObserved]) {
         return [super contentsSortedAndFiltered:errorPtr];
     }
     NSArray<JSBFSFileComparison*>* comparisons = [self internalState];
@@ -268,7 +214,7 @@
 
 - (NSArray<JSBFSFileComparison*>* _Nonnull)comparableContentsSortedAndFiltered:(NSError*_Nullable*)errorPtr;
 {
-    if ([self changesObserved] == NULL) {
+    if (![self changesObserved]) {
         return [super comparableContentsSortedAndFiltered:errorPtr];
     }
     return [self internalState];

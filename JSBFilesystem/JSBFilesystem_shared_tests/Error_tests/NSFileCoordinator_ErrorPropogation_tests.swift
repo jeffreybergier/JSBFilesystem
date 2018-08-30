@@ -110,19 +110,19 @@ class NSFileCoordinator_ErrorPropogation_tests: XCTestCase {
         }
     }
 
-    func testNSFCExecuteBlockErrorProp() {
-        // this one I can't test. The block does not take an error
-        // and I can't seem to get NSFileCoordinator to give an error no matter what I do to it
-        do {
-            var myVar: Int?
-            try NSFileCoordinator.JSBFS_execute({ myVar = 5 },
-                                                whileCoordinatingAccessAt: self.invalidLocalURL,
-                                                filePresenter: nil)
-            XCTAssert(myVar != nil)
-            XCTAssert(myVar! == 5)
-        } catch {
-            XCTFail(String(describing: error))
-        }
-    }
+//    func testNSFCExecuteBlockErrorProp() {
+//        // this one I can't test. The block does not take an error
+//        // and I can't seem to get NSFileCoordinator to give an error no matter what I do to it
+//        do {
+//            var myVar: Int?
+//            try NSFileCoordinator.JSBFS_execute({ myVar = 5 },
+//                                                whileCoordinatingAccessAt: self.invalidLocalURL,
+//                                                filePresenter: nil)
+//            XCTAssert(myVar != nil)
+//            XCTAssert(myVar! == 5)
+//        } catch {
+//            XCTFail(String(describing: error))
+//        }
+//    }
 
 }

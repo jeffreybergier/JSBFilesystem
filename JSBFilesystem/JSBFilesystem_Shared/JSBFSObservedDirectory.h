@@ -180,12 +180,6 @@ NS_UNAVAILABLE;
  */
 - (void)performBatchUpdates:(void(^NS_NOESCAPE _Nonnull)(void))updates;
 
-/*!
- * @discussion NSFilePresenter protocol conformance requirement.
- * @discussion Do not call this method manually, only call -forceUpdate.
- */
-- (void)presentedItemDidChange;
-
 
 @end
 
