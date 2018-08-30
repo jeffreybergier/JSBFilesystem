@@ -29,7 +29,6 @@
 //
 
 #import "SmallCategories.h"
-#import "SmallTypes.h"
 #import "NSErrors.h"
 
 @implementation NSArray (JSBFS)

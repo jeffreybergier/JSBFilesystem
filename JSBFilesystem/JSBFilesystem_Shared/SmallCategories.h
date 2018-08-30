@@ -31,7 +31,6 @@
 @import Foundation;
 typedef NS_ENUM(NSInteger, JSBFSDirectorySort);
 
-
 @interface NSArray (JSBFS)
 /*!
  * @discussion A simple, untyped map operation for NSArray. Throws an exception

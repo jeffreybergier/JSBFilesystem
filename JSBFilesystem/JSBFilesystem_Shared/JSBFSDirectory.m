@@ -31,8 +31,8 @@
 #import "JSBFSDirectory.h"
 #import "JSBFSFileComparison.h"
 #import "NSFileCoordinator+JSBFS.h"
-#import "SmallCategories.h"
 #import "NSErrors.h"
+#import "JSBFSDirectory+Internal.h"
 
 @implementation JSBFSDirectory
 
@@ -155,28 +155,6 @@ errorPtr __attribute__((swift_error(nonnull_error)));
     } else {
         return [contents count];
     }
-}
-
-// MARK: -sortedAndFiltered:
-
-- (NSArray<NSURL*>*_Nullable)sortedAndFilteredContents:(NSError*_Nullable*)errorPtr;
-{
-    NSArray<NSURL*>* urls = [NSFileCoordinator JSBFS_contentsOfDirectoryAtURL:[self url]
-                                                                     sortedBy:[self sortedBy]
-                                                                   filteredBy:[self filteredBy]
-                                                                filePresenter:nil
-                                                                        error:errorPtr];
-    return urls;
-}
-
-- (NSArray<JSBFSFileComparison*>*_Nonnull)sortedAndFilteredComparisons:(NSError*_Nullable*)errorPtr;
-{
-    NSArray* contents = [NSFileCoordinator JSBFS_comparableContentsOfDirectoryAtURL:[self url]
-                                                                           sortedBy:[self sortedBy]
-                                                                         filteredBy:[self filteredBy]
-                                                                      filePresenter:nil
-                                                                              error:errorPtr];
-    return contents;
 }
 
 // MARK: -indexOfItem:error:

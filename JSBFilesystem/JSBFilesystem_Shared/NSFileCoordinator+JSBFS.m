@@ -30,7 +30,6 @@
 
 #import "NSFileCoordinator+JSBFS.h"
 #import "JSBFSFileComparison.h"
-#import "SmallCategories.h"
 #import "NSErrors.h"
 
 @implementation NSFileCoordinator (JSBFS)

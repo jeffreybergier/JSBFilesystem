@@ -34,6 +34,7 @@
 #import "SmallCategories.h"
 #import "JSBFSDirectoryChanges.h"
 #import "NSErrors.h"
+#import "JSBFSDirectory+Internal.h"
 @import IGListKit;
 
 @interface JSBFSObservedDirectory () {

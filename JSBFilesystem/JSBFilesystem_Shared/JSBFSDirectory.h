@@ -146,9 +146,4 @@ __attribute__((swift_error(nonnull_error)));
 - (NSUInteger)indexOfItemWithURL:(NSURL*_Nonnull)rhs error:(NSError*_Nullable*)errorPtr
 __attribute__((swift_error(nonnull_error)));
 
-// MARK: Internal API
-
-- (NSArray<NSURL*>*_Nullable)sortedAndFilteredContents:(NSError*_Nullable*)errorPtr;
-- (NSArray<JSBFSFileComparison*>*_Nonnull)sortedAndFilteredComparisons:(NSError*_Nullable*)errorPtr;
-
 @end
