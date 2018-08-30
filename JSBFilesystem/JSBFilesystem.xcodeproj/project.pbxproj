@@ -275,7 +275,7 @@
 			children = (
 				50C5D8A22110C10C00A2B21E /* JSBFilesystem_sample_app */,
 				50C5D8652110B3F800A2B21E /* JSBFilesystem_shared */,
-				50C5D8662110B49400A2B21E /* JSBFielsystem_shared_tests */,
+				50C5D8662110B49400A2B21E /* JSBFilesystem_shared_tests */,
 				50C5D8332110B3D700A2B21E /* JSBFilesystem_macOS */,
 				50C5D84F2110B3F000A2B21E /* JSBFilesystem_iOS */,
 				50C5D83E2110B3D800A2B21E /* JSBFilesystem_macOSTests */,
@@ -356,13 +356,15 @@
 			path = JSBFilesystem_shared;
 			sourceTree = "<group>";
 		};
-		50C5D8662110B49400A2B21E /* JSBFielsystem_shared_tests */ = {
+		50C5D8662110B49400A2B21E /* JSBFilesystem_shared_tests */ = {
 			isa = PBXGroup;
 			children = (
-				50C98CB82134BADD008313DE /* NSFileCoordinator_tests */,
+				500A8D8D213700A80094C7B4 /* Normal_Operation_tests */,
+				50C98CBA2134BAFA008313DE /* NilParameter_tests */,
+				50C98CB92134BAEF008313DE /* Error_tests */,
 				50AD03FD2112218F00C0C88D /* FileWrapperTestImage.png */,
 			);
-			path = JSBFielsystem_shared_tests;
+			path = JSBFilesystem_shared_tests;
 			sourceTree = "<group>";
 		};
 		50C5D8A22110C10C00A2B21E /* JSBFilesystem_sample_app */ = {
@@ -375,16 +377,6 @@
 				50C5D8AF2110C10E00A2B21E /* Info.plist */,
 			);
 			path = JSBFilesystem_sample_app;
-			sourceTree = "<group>";
-		};
-		50C98CB82134BADD008313DE /* NSFileCoordinator_tests */ = {
-			isa = PBXGroup;
-			children = (
-				500A8D8D213700A80094C7B4 /* Normal_Operation_tests */,
-				50C98CBA2134BAFA008313DE /* NilParameter_tests */,
-				50C98CB92134BAEF008313DE /* Error_tests */,
-			);
-			path = NSFileCoordinator_tests;
 			sourceTree = "<group>";
 		};
 		50C98CB92134BAEF008313DE /* Error_tests */ = {
