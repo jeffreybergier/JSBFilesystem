@@ -27,6 +27,10 @@
 		500A8DA921377C4C0094C7B4 /* JSBFSDirectory+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 500A8DA621377C4C0094C7B4 /* JSBFSDirectory+Internal.h */; };
 		500A8DAA21377C4C0094C7B4 /* JSBFSDirectory+Internal.m in Sources */ = {isa = PBXBuildFile; fileRef = 500A8DA721377C4C0094C7B4 /* JSBFSDirectory+Internal.m */; };
 		500A8DAB21377C4C0094C7B4 /* JSBFSDirectory+Internal.m in Sources */ = {isa = PBXBuildFile; fileRef = 500A8DA721377C4C0094C7B4 /* JSBFSDirectory+Internal.m */; };
+		500A8DAD21377EA40094C7B4 /* JSBFSDirectory_Methods_NormOp_tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A8DAC21377EA40094C7B4 /* JSBFSDirectory_Methods_NormOp_tests.swift */; };
+		500A8DAE21377EA40094C7B4 /* JSBFSDirectory_Methods_NormOp_tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A8DAC21377EA40094C7B4 /* JSBFSDirectory_Methods_NormOp_tests.swift */; };
+		500A8DB0213785D80094C7B4 /* JSBFSObservedDirectory_Methods_NormOp_tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A8DAF213785D80094C7B4 /* JSBFSObservedDirectory_Methods_NormOp_tests.swift */; };
+		500A8DB1213785D80094C7B4 /* JSBFSObservedDirectory_Methods_NormOp_tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A8DAF213785D80094C7B4 /* JSBFSObservedDirectory_Methods_NormOp_tests.swift */; };
 		506CC3F02135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 506CC3EF2135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m */; };
 		506CC3F12135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 506CC3EF2135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m */; };
 		506CC3F32135B100008A1D70 /* JSBFSDirectory_MethodNilParameter_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 506CC3F22135B100008A1D70 /* JSBFSDirectory_MethodNilParameter_tests.m */; };
@@ -150,6 +154,8 @@
 		500A8DA3213778650094C7B4 /* JSBFSObservedDirectory_Init_NormOp_tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSBFSObservedDirectory_Init_NormOp_tests.swift; sourceTree = "<group>"; };
 		500A8DA621377C4C0094C7B4 /* JSBFSDirectory+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JSBFSDirectory+Internal.h"; sourceTree = "<group>"; };
 		500A8DA721377C4C0094C7B4 /* JSBFSDirectory+Internal.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "JSBFSDirectory+Internal.m"; sourceTree = "<group>"; };
+		500A8DAC21377EA40094C7B4 /* JSBFSDirectory_Methods_NormOp_tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSBFSDirectory_Methods_NormOp_tests.swift; sourceTree = "<group>"; };
+		500A8DAF213785D80094C7B4 /* JSBFSObservedDirectory_Methods_NormOp_tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSBFSObservedDirectory_Methods_NormOp_tests.swift; sourceTree = "<group>"; };
 		506CC3EF2135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSBFSDirectory_InitNilParameter_tests.m; sourceTree = "<group>"; };
 		506CC3F22135B100008A1D70 /* JSBFSDirectory_MethodNilParameter_tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSBFSDirectory_MethodNilParameter_tests.m; sourceTree = "<group>"; };
 		506CC3F52135B9DE008A1D70 /* JSBFSObservedDirectory_MethodNilParameter_tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSBFSObservedDirectory_MethodNilParameter_tests.m; sourceTree = "<group>"; };
@@ -280,6 +286,8 @@
 				500A8D9D213773950094C7B4 /* JSBFSObservedDirectory_FilterChanges_NormOp_tests.swift */,
 				500A8DA02137744A0094C7B4 /* JSBFSDirectory_Init_NormOp_tests.swift */,
 				500A8DA3213778650094C7B4 /* JSBFSObservedDirectory_Init_NormOp_tests.swift */,
+				500A8DAC21377EA40094C7B4 /* JSBFSDirectory_Methods_NormOp_tests.swift */,
+				500A8DAF213785D80094C7B4 /* JSBFSObservedDirectory_Methods_NormOp_tests.swift */,
 			);
 			path = Normal_Operation_tests;
 			sourceTree = "<group>";
@@ -839,11 +847,13 @@
 			files = (
 				506CC3F02135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m in Sources */,
 				506CC40321360299008A1D70 /* JSBFSObservedDirectory_MethodErrorPropogation_tests.swift in Sources */,
+				500A8DB0213785D80094C7B4 /* JSBFSObservedDirectory_Methods_NormOp_tests.swift in Sources */,
 				506CC3F62135B9DE008A1D70 /* JSBFSObservedDirectory_MethodNilParameter_tests.m in Sources */,
 				506CC3FD2135F8E0008A1D70 /* JSBFSDirectory_InitErrorPropogation_tests.swift in Sources */,
 				500A8DA12137744A0094C7B4 /* JSBFSDirectory_Init_NormOp_tests.swift in Sources */,
 				500A8D8F213700F90094C7B4 /* NSFileCoordinator_CreateMethod_NormOp_tests.swift in Sources */,
 				500A8D9221374F140094C7B4 /* NSFileCoordinator_ReadMethod_NormOp_tests.swift in Sources */,
+				500A8DAD21377EA40094C7B4 /* JSBFSDirectory_Methods_NormOp_tests.swift in Sources */,
 				506D736E2134D30000E83EB2 /* NSFileCoordinator_ErrorPropogation_tests.swift in Sources */,
 				506CC3F32135B100008A1D70 /* JSBFSDirectory_MethodNilParameter_tests.m in Sources */,
 				506CC4002135FEC2008A1D70 /* JSBFSDirectory_MethodErrorPropogation_tests.swift in Sources */,
@@ -880,11 +890,13 @@
 			files = (
 				506CC3F12135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m in Sources */,
 				506CC40421360299008A1D70 /* JSBFSObservedDirectory_MethodErrorPropogation_tests.swift in Sources */,
+				500A8DB1213785D80094C7B4 /* JSBFSObservedDirectory_Methods_NormOp_tests.swift in Sources */,
 				506CC3F72135B9DE008A1D70 /* JSBFSObservedDirectory_MethodNilParameter_tests.m in Sources */,
 				506CC3FE2135F8E0008A1D70 /* JSBFSDirectory_InitErrorPropogation_tests.swift in Sources */,
 				500A8DA22137744A0094C7B4 /* JSBFSDirectory_Init_NormOp_tests.swift in Sources */,
 				500A8D90213700F90094C7B4 /* NSFileCoordinator_CreateMethod_NormOp_tests.swift in Sources */,
 				500A8D9321374F140094C7B4 /* NSFileCoordinator_ReadMethod_NormOp_tests.swift in Sources */,
+				500A8DAE21377EA40094C7B4 /* JSBFSDirectory_Methods_NormOp_tests.swift in Sources */,
 				506D736F2134D30100E83EB2 /* NSFileCoordinator_ErrorPropogation_tests.swift in Sources */,
 				506CC3F42135B100008A1D70 /* JSBFSDirectory_MethodNilParameter_tests.m in Sources */,
 				506CC4012135FEC2008A1D70 /* JSBFSDirectory_MethodErrorPropogation_tests.swift in Sources */,

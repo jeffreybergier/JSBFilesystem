@@ -207,7 +207,7 @@
     }
     NSError* coError = nil;
     __block NSError* opError = nil;
-    __block BOOL success = NO;
+    __block BOOL success = YES;
     NSFileCoordinator* c = [[NSFileCoordinator alloc] initWithFilePresenter:filePresenter];
     [c prepareForReadingItemsAtURLs:contents
                             options:NSFileCoordinatorReadingResolvesSymbolicLink
@@ -217,8 +217,8 @@
                          byAccessor:^(void (^_Nonnull completionHandler)(void))
      {
          for (NSURL* item in contents) {
-             if (opError) { break; }
-             [self JSBFS_deleteURL:item filePresenter:filePresenter error:&opError];
+             if (opError || !success) { break; }
+             success = [self JSBFS_deleteURL:item filePresenter:filePresenter error:&opError];
          }
          completionHandler();
      }];
