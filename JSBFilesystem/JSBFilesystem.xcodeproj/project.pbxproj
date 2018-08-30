@@ -15,6 +15,8 @@
 		500A8D96213759940094C7B4 /* NSFileCoordinator_ContentSort_NormOp_tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A8D94213759940094C7B4 /* NSFileCoordinator_ContentSort_NormOp_tests.swift */; };
 		500A8D9821376A370094C7B4 /* NSFileCoordinator_ComparableContentSort_NormOp_tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A8D9721376A370094C7B4 /* NSFileCoordinator_ComparableContentSort_NormOp_tests.swift */; };
 		500A8D9921376A370094C7B4 /* NSFileCoordinator_ComparableContentSort_NormOp_tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A8D9721376A370094C7B4 /* NSFileCoordinator_ComparableContentSort_NormOp_tests.swift */; };
+		500A8D9B21376D730094C7B4 /* NSFileCoordinator_ContentFilter_NormOp_tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A8D9A21376D730094C7B4 /* NSFileCoordinator_ContentFilter_NormOp_tests.swift */; };
+		500A8D9C21376D730094C7B4 /* NSFileCoordinator_ContentFilter_NormOp_tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A8D9A21376D730094C7B4 /* NSFileCoordinator_ContentFilter_NormOp_tests.swift */; };
 		506CC3F02135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 506CC3EF2135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m */; };
 		506CC3F12135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 506CC3EF2135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m */; };
 		506CC3F32135B100008A1D70 /* JSBFSDirectory_MethodNilParameter_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 506CC3F22135B100008A1D70 /* JSBFSDirectory_MethodNilParameter_tests.m */; };
@@ -136,6 +138,7 @@
 		500A8D9121374F140094C7B4 /* NSFileCoordinator_ReadMethod_NormOp_tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSFileCoordinator_ReadMethod_NormOp_tests.swift; sourceTree = "<group>"; };
 		500A8D94213759940094C7B4 /* NSFileCoordinator_ContentSort_NormOp_tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSFileCoordinator_ContentSort_NormOp_tests.swift; sourceTree = "<group>"; };
 		500A8D9721376A370094C7B4 /* NSFileCoordinator_ComparableContentSort_NormOp_tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSFileCoordinator_ComparableContentSort_NormOp_tests.swift; sourceTree = "<group>"; };
+		500A8D9A21376D730094C7B4 /* NSFileCoordinator_ContentFilter_NormOp_tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSFileCoordinator_ContentFilter_NormOp_tests.swift; sourceTree = "<group>"; };
 		506CC3EF2135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSBFSDirectory_InitNilParameter_tests.m; sourceTree = "<group>"; };
 		506CC3F22135B100008A1D70 /* JSBFSDirectory_MethodNilParameter_tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSBFSDirectory_MethodNilParameter_tests.m; sourceTree = "<group>"; };
 		506CC3F52135B9DE008A1D70 /* JSBFSObservedDirectory_MethodNilParameter_tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSBFSObservedDirectory_MethodNilParameter_tests.m; sourceTree = "<group>"; };
@@ -263,6 +266,7 @@
 				500A8D9121374F140094C7B4 /* NSFileCoordinator_ReadMethod_NormOp_tests.swift */,
 				500A8D94213759940094C7B4 /* NSFileCoordinator_ContentSort_NormOp_tests.swift */,
 				500A8D9721376A370094C7B4 /* NSFileCoordinator_ComparableContentSort_NormOp_tests.swift */,
+				500A8D9A21376D730094C7B4 /* NSFileCoordinator_ContentFilter_NormOp_tests.swift */,
 			);
 			path = Normal_Operation_tests;
 			sourceTree = "<group>";
@@ -839,6 +843,7 @@
 				506CC4002135FEC2008A1D70 /* JSBFSDirectory_MethodErrorPropogation_tests.swift in Sources */,
 				50C5D8952110B5A100A2B21E /* DirectoryObserver_Tests.swift in Sources */,
 				500A8D95213759940094C7B4 /* NSFileCoordinator_ContentSort_NormOp_tests.swift in Sources */,
+				500A8D9B21376D730094C7B4 /* NSFileCoordinator_ContentFilter_NormOp_tests.swift in Sources */,
 				50C98CBE2134BB42008313DE /* NSFileCoordinator_NilParameter_tests.m in Sources */,
 				500A8D9821376A370094C7B4 /* NSFileCoordinator_ComparableContentSort_NormOp_tests.swift in Sources */,
 				506CC3FA2135BBD4008A1D70 /* JSBFSObservedDirectory_InitNilParameter_tests.m in Sources */,
@@ -877,6 +882,7 @@
 				506CC4012135FEC2008A1D70 /* JSBFSDirectory_MethodErrorPropogation_tests.swift in Sources */,
 				50C5D8982110B5A200A2B21E /* DirectoryObserver_Tests.swift in Sources */,
 				500A8D96213759940094C7B4 /* NSFileCoordinator_ContentSort_NormOp_tests.swift in Sources */,
+				500A8D9C21376D730094C7B4 /* NSFileCoordinator_ContentFilter_NormOp_tests.swift in Sources */,
 				50C98CBF2134BB42008313DE /* NSFileCoordinator_NilParameter_tests.m in Sources */,
 				500A8D9921376A370094C7B4 /* NSFileCoordinator_ComparableContentSort_NormOp_tests.swift in Sources */,
 				506CC3FB2135BBD4008A1D70 /* JSBFSObservedDirectory_InitNilParameter_tests.m in Sources */,
