@@ -9,8 +9,8 @@
 
 @interface JSBFSDirectory (Internal)
 
-- (NSArray<NSURL*>*_Nullable)sortedAndFilteredContents:(NSError*_Nullable*)errorPtr;
-- (NSArray<JSBFSFileComparison*>*_Nonnull)sortedAndFilteredComparisons:(NSError*_Nullable*)errorPtr;
+- (NSArray<NSURL*>*_Nullable)contentsSortedAndFiltered:(NSError*_Nullable*)errorPtr;
+- (NSArray<JSBFSFileComparison*>*_Nonnull)comparableContentsSortedAndFiltered:(NSError*_Nullable*)errorPtr;
 
 @end
 

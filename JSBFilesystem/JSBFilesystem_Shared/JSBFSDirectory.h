@@ -40,6 +40,8 @@
  */
 @interface JSBFSDirectory: NSObject
 
+// MARK: Properties
+
 /*!
  * @discussion The directory URL that this object monitors.
  */
@@ -57,7 +59,7 @@
  */
 @property (nonatomic) JSBFSDirectorySort sortedBy;
 
-// MARK: init
+// MARK: Initialization
 
 - (instancetype)init NS_UNAVAILABLE;
 

@@ -30,7 +30,18 @@
 
 @import Foundation;
 @class JSBFSDirectoryChanges;
-typedef NS_ENUM(NSInteger, JSBFSDirectorySort);
+
+/*!
+ * @discussion Allows the desired order of files in a JSBFSDirectory to be specified.
+ */
+typedef NS_ENUM(NSInteger, JSBFSDirectorySort) {
+    JSBFSDirectorySortNameAFirst,
+    JSBFSDirectorySortNameZFirst,
+    JSBFSDirectorySortCreationNewestFirst,
+    JSBFSDirectorySortCreationOldestFirst,
+    JSBFSDirectorySortModificationNewestFirst,
+    JSBFSDirectorySortModificationOldestFirst
+};
 
 /*!
  * @discussion Because Objective-C does not support tuples, this object is intended
@@ -68,18 +79,6 @@ NS_DESIGNATED_INITIALIZER;
 typedef NS_ENUM(NSInteger, JSBFSObservedDirectoryChangeKind) {
     JSBFSObservedDirectoryChangeKindIncludingModifications,
     JSBFSObservedDirectoryChangeKindModificationsAsInsertionsDeletions,
-};
-
-/*!
- * @discussion Allows the desired order of files in a JSBFSDirectory to be specified.
- */
-typedef NS_ENUM(NSInteger, JSBFSDirectorySort) {
-    JSBFSDirectorySortNameAFirst,
-    JSBFSDirectorySortNameZFirst,
-    JSBFSDirectorySortCreationNewestFirst,
-    JSBFSDirectorySortCreationOldestFirst,
-    JSBFSDirectorySortModificationNewestFirst,
-    JSBFSDirectorySortModificationOldestFirst
 };
 
 typedef void(^JSBFSObservedDirectoryChangeBlock)(JSBFSDirectoryChanges*_Nonnull changes);

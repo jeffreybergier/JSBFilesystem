@@ -133,7 +133,7 @@ class JSBFSObservedDirectory_Changes_NormOp_tests: XCTestCase {
                                                     createIfNeeded: true,
                                                     sortedBy: sort,
                                                     filteredBy: nil,
-                                                    changeKind:.includingModifications)
+                                                    changeKind: .includingModifications)
         self.observer.changesObserved = { changes in
             let changes = changes as! JSBFSDirectoryChangesFull
             XCTAssert(changes.updates.count == 2)

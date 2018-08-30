@@ -31,8 +31,8 @@
 #import "JSBFSDirectory.h"
 #import "JSBFSFileComparison.h"
 #import "NSFileCoordinator+JSBFS.h"
-#import "NSErrors.h"
 #import "JSBFSDirectory+Internal.h"
+#import "NSErrors.h"
 
 @implementation JSBFSDirectory
 
@@ -110,7 +110,7 @@
 {
     NSParameterAssert(index >= 0);
     NSParameterAssert(index < NSNotFound);
-    NSArray<JSBFSFileComparison*>* contents = [self sortedAndFilteredComparisons:errorPtr];
+    NSArray<JSBFSFileComparison*>* contents = [self comparableContentsSortedAndFiltered:errorPtr];
     return [[contents objectAtIndex:index] fileURL];
 }
 
@@ -119,7 +119,7 @@
 - (BOOL)deleteContents:(NSError*_Nullable*)errorPtr;
 {
     NSError* error = nil;
-    NSArray<NSURL*>* contents = [self sortedAndFilteredContents:&error];
+    NSArray<NSURL*>* contents = [self contentsSortedAndFiltered:&error];
     if (error) {
         if (errorPtr != NULL) { *errorPtr = error; }
         return NO;
@@ -144,11 +144,7 @@
 errorPtr __attribute__((swift_error(nonnull_error)));
 {
     NSError* error = nil;
-    NSArray<NSURL*>* contents = [NSFileCoordinator JSBFS_contentsOfDirectoryAtURL:[self url]
-                                                                         sortedBy:[self sortedBy]
-                                                                       filteredBy:[self filteredBy]
-                                                                    filePresenter:nil
-                                                                            error:&error];
+    NSArray<NSURL*>* contents = [self contentsSortedAndFiltered:&error];
     if (error) {
         if (errorPtr != NULL) { *errorPtr = error; }
         return NSNotFound;
@@ -164,7 +160,7 @@ __attribute__((swift_error(nonnull_error)));
 {
     NSParameterAssert(rhs);
     NSError* error = nil;
-    NSArray<JSBFSFileComparison*>* comparisons = [self sortedAndFilteredComparisons:&error];
+    NSArray<JSBFSFileComparison*>* comparisons = [self comparableContentsSortedAndFiltered:&error];
     NSUInteger index = [comparisons indexOfObjectPassingTest:
                         ^BOOL(JSBFSFileComparison* lhs,
                               NSUInteger idx __attribute__((unused)),

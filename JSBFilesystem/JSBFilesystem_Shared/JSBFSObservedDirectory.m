@@ -30,11 +30,12 @@
 
 #import "JSBFSObservedDirectory.h"
 #import "NSFileCoordinator+JSBFS.h"
+#import "NSFileCoordinator+Internal.h"
+#import "JSBFSDirectory+Internal.h"
+#import "JSBFSDirectoryChanges.h"
 #import "JSBFSFileComparison.h"
 #import "SmallCategories.h"
-#import "JSBFSDirectoryChanges.h"
 #import "NSErrors.h"
-#import "JSBFSDirectory+Internal.h"
 @import IGListKit;
 
 @interface JSBFSObservedDirectory () {
@@ -46,9 +47,10 @@
 
 @implementation JSBFSObservedDirectory
 
-@synthesize changeKind = _changeKind, updateDelay = _updateDelay, presentedItemOperationQueue = _presentedItemOperationQueue;
-@synthesize internalState = _internalState, updateWaitTimer = _updateWaitTimer;
-@dynamic changesObserved, presentedItemURL;
+@synthesize changeKind = _changeKind, updateDelay = _updateDelay,
+                        presentedItemOperationQueue = _presentedItemOperationQueue,
+                        internalState = _internalState, updateWaitTimer = _updateWaitTimer,
+                        changesObserved = _changesObserved, presentedItemURL = _presentedItemURL;
 
 // MARK: Init
 
@@ -102,26 +104,16 @@
 
 // MARK: Special Subclass API
 
-- (void)forceUpdate;
+- (void)setFilteredBy:(NSArray<JSBFSDirectoryFilterBlock> *)filteredBy;
 {
-    NSError* error = nil;
-    NSArray<JSBFSFileComparison*>* lhs = [self internalState];
-    NSArray<JSBFSFileComparison*>* rhs =
-    [NSFileCoordinator JSBFS_comparableContentsOfDirectoryAtURL:[self url]
-                                                       sortedBy:[self sortedBy]
-                                                     filteredBy:[self filteredBy]
-                                                  filePresenter:nil
-                                                          error:&error];
-    if (error) { NSLog(@"%@", error); }
-    IGListIndexSetResult* result = IGListDiff(lhs, rhs, IGListDiffEquality);
-    JSBFSDirectoryChanges* changes = [result changeObjectForChangeKind:[self changeKind]];
-    [self setInternalState:rhs];
-    JSBFSObservedDirectoryChangeBlock block = [self changesObserved];
-    if (changes && block != NULL) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            block(changes);
-        });
-    }
+    [super setFilteredBy:filteredBy];
+    [self forceUpdate];
+}
+
+- (void)setSortedBy:(JSBFSDirectorySort)sortedBy;
+{
+    [super setSortedBy:sortedBy];
+    [self forceUpdate];
 }
 
 - (void)setChangesObserved:(JSBFSObservedDirectoryChangeBlock)changesObserved;
@@ -145,9 +137,30 @@
     }
 }
 
-- (JSBFSObservedDirectoryChangeBlock)changesObserved;
+- (void)forceUpdate;
 {
-    return self->_changesObserved;
+    NSError* error = nil;
+    NSArray<JSBFSFileComparison*>* lhs = [self internalState];
+    NSArray<JSBFSFileComparison*>* rhs =
+    [NSFileCoordinator JSBFS_comparableContentsOfDirectoryAtURL:[self url]
+                                                       sortedBy:[self sortedBy]
+                                                     filteredBy:[self filteredBy]
+                                                  filePresenter:nil
+                                                          error:&error];
+    if (error) {
+        NSLog(@"%@", error);
+        [self setInternalState:[[NSArray alloc] init]];
+        return;
+    }
+    IGListIndexSetResult* result = IGListDiff(lhs, rhs, IGListDiffEquality);
+    JSBFSDirectoryChanges* changes = [result changeObjectForChangeKind:[self changeKind]];
+    JSBFSObservedDirectoryChangeBlock block = [self changesObserved];
+    [self setInternalState:rhs];
+    if (changes && block != NULL) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            block(changes);
+        });
+    }
 }
 
 - (void)performBatchUpdates:(void(^NS_NOESCAPE _Nonnull)(void))updates;
@@ -200,7 +213,7 @@
     __block NSError* error = nil;
     __block NSURL* url = nil;
     if ([self changesObserved] != NULL) {
-        url = [[[self sortedAndFilteredComparisons:&error] objectAtIndex:index] fileURL];
+        url = [[[self comparableContentsSortedAndFiltered:&error] objectAtIndex:index] fileURL];
     } else {
         url = [super urlAtIndex:index error:&error];
     }
@@ -239,10 +252,10 @@
 
 // MARK: OVERRIDE -sortedAndFiltered:
 
-- (NSArray<NSURL*>* _Nullable)sortedAndFilteredContents:(NSError*_Nullable*)errorPtr;
+- (NSArray<NSURL*>* _Nullable)contentsSortedAndFiltered:(NSError*_Nullable*)errorPtr;
 {
     if ([self changesObserved] == NULL) {
-        return [super sortedAndFilteredContents:errorPtr];
+        return [super contentsSortedAndFiltered:errorPtr];
     }
     NSArray<JSBFSFileComparison*>* comparisons = [self internalState];
     NSArray<NSURL*>* urls = [comparisons JSBFS_arrayByTransformingArrayContentsWithBlock:
@@ -253,10 +266,10 @@
     return urls;
 }
 
-- (NSArray<JSBFSFileComparison*>* _Nonnull)sortedAndFilteredComparisons:(NSError*_Nullable*)errorPtr;
+- (NSArray<JSBFSFileComparison*>* _Nonnull)comparableContentsSortedAndFiltered:(NSError*_Nullable*)errorPtr;
 {
     if ([self changesObserved] == NULL) {
-        return [super sortedAndFilteredComparisons:errorPtr];
+        return [super comparableContentsSortedAndFiltered:errorPtr];
     }
     return [self internalState];
 }

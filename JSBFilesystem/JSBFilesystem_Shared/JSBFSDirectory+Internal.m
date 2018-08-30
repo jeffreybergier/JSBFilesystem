@@ -6,28 +6,26 @@
 //
 
 #import "JSBFSDirectory+Internal.h"
-#import "NSFileCoordinator+JSBFS.h"
+#import "NSFileCoordinator+Internal.h"
 
 @implementation JSBFSDirectory (Internal)
 
-- (NSArray<NSURL*>*_Nullable)sortedAndFilteredContents:(NSError*_Nullable*)errorPtr;
+- (NSArray<NSURL*>*_Nullable)contentsSortedAndFiltered:(NSError*_Nullable*)errorPtr;
 {
-    NSArray<NSURL*>* urls = [NSFileCoordinator JSBFS_contentsOfDirectoryAtURL:[self url]
-                                                                     sortedBy:[self sortedBy]
-                                                                   filteredBy:[self filteredBy]
-                                                                filePresenter:nil
-                                                                        error:errorPtr];
-    return urls;
+    return [NSFileCoordinator JSBFS_contentsOfDirectoryAtURL:[self url]
+                                                    sortedBy:[self sortedBy]
+                                                  filteredBy:[self filteredBy]
+                                               filePresenter:nil
+                                                       error:errorPtr];
 }
 
-- (NSArray<JSBFSFileComparison*>*_Nonnull)sortedAndFilteredComparisons:(NSError*_Nullable*)errorPtr;
+- (NSArray<JSBFSFileComparison*>*_Nonnull)comparableContentsSortedAndFiltered:(NSError*_Nullable*)errorPtr;
 {
-    NSArray* contents = [NSFileCoordinator JSBFS_comparableContentsOfDirectoryAtURL:[self url]
-                                                                           sortedBy:[self sortedBy]
-                                                                         filteredBy:[self filteredBy]
-                                                                      filePresenter:nil
-                                                                              error:errorPtr];
-    return contents;
+    return [NSFileCoordinator JSBFS_comparableContentsOfDirectoryAtURL:[self url]
+                                                              sortedBy:[self sortedBy]
+                                                            filteredBy:[self filteredBy]
+                                                         filePresenter:nil
+                                                                 error:errorPtr];
 }
 
 @end

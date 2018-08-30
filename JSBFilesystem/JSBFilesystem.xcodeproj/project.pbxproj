@@ -31,6 +31,10 @@
 		500A8DAE21377EA40094C7B4 /* JSBFSDirectory_Methods_NormOp_tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A8DAC21377EA40094C7B4 /* JSBFSDirectory_Methods_NormOp_tests.swift */; };
 		500A8DB0213785D80094C7B4 /* JSBFSObservedDirectory_Methods_NormOp_tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A8DAF213785D80094C7B4 /* JSBFSObservedDirectory_Methods_NormOp_tests.swift */; };
 		500A8DB1213785D80094C7B4 /* JSBFSObservedDirectory_Methods_NormOp_tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A8DAF213785D80094C7B4 /* JSBFSObservedDirectory_Methods_NormOp_tests.swift */; };
+		504C1D6A2138384400097021 /* NSFileCoordinator+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 504C1D682138384400097021 /* NSFileCoordinator+Internal.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		504C1D6B2138384400097021 /* NSFileCoordinator+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 504C1D682138384400097021 /* NSFileCoordinator+Internal.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		504C1D6C2138384400097021 /* NSFileCoordinator+Internal.m in Sources */ = {isa = PBXBuildFile; fileRef = 504C1D692138384400097021 /* NSFileCoordinator+Internal.m */; };
+		504C1D6D2138384400097021 /* NSFileCoordinator+Internal.m in Sources */ = {isa = PBXBuildFile; fileRef = 504C1D692138384400097021 /* NSFileCoordinator+Internal.m */; };
 		506CC3F02135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 506CC3EF2135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m */; };
 		506CC3F12135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 506CC3EF2135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m */; };
 		506CC3F32135B100008A1D70 /* JSBFSDirectory_MethodNilParameter_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 506CC3F22135B100008A1D70 /* JSBFSDirectory_MethodNilParameter_tests.m */; };
@@ -156,6 +160,8 @@
 		500A8DA721377C4C0094C7B4 /* JSBFSDirectory+Internal.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "JSBFSDirectory+Internal.m"; sourceTree = "<group>"; };
 		500A8DAC21377EA40094C7B4 /* JSBFSDirectory_Methods_NormOp_tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSBFSDirectory_Methods_NormOp_tests.swift; sourceTree = "<group>"; };
 		500A8DAF213785D80094C7B4 /* JSBFSObservedDirectory_Methods_NormOp_tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSBFSObservedDirectory_Methods_NormOp_tests.swift; sourceTree = "<group>"; };
+		504C1D682138384400097021 /* NSFileCoordinator+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSFileCoordinator+Internal.h"; sourceTree = "<group>"; };
+		504C1D692138384400097021 /* NSFileCoordinator+Internal.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSFileCoordinator+Internal.m"; sourceTree = "<group>"; };
 		506CC3EF2135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSBFSDirectory_InitNilParameter_tests.m; sourceTree = "<group>"; };
 		506CC3F22135B100008A1D70 /* JSBFSDirectory_MethodNilParameter_tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSBFSDirectory_MethodNilParameter_tests.m; sourceTree = "<group>"; };
 		506CC3F52135B9DE008A1D70 /* JSBFSObservedDirectory_MethodNilParameter_tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSBFSObservedDirectory_MethodNilParameter_tests.m; sourceTree = "<group>"; };
@@ -370,6 +376,8 @@
 				50C5D86D2110B57200A2B21E /* JSBFSObservedDirectory.m */,
 				50C5D8712110B57200A2B21E /* NSFileCoordinator+JSBFS.h */,
 				50C5D8682110B57200A2B21E /* NSFileCoordinator+JSBFS.m */,
+				504C1D682138384400097021 /* NSFileCoordinator+Internal.h */,
+				504C1D692138384400097021 /* NSFileCoordinator+Internal.m */,
 				50C5D86E2110B57200A2B21E /* SmallCategories.h */,
 				50C5D8732110B57200A2B21E /* SmallCategories.m */,
 				50FC33072133636700FA0BC6 /* SmallTypes.h */,
@@ -456,6 +464,7 @@
 				50C5D8752110B57300A2B21E /* JSBFSFileComparison.h in Headers */,
 				50C5D87D2110B57300A2B21E /* JSBFSObservedDirectory.h in Headers */,
 				50C5D8792110B57300A2B21E /* JSBFSDirectory.h in Headers */,
+				504C1D6A2138384400097021 /* NSFileCoordinator+Internal.h in Headers */,
 				50C5D89B2110B85200A2B21E /* JSBFilesystem.h in Headers */,
 				500A8DA821377C4C0094C7B4 /* JSBFSDirectory+Internal.h in Headers */,
 				50C5D87B2110B57300A2B21E /* JSBFSDirectoryChanges.h in Headers */,
@@ -473,6 +482,7 @@
 				50C5D8762110B57300A2B21E /* JSBFSFileComparison.h in Headers */,
 				50C5D87E2110B57300A2B21E /* JSBFSObservedDirectory.h in Headers */,
 				50C5D87A2110B57300A2B21E /* JSBFSDirectory.h in Headers */,
+				504C1D6B2138384400097021 /* NSFileCoordinator+Internal.h in Headers */,
 				50C5D89C2110B85200A2B21E /* JSBFilesystem.h in Headers */,
 				500A8DA921377C4C0094C7B4 /* JSBFSDirectory+Internal.h in Headers */,
 				50C5D87C2110B57300A2B21E /* JSBFSDirectoryChanges.h in Headers */,
@@ -829,6 +839,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				504C1D6C2138384400097021 /* NSFileCoordinator+Internal.m in Sources */,
 				50C5D8852110B57300A2B21E /* JSBFSDirectory.m in Sources */,
 				50C5D87F2110B57300A2B21E /* JSBFSDirectoryChanges.m in Sources */,
 				500A8DAA21377C4C0094C7B4 /* JSBFSDirectory+Internal.m in Sources */,
@@ -872,6 +883,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				504C1D6D2138384400097021 /* NSFileCoordinator+Internal.m in Sources */,
 				50C5D8862110B57300A2B21E /* JSBFSDirectory.m in Sources */,
 				50C5D8802110B57300A2B21E /* JSBFSDirectoryChanges.m in Sources */,
 				500A8DAB21377C4C0094C7B4 /* JSBFSDirectory+Internal.m in Sources */,
