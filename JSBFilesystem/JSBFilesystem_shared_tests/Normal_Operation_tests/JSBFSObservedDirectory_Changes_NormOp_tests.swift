@@ -76,7 +76,7 @@ class JSBFSObservedDirectory_Changes_NormOp_tests: XCTestCase {
     }
 
     func testAddFileDiff() {
-        let expectation = XCTestExpectation(description: "Change closure will be called, diff will show 1 added item")
+        let expectation = XCTestExpectation(description: "")
         let sort = JSBFSDirectorySortConverter.defaultSort
         self.observer = try! JSBFSObservedDirectory(directoryURL: self.dirURL,
                                                     createIfNeeded: true,
@@ -102,7 +102,7 @@ class JSBFSObservedDirectory_Changes_NormOp_tests: XCTestCase {
     }
 
     func testDeleteFileDiff() {
-        let expectation = XCTestExpectation(description: "Change closure will be called, diff will show 1 added item")
+        let expectation = XCTestExpectation(description: "")
         let sort = JSBFSDirectorySortConverter.defaultSort
         self.observer = try! JSBFSObservedDirectory(directoryURL: self.dirURL,
                                                     createIfNeeded: true,
@@ -197,7 +197,7 @@ class JSBFSObservedDirectory_Changes_NormOp_tests: XCTestCase {
     }
 
     func testChangesWithModificationsAsInsertionsDeletions() {
-        let expectation = XCTestExpectation(description: "Change closure should get JSBFSDirectoryChanges object")
+        let expectation = XCTestExpectation(description: "")
         let sort = JSBFSDirectorySort.modificationNewestFirst
         self.observer = try! JSBFSObservedDirectory(directoryURL: self.dirURL,
                                                     createIfNeeded: true,
@@ -226,7 +226,7 @@ class JSBFSObservedDirectory_Changes_NormOp_tests: XCTestCase {
             self.observer.changesObserved = { _ in }
             let fakeURL = URL(string:"file:///myfakeurl.txt")!
             let _ = try self.observer.indexOfItem(with: fakeURL)
-            XCTFail("An error should have been thrown")
+            XCTFail()
         } catch (let error as NSError) {
             XCTAssert(error.domain == kJSBFSErrorDomain)
             XCTAssert(JSBFSErrorCode(rawValue: error.code)! == .itemNotFound)

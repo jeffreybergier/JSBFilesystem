@@ -53,7 +53,7 @@ class JSBFSObservedDirectory_FilterChanges_NormOp_tests: XCTestCase {
 
     func testNoFilterToFilterChange() {
         do {
-            let expectation = XCTestExpectation(description: "Change should show all elements being deleted")
+            let expectation = XCTestExpectation(description: "")
             self.observer = try JSBFSObservedDirectory(directoryURL: self.dirURL,
                                                        createIfNeeded: true,
                                                        sortedBy: .nameAFirst,
@@ -80,12 +80,13 @@ class JSBFSObservedDirectory_FilterChanges_NormOp_tests: XCTestCase {
     }
 
     func testFilterToNoFilterChange() {
-        let filters: [@convention(block) (URL) -> Bool] = [
-        { _ in return true },
-        { _ in return false }
+        let filters: [@convention(block) (URL) -> Bool] =
+            [
+                { _ in return true },
+                { _ in return false }
         ]
         do {
-            let expectation = XCTestExpectation(description: "Change should show all elements being deleted")
+            let expectation = XCTestExpectation(description: "")
             self.observer = try JSBFSObservedDirectory(directoryURL: self.dirURL,
                                                        createIfNeeded: true,
                                                        sortedBy: .nameAFirst,
@@ -110,7 +111,7 @@ class JSBFSObservedDirectory_FilterChanges_NormOp_tests: XCTestCase {
 
     func testNoFilterToHalfEliminatedChange() {
         do {
-            let expectation = XCTestExpectation(description: "Change should show all elements being deleted")
+            let expectation = XCTestExpectation(description: "")
             self.observer = try JSBFSObservedDirectory(directoryURL: self.dirURL,
                                                        createIfNeeded: true,
                                                        sortedBy: .nameAFirst,
