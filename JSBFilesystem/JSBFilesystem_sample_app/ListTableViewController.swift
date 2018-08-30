@@ -52,13 +52,11 @@ class ListTableViewController: UITableViewController {
         self.title = "Watch as Files Are Added"
         self.directory.updateDelay = 0.01
         self.directory.changesObserved = { [unowned self] changes in
-            let changes = changes as! JSBFSDirectoryChangesFull
             let fileCount = (try? self.directory.contentsCount()) ?? 0
             self.title = "Showing \(fileCount) Item(s)"
             NSLog("%@", changes)
             self.tableView.beginUpdates()
             self.tableView.insertRows(at: changes.insertions.map({ IndexPath(item: $0, section: 0) }), with: .right)
-            self.tableView.reloadRows(at: changes.updates.map({ IndexPath(item: $0, section: 0) }), with: .right)
             changes.moves.forEach() { move in
                 self.tableView.moveRow(at: IndexPath(item: move.from, section: 0), to: IndexPath(item: move.to, section: 0))
             }

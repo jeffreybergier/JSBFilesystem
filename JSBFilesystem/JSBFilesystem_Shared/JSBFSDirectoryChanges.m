@@ -115,7 +115,7 @@
     // if there are no changes, return NIL
     if (![newSelf hasChanges]) { return nil; }
     // convert from IGListKit moves to my own Moves
-    NSArray<JSBFSDirectoryChangesMove *>* moves =
+    NSArray<JSBFSDirectoryChangesMove*>* moves =
     [[newSelf moves] JSBFS_arrayByTransformingArrayContentsWithBlock: ^id _Nonnull(IGListMoveIndex* item)
      {
          return [[JSBFSDirectoryChangesMove alloc] initWithFromValue:[item from] toValue:[item to]];
