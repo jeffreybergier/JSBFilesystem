@@ -113,20 +113,20 @@
     // make sure we have an object we're dealing with after conversion
     NSParameterAssert(newSelf);
     // if there are no changes, return NIL
-    if (![self hasChanges]) { return nil; }
+    if (![newSelf hasChanges]) { return nil; }
     // convert from IGListKit moves to my own Moves
     NSArray<JSBFSDirectoryChangesMove *>* moves =
-    [[self moves] JSBFS_arrayByTransformingArrayContentsWithBlock: ^id _Nonnull(IGListMoveIndex* item)
+    [[newSelf moves] JSBFS_arrayByTransformingArrayContentsWithBlock: ^id _Nonnull(IGListMoveIndex* item)
      {
          return [[JSBFSDirectoryChangesMove alloc] initWithFromValue:[item from] toValue:[item to]];
      }];
     // now construct the right kind of object based on the changeKind
     switch (changeKind) {
         case JSBFSObservedDirectoryChangeKindIncludingModifications:
-            return [[JSBFSDirectoryChangesFull alloc] initWithInsertions:[self inserts]
-                                                               deletions:[self deletes]
+            return [[JSBFSDirectoryChangesFull alloc] initWithInsertions:[newSelf inserts]
+                                                               deletions:[newSelf deletes]
                                                                    moves:moves
-                                                                 updates:[self updates]];
+                                                                 updates:[newSelf updates]];
         case JSBFSObservedDirectoryChangeKindModificationsAsInsertionsDeletions:
             return [[JSBFSDirectoryChanges alloc] initWithInsertions:[newSelf inserts]
                                                            deletions:[newSelf deletes]

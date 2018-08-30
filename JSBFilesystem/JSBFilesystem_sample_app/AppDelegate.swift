@@ -40,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // delete files from last run before starting up
         let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("MyFiles_Deleted")
-        try? NSFileCoordinator.JSBFS_recursivelyDeleteDirectoryOrFile(at: docs)
+        try? NSFileCoordinator.JSBFS_delete(url: docs, filePresenter: nil)
 
         let vc = ListTableViewController.newVC(completion: nil)
         if self.window == nil {

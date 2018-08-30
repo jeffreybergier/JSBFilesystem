@@ -40,31 +40,36 @@ class ListTableViewController: UITableViewController {
     }
 
     private let directory: JSBFSObservedDirectory = try! JSBFSObservedDirectory(base: .documentDirectory,
-                                                        appendingPathComponent: "MyFiles_Deleted",
-                                                        createIfNeeded: true,
-                                                        sortedBy: .modificationNewestFirst)
+                                                                                appendingPathComponent: "MyFiles_Deleted",
+                                                                                createIfNeeded: true,
+                                                                                sortedBy: .modificationNewestFirst,
+                                                                                filteredBy: nil,
+                                                                                changeKind: .includingModifications)
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.title = "Watch as Files Are Added"
+        self.directory.updateDelay = 0.01
         self.directory.changesObserved = { [unowned self] changes in
-            let fileCount: Int = (try? self.directory.contentsCount()) ?? 0
+            let changes = changes as! JSBFSDirectoryChangesFull
+            let fileCount = (try? self.directory.contentsCount()) ?? 0
             self.title = "Showing \(fileCount) Item(s)"
             NSLog("%@", changes)
             self.tableView.beginUpdates()
             self.tableView.insertRows(at: changes.insertions.map({ IndexPath(item: $0, section: 0) }), with: .right)
-            self.tableView.deleteRows(at: changes.deletions.map({ IndexPath(item: $0, section: 0) }), with: .left)
+            self.tableView.reloadRows(at: changes.updates.map({ IndexPath(item: $0, section: 0) }), with: .right)
             changes.moves.forEach() { move in
                 self.tableView.moveRow(at: IndexPath(item: move.from, section: 0), to: IndexPath(item: move.to, section: 0))
             }
+            self.tableView.deleteRows(at: changes.deletions.map({ IndexPath(item: $0, section: 0) }), with: .left)
             self.tableView.endUpdates()
         }
         self.tableView.reloadData()
 
-        var fileCount: Int = (try? self.directory.contentsCount()) ?? 0
+        var fileCount = (try? self.directory.contentsCount()) ?? 0
         var loopCount = 0
-        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
+        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { timer in
             let mod = loopCount % 10
             loopCount += 1
             do {
@@ -72,19 +77,22 @@ class ListTableViewController: UITableViewController {
                 case 0..<6:
                     let data = Data("This is file #\(fileCount)".utf8)
                     let fileName = UUID().uuidString + ".txt"
-                    try self.directory.createFileNamed(fileName, with: data)
+                    let url = self.directory.url.appendingPathComponent(fileName)
+                    try NSFileCoordinator.JSBFS_write(data, to: url, filePresenter: nil)
                     fileCount += 1
                 case 6..<8:
                     let v = self.tableView.indexPathsForVisibleRows ?? []
                     guard v.isEmpty == false else { return }
                     let indexPath = v[Int.random(in: 0..<v.count)]
-                    try self.directory.deleteFile(at: indexPath.row)
+                    let url = try self.directory.url(at: UInt(indexPath.row))
+                    try NSFileCoordinator.JSBFS_delete(url: url, filePresenter: nil)
                 case 8..<10:
                     let v = self.tableView.indexPathsForVisibleRows ?? []
                     guard v.isEmpty == false else { return }
                     let indexPath = v[Int.random(in: 0..<v.count)]
                     let data = Data("This file was modified".utf8)
-                    try self.directory.replaceItem(at: indexPath.row, with: data)
+                    let url = try self.directory.url(at: UInt(indexPath.row))
+                    try NSFileCoordinator.JSBFS_write(data, to: url, filePresenter: nil)
                 default:
                     fatalError()
                 }
@@ -96,7 +104,7 @@ class ListTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         do {
-            return try self.directory.contentsCount()
+            return try Int(self.directory.contentsCount())
         } catch {
             NSLog(String(describing: error))
             return 0
@@ -109,8 +117,8 @@ class ListTableViewController: UITableViewController {
         cell.textLabel?.text = ""
         cell.detailTextLabel?.text = ""
         do {
-            let url = try self.directory.url(at: indexPath.row)
-            let data = try self.directory.data(at: indexPath.row)
+            let url = try self.directory.url(at: UInt(indexPath.row))
+            let data = try NSFileCoordinator.JSBFS_readData(from: url, filePresenter: nil)
             let fileContents = String(data: data, encoding: .utf8) ?? "Invalid Data"
             cell.textLabel?.text = fileContents
             cell.detailTextLabel?.text = url.lastPathComponent
