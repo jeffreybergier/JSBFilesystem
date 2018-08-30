@@ -19,6 +19,10 @@
 		500A8D9C21376D730094C7B4 /* NSFileCoordinator_ContentFilter_NormOp_tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A8D9A21376D730094C7B4 /* NSFileCoordinator_ContentFilter_NormOp_tests.swift */; };
 		500A8D9E213773950094C7B4 /* JSBFSObservedDirectory_FilterChanges_NormOp_tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A8D9D213773950094C7B4 /* JSBFSObservedDirectory_FilterChanges_NormOp_tests.swift */; };
 		500A8D9F213773950094C7B4 /* JSBFSObservedDirectory_FilterChanges_NormOp_tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A8D9D213773950094C7B4 /* JSBFSObservedDirectory_FilterChanges_NormOp_tests.swift */; };
+		500A8DA12137744A0094C7B4 /* JSBFSDirectory_Init_NormOp_tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A8DA02137744A0094C7B4 /* JSBFSDirectory_Init_NormOp_tests.swift */; };
+		500A8DA22137744A0094C7B4 /* JSBFSDirectory_Init_NormOp_tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A8DA02137744A0094C7B4 /* JSBFSDirectory_Init_NormOp_tests.swift */; };
+		500A8DA4213778650094C7B4 /* JSBFSObservedDirectory_Init_NormOp_tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A8DA3213778650094C7B4 /* JSBFSObservedDirectory_Init_NormOp_tests.swift */; };
+		500A8DA5213778650094C7B4 /* JSBFSObservedDirectory_Init_NormOp_tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A8DA3213778650094C7B4 /* JSBFSObservedDirectory_Init_NormOp_tests.swift */; };
 		506CC3F02135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 506CC3EF2135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m */; };
 		506CC3F12135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 506CC3EF2135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m */; };
 		506CC3F32135B100008A1D70 /* JSBFSDirectory_MethodNilParameter_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 506CC3F22135B100008A1D70 /* JSBFSDirectory_MethodNilParameter_tests.m */; };
@@ -138,6 +142,8 @@
 		500A8D9721376A370094C7B4 /* NSFileCoordinator_ComparableContentSort_NormOp_tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSFileCoordinator_ComparableContentSort_NormOp_tests.swift; sourceTree = "<group>"; };
 		500A8D9A21376D730094C7B4 /* NSFileCoordinator_ContentFilter_NormOp_tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSFileCoordinator_ContentFilter_NormOp_tests.swift; sourceTree = "<group>"; };
 		500A8D9D213773950094C7B4 /* JSBFSObservedDirectory_FilterChanges_NormOp_tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSBFSObservedDirectory_FilterChanges_NormOp_tests.swift; sourceTree = "<group>"; };
+		500A8DA02137744A0094C7B4 /* JSBFSDirectory_Init_NormOp_tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSBFSDirectory_Init_NormOp_tests.swift; sourceTree = "<group>"; };
+		500A8DA3213778650094C7B4 /* JSBFSObservedDirectory_Init_NormOp_tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSBFSObservedDirectory_Init_NormOp_tests.swift; sourceTree = "<group>"; };
 		506CC3EF2135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSBFSDirectory_InitNilParameter_tests.m; sourceTree = "<group>"; };
 		506CC3F22135B100008A1D70 /* JSBFSDirectory_MethodNilParameter_tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSBFSDirectory_MethodNilParameter_tests.m; sourceTree = "<group>"; };
 		506CC3F52135B9DE008A1D70 /* JSBFSObservedDirectory_MethodNilParameter_tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSBFSObservedDirectory_MethodNilParameter_tests.m; sourceTree = "<group>"; };
@@ -266,6 +272,8 @@
 				500A8D9A21376D730094C7B4 /* NSFileCoordinator_ContentFilter_NormOp_tests.swift */,
 				50C5D8922110B59D00A2B21E /* JSBFSObservedDirectory_Changes_NormOp_tests.swift */,
 				500A8D9D213773950094C7B4 /* JSBFSObservedDirectory_FilterChanges_NormOp_tests.swift */,
+				500A8DA02137744A0094C7B4 /* JSBFSDirectory_Init_NormOp_tests.swift */,
+				500A8DA3213778650094C7B4 /* JSBFSObservedDirectory_Init_NormOp_tests.swift */,
 			);
 			path = Normal_Operation_tests;
 			sourceTree = "<group>";
@@ -822,6 +830,7 @@
 				506CC40321360299008A1D70 /* JSBFSObservedDirectory_MethodErrorPropogation_tests.swift in Sources */,
 				506CC3F62135B9DE008A1D70 /* JSBFSObservedDirectory_MethodNilParameter_tests.m in Sources */,
 				506CC3FD2135F8E0008A1D70 /* JSBFSDirectory_InitErrorPropogation_tests.swift in Sources */,
+				500A8DA12137744A0094C7B4 /* JSBFSDirectory_Init_NormOp_tests.swift in Sources */,
 				500A8D8F213700F90094C7B4 /* NSFileCoordinator_CreateMethod_NormOp_tests.swift in Sources */,
 				500A8D9221374F140094C7B4 /* NSFileCoordinator_ReadMethod_NormOp_tests.swift in Sources */,
 				506D736E2134D30000E83EB2 /* NSFileCoordinator_ErrorPropogation_tests.swift in Sources */,
@@ -834,6 +843,7 @@
 				50C98CBE2134BB42008313DE /* NSFileCoordinator_NilParameter_tests.m in Sources */,
 				500A8D9821376A370094C7B4 /* NSFileCoordinator_ComparableContentSort_NormOp_tests.swift in Sources */,
 				506CC3FA2135BBD4008A1D70 /* JSBFSObservedDirectory_InitNilParameter_tests.m in Sources */,
+				500A8DA4213778650094C7B4 /* JSBFSObservedDirectory_Init_NormOp_tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -860,6 +870,7 @@
 				506CC40421360299008A1D70 /* JSBFSObservedDirectory_MethodErrorPropogation_tests.swift in Sources */,
 				506CC3F72135B9DE008A1D70 /* JSBFSObservedDirectory_MethodNilParameter_tests.m in Sources */,
 				506CC3FE2135F8E0008A1D70 /* JSBFSDirectory_InitErrorPropogation_tests.swift in Sources */,
+				500A8DA22137744A0094C7B4 /* JSBFSDirectory_Init_NormOp_tests.swift in Sources */,
 				500A8D90213700F90094C7B4 /* NSFileCoordinator_CreateMethod_NormOp_tests.swift in Sources */,
 				500A8D9321374F140094C7B4 /* NSFileCoordinator_ReadMethod_NormOp_tests.swift in Sources */,
 				506D736F2134D30100E83EB2 /* NSFileCoordinator_ErrorPropogation_tests.swift in Sources */,
@@ -872,6 +883,7 @@
 				50C98CBF2134BB42008313DE /* NSFileCoordinator_NilParameter_tests.m in Sources */,
 				500A8D9921376A370094C7B4 /* NSFileCoordinator_ComparableContentSort_NormOp_tests.swift in Sources */,
 				506CC3FB2135BBD4008A1D70 /* JSBFSObservedDirectory_InitNilParameter_tests.m in Sources */,
+				500A8DA5213778650094C7B4 /* JSBFSObservedDirectory_Init_NormOp_tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
