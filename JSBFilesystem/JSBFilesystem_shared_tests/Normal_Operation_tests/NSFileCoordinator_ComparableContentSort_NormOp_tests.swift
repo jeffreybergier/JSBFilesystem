@@ -53,6 +53,9 @@ class NSFileCoordinator_ComparableContentSort_NormOp_tests: XCTestCase {
             let futureDate = Date() + 120
             try! FileManager.default.setAttributes([.modificationDate: futureDate], ofItemAtPath: url.path)
         }
+
+        // FIXME: This vastly improves the reliability of the sort order tests
+        Thread.sleep(forTimeInterval: 0.1)
     }
 
     override func tearDown() {

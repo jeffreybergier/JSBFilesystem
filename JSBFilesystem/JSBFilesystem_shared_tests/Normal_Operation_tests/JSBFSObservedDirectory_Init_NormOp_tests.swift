@@ -9,7 +9,7 @@ import XCTest
 import JSBFilesystem
 
 class JSBFSObservedDirectory_Init_NormOp_tests: XCTestCase {
-    
+
     let precalculatedURL: URL = {
         let lastPathComponent = UUID().uuidString
         let cachesURL = FileManager.default.urls(for: .cachesDirectory,
@@ -17,7 +17,11 @@ class JSBFSObservedDirectory_Init_NormOp_tests: XCTestCase {
         let precalculatedURL = cachesURL.appendingPathComponent(lastPathComponent)
         return precalculatedURL
     }()
-    
+
+    override func tearDown() {
+        try? FileManager.default.removeItem(at: precalculatedURL)
+    }
+
     func testObservedDirectoryBaseInitDirectoryCreate() {
         do {
             let directory = try JSBFSObservedDirectory(base: .cachesDirectory,
@@ -36,7 +40,7 @@ class JSBFSObservedDirectory_Init_NormOp_tests: XCTestCase {
             XCTFail(e)
         }
     }
-    
+
     func testObservedDirectoryBaseInitNoDirectoryCreate() {
         do {
             let _ = try JSBFSObservedDirectory(base: .cachesDirectory,
@@ -51,7 +55,7 @@ class JSBFSObservedDirectory_Init_NormOp_tests: XCTestCase {
             XCTAssert(JSBFSErrorCode(rawValue: error.code)! == .directoryNotFoundAndNotCreated)
         }
     }
-    
+
     func testObservedDirectoryBaseInitFileConflictExistsCreate() {
         do {
             let data = Data("".utf8)
@@ -74,7 +78,7 @@ class JSBFSObservedDirectory_Init_NormOp_tests: XCTestCase {
             XCTAssert(JSBFSErrorCode(rawValue: error.code)! == .specifiedURLIsFileExpectedDirectory)
         }
     }
-    
+
     func testObservedDirectoryURLInitDirectoryCreate() {
         do {
             let directory = try JSBFSObservedDirectory(directoryURL: self.precalculatedURL,
@@ -92,7 +96,7 @@ class JSBFSObservedDirectory_Init_NormOp_tests: XCTestCase {
             XCTFail(e)
         }
     }
-    
+
     func testObservedDirectoryURLInitNoDirectoryCreate() {
         do {
             let _ = try JSBFSObservedDirectory(directoryURL: self.precalculatedURL,
@@ -106,7 +110,7 @@ class JSBFSObservedDirectory_Init_NormOp_tests: XCTestCase {
             XCTAssert(JSBFSErrorCode(rawValue: error.code)! == .directoryNotFoundAndNotCreated)
         }
     }
-    
+
     func testObservedDirectoryURLInitFileConflictExistsCreate() {
         do {
             let data = Data("".utf8)
@@ -127,5 +131,5 @@ class JSBFSObservedDirectory_Init_NormOp_tests: XCTestCase {
             XCTAssert(JSBFSErrorCode(rawValue: error.code)! == .specifiedURLIsFileExpectedDirectory)
         }
     }
-    
+
 }
