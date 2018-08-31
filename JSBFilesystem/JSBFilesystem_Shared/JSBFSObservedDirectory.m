@@ -175,25 +175,27 @@
 - (void)presentedItemDidChange;
 {
     [[self updateWaitTimer] invalidate];
-    id __weak welf = self;
-    NSTimer* newTimer = [NSTimer timerWithTimeInterval:[self updateDelay] repeats:NO block:^(NSTimer * _Nonnull timer) {
-        // silence the objective c welf warning
-        id __strong strong_welf = welf;
-        if (!strong_welf) { return; }
-        // make sure this timer doesn't repeat
-        [timer invalidate];
-        [[strong_welf updateWaitTimer] invalidate];
-        [strong_welf setUpdateWaitTimer:nil];
-        // hop back onto the serial queue and force an update
-        NSOperationQueue* queue = [strong_welf presentedItemOperationQueue];
-        if (!queue) { return; }
-        dispatch_async([queue underlyingQueue], ^{
-            [strong_welf forceUpdate];
-        });
-    }];
+    NSTimer* newTimer = [NSTimer timerWithTimeInterval:[self updateDelay]
+                                                target:self
+                                              selector:@selector(presentedItemDidChangeTimerFired:)
+                                              userInfo:nil
+                                               repeats:NO];
     [self setUpdateWaitTimer:newTimer];
     // NSTimer only appears to work on the main thread
     [[NSRunLoop mainRunLoop] addTimer:[self updateWaitTimer] forMode:NSDefaultRunLoopMode];
+}
+
+- (void)presentedItemDidChangeTimerFired:(NSTimer*)timer;
+{
+    // make sure this timer doesn't repeat
+    [timer invalidate];
+    [[self updateWaitTimer] invalidate];
+    [self setUpdateWaitTimer:nil];
+    // hop back onto the serial queue and force an update
+    NSOperationQueue* queue = [self presentedItemOperationQueue];
+    dispatch_async([queue underlyingQueue], ^{
+        [self forceUpdate];
+    });
 }
 
 // MARK: OVERRIDE -sortedAndFiltered:

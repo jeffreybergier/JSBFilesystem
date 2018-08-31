@@ -55,8 +55,6 @@
 		506CC40421360299008A1D70 /* JSBFSObservedDirectory_MethodErrorPropogation_tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506CC40221360299008A1D70 /* JSBFSObservedDirectory_MethodErrorPropogation_tests.swift */; };
 		506D736E2134D30000E83EB2 /* NSFileCoordinator_ErrorPropogation_tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D736B2134D2DE00E83EB2 /* NSFileCoordinator_ErrorPropogation_tests.swift */; };
 		506D736F2134D30100E83EB2 /* NSFileCoordinator_ErrorPropogation_tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D736B2134D2DE00E83EB2 /* NSFileCoordinator_ErrorPropogation_tests.swift */; };
-		50AD03FE2112218F00C0C88D /* FileWrapperTestImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 50AD03FD2112218F00C0C88D /* FileWrapperTestImage.png */; };
-		50AD03FF2112218F00C0C88D /* FileWrapperTestImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 50AD03FD2112218F00C0C88D /* FileWrapperTestImage.png */; };
 		50C5D83B2110B3D800A2B21E /* JSBFilesystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C5D8312110B3D700A2B21E /* JSBFilesystem.framework */; };
 		50C5D8572110B3F000A2B21E /* JSBFilesystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C5D84E2110B3F000A2B21E /* JSBFilesystem.framework */; };
 		50C5D8752110B57300A2B21E /* JSBFSFileComparison.h in Headers */ = {isa = PBXBuildFile; fileRef = 50C5D8672110B57200A2B21E /* JSBFSFileComparison.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -177,7 +175,6 @@
 		506CC3FF2135FEC2008A1D70 /* JSBFSDirectory_MethodErrorPropogation_tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSBFSDirectory_MethodErrorPropogation_tests.swift; sourceTree = "<group>"; };
 		506CC40221360299008A1D70 /* JSBFSObservedDirectory_MethodErrorPropogation_tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSBFSObservedDirectory_MethodErrorPropogation_tests.swift; sourceTree = "<group>"; };
 		506D736B2134D2DE00E83EB2 /* NSFileCoordinator_ErrorPropogation_tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSFileCoordinator_ErrorPropogation_tests.swift; sourceTree = "<group>"; };
-		50AD03FD2112218F00C0C88D /* FileWrapperTestImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FileWrapperTestImage.png; sourceTree = "<group>"; };
 		50C5D8312110B3D700A2B21E /* JSBFilesystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JSBFilesystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		50C5D8352110B3D700A2B21E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50C5D83A2110B3D800A2B21E /* JSBFilesystem_macOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JSBFilesystem_macOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -402,7 +399,6 @@
 				500A8D8D213700A80094C7B4 /* Normal_Operation_tests */,
 				50C98CBA2134BAFA008313DE /* NilParameter_tests */,
 				50C98CB92134BAEF008313DE /* Error_tests */,
-				50AD03FD2112218F00C0C88D /* FileWrapperTestImage.png */,
 			);
 			path = JSBFilesystem_shared_tests;
 			sourceTree = "<group>";
@@ -665,7 +661,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50AD03FE2112218F00C0C88D /* FileWrapperTestImage.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -680,7 +675,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50AD03FF2112218F00C0C88D /* FileWrapperTestImage.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1147,7 +1141,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.JSBFilesystem.macOS;
@@ -1223,7 +1217,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.JSBFilesystem.macOS;
 				PRODUCT_NAME = JSBFilesystem;
@@ -1434,7 +1428,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = JSBFilesystem_iOS/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1509,7 +1503,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = JSBFilesystem_iOS/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1723,7 +1717,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = JSBFilesystem_sample_app/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1790,7 +1784,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = JSBFilesystem_sample_app/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
