@@ -83,3 +83,6 @@ typedef NS_ENUM(NSInteger, JSBFSObservedDirectoryChangeKind) {
 
 typedef void(^JSBFSObservedDirectoryChangeBlock)(JSBFSDirectoryChanges*_Nonnull changes);
 typedef BOOL(^JSBFSDirectoryFilterBlock)(NSURL*_Nonnull aURL);
+typedef NSData*_Nonnull(^JSBFSDataTransformBlock)(NSData*_Nonnull data);
+typedef NSFileWrapper*_Nonnull(^JSBFSFileWrapperTransformBlock)(NSFileWrapper*_Nonnull fileWrapper);
+

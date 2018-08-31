@@ -30,7 +30,6 @@
 
 #import "NSFileCoordinator+JSBFS.h"
 #import "JSBFSFileComparison.h"
-#import "SmallTypes.h"
 #import "NSErrors.h"
 
 @implementation NSFileCoordinator (JSBFS)
@@ -161,6 +160,83 @@
         return nil;
     } else {
         return fileWrapper;
+    }
+}
+
++ (BOOL)JSBFS_readAndWriteDataAtURL:(NSURL*_Nonnull)url
+        afterTransformdingWithBlock:(JSBFSDataTransformBlock NS_NOESCAPE _Nonnull)transform
+                      filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
+                              error:(NSError*_Nullable*)errorPtr;
+{
+    NSParameterAssert(url);
+    NSParameterAssert(transform);
+    NSError* coError = nil;
+    __block NSError* opError = nil;
+    __block BOOL success = NO;
+    NSFileCoordinator* c = [[NSFileCoordinator alloc] initWithFilePresenter:filePresenter];
+    [c coordinateReadingItemAtURL:url
+                          options:NSFileCoordinatorReadingResolvesSymbolicLink
+                 writingItemAtURL:url options:NSFileCoordinatorWritingForReplacing
+                            error:&coError
+                       byAccessor:^(NSURL*_Nonnull newReadingURL, NSURL*_Nonnull newWritingURL)
+    {
+        NSData* oldData = [NSData dataWithContentsOfURL:newReadingURL options:0 error:&opError];
+        if (!oldData || opError) { return; }
+        NSData* newData = transform(oldData);
+        success = [newData writeToURL:newWritingURL options:NSDataWritingAtomic error:&opError];
+    }];
+    if (coError) {
+        if (errorPtr != NULL) { *errorPtr = coError; }
+        return NO;
+    } else if (opError) {
+        if (errorPtr != NULL) { *errorPtr = opError; }
+        return NO;
+    } else if (!success) {
+        if (errorPtr != NULL) { *errorPtr = [NSError JSBFS_operationFailedButNoCocoaErrorThrown]; }
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
++ (BOOL)JSBFS_readAndWriteFileWrapperAtURL:(NSURL*_Nonnull)url
+               afterTransformdingWithBlock:(JSBFSFileWrapperTransformBlock NS_NOESCAPE _Nonnull)transform
+                             filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
+                                     error:(NSError*_Nullable*)errorPtr;
+{
+    NSParameterAssert(url);
+    NSParameterAssert(transform);
+    NSError* coError = nil;
+    __block NSError* opError = nil;
+    __block BOOL success = NO;
+    NSFileCoordinator* c = [[NSFileCoordinator alloc] initWithFilePresenter:filePresenter];
+    [c coordinateReadingItemAtURL:url
+                          options:NSFileCoordinatorReadingResolvesSymbolicLink
+                 writingItemAtURL:url options:NSFileCoordinatorWritingForReplacing
+                            error:&coError
+                       byAccessor:^(NSURL*_Nonnull newReadingURL, NSURL*_Nonnull newWritingURL)
+     {
+         NSFileWrapper* oldFW = [[NSFileWrapper alloc] initWithURL:newReadingURL
+                                                           options:NSFileWrapperReadingImmediate
+                                                             error:&opError];
+         if (!oldFW || opError) { return; }
+         NSFileWrapper* newFW = transform(oldFW);
+         success = [newFW writeToURL:newWritingURL
+                             options:NSFileWrapperWritingAtomic
+                 originalContentsURL:newReadingURL
+                               error:&opError];
+     }];
+    if (coError) {
+        if (errorPtr != NULL) { *errorPtr = coError; }
+        return NO;
+    } else if (opError) {
+        if (errorPtr != NULL) { *errorPtr = opError; }
+        return NO;
+    } else if (!success) {
+        if (errorPtr != NULL) { *errorPtr = [NSError JSBFS_operationFailedButNoCocoaErrorThrown]; }
+        return NO;
+    } else {
+        return YES;
     }
 }
 

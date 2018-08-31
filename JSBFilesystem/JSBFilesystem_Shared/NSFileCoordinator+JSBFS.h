@@ -29,7 +29,7 @@
 //
 
 @import Foundation;
-@class JSBFSDoubleBool;
+#import "SmallTypes.h"
 
 @interface NSFileCoordinator (JSBFS)
 
@@ -92,6 +92,42 @@ NS_SWIFT_NAME(JSBFS_readData(from:filePresenter:));
                                            filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
                                                    error:(NSError* _Nullable*)errorPtr
 NS_SWIFT_NAME(JSBFS_readFileWrapper(from:filePresenter:));
+
+/*!
+ * @discussion Coordinate reading the data from the provided URL, then coordinate
+ *             writing the transformed data back to the same URL.
+ * @param url URL on disk to read from and to write to.
+ * @param transform Block that can be used to transform the data before writing
+ *                  the tranformed data back to the provided URL.
+ * @param filePresenter Optional NSFilePresenter object. This will be passed to
+ *        the NSFileCoordinator so that this File Presenter should not recieve
+ *        requests to save the file before it can be read.
+ * @param errorPtr Error parameter. Will always be populated if return is NO.
+ * @return Success YES/NO.
+ */
++ (BOOL)JSBFS_readAndWriteDataAtURL:(NSURL*_Nonnull)url
+        afterTransformdingWithBlock:(JSBFSDataTransformBlock NS_NOESCAPE _Nonnull)transform
+                      filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
+                              error:(NSError*_Nullable*)errorPtr
+NS_SWIFT_NAME(JSBFS_readAndWriteData(at:afterTransforming:filePresenter:));
+
+/*!
+ * @discussion Coordinate reading the file wrapper from the provided URL, then
+ *             coordinate writing the transformed filewrapper back to the same URL.
+ * @param url URL on disk to read from and to write to.
+ * @param transform Block that can be used to transform the filewrapper before
+ *                  writing the tranformed filewrapper back to the provided URL.
+ * @param filePresenter Optional NSFilePresenter object. This will be passed to
+ *        the NSFileCoordinator so that this File Presenter should not recieve
+ *        requests to save the file before it can be read.
+ * @param errorPtr Error parameter. Will always be populated if return is NO.
+ * @return Success YES/NO.
+ */
++ (BOOL)JSBFS_readAndWriteFileWrapperAtURL:(NSURL*_Nonnull)url
+               afterTransformdingWithBlock:(JSBFSFileWrapperTransformBlock NS_NOESCAPE _Nonnull)transform
+                             filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
+                                     error:(NSError*_Nullable*)errorPtr
+NS_SWIFT_NAME(JSBFS_readAndWriteFileWrapper(at:afterTransforming:filePresenter:));
 
 /*!
  * @discussion Delete the directory or file at the URL. On the Mac, items will
