@@ -48,6 +48,27 @@ class NSFileCoordinator_ErrorPropogation_tests: XCTestCase {
         }
     }
 
+    func testNSFCReadWriteTransformErrorProp() {
+        do {
+            try NSFileCoordinator.JSBFS_readAndWriteData(at: self.invalidLocalURL,
+                                                         afterTransforming: { return $0 },
+                                                         filePresenter: nil)
+            XCTFail()
+        } catch let error as NSError {
+            XCTAssert(error.domain == NSCocoaErrorDomain)
+            XCTAssert(error.code == 260)
+        }
+        do {
+            try NSFileCoordinator.JSBFS_readAndWriteFileWrapper(at: self.invalidLocalURL,
+                                                                afterTransforming: { return $0 },
+                                                                filePresenter: nil)
+            XCTFail()
+        } catch let error as NSError {
+            XCTAssert(error.domain == NSCocoaErrorDomain)
+            XCTAssert(error.code == 260)
+        }
+    }
+
     func testNSFCDeleteErrorProp() {
         do {
             try NSFileCoordinator.JSBFS_delete(url: self.invalidLocalURL, filePresenter: nil)
