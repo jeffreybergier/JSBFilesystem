@@ -39,22 +39,20 @@ class ListTableViewController: UITableViewController {
         return navVC
     }
 
-    private let directory: JSBFSObservedDirectory = try! JSBFSObservedDirectory(base: .documentDirectory,
-                                                                                appendingPathComponent: "MyFiles_Deleted",
-                                                                                createIfNeeded: true,
-                                                                                sortedBy: .modificationNewestFirst,
-                                                                                filteredBy: nil,
-                                                                                changeKind: .includingModifications)
+    private let directory: JSBFSObservedDirectory =
+        try! JSBFSObservedDirectory(base: .documentDirectory,
+                                    appendingPathComponent: "MyFiles_Deleted",
+                                    createIfNeeded: true,
+                                    sortedBy: .modificationNewestFirst,
+                                    filteredBy: nil,
+                                    changeKind: .modificationsAsInsertionsDeletions)
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.title = "Watch as Files Are Added"
-        self.directory.updateDelay = 0.01
+        // configure the change closure
         self.directory.changesObserved = { [unowned self] changes in
-            let fileCount = (try? self.directory.contentsCount()) ?? 0
-            self.title = "Showing \(fileCount) Item(s)"
-            NSLog("%@", changes)
+            // update the tableview
             self.tableView.beginUpdates()
             self.tableView.insertRows(at: changes.insertions.map({ IndexPath(item: $0, section: 0) }), with: .right)
             changes.moves.forEach() { move in
@@ -62,47 +60,23 @@ class ListTableViewController: UITableViewController {
             }
             self.tableView.deleteRows(at: changes.deletions.map({ IndexPath(item: $0, section: 0) }), with: .left)
             self.tableView.endUpdates()
+            // update the title
+            let fileCount = (try? self.directory.contentsCount()) ?? 0
+            self.title = "Showing \(fileCount) Items"
+            NSLog("%@", changes)
         }
         self.tableView.reloadData()
-
-        var fileCount = (try? self.directory.contentsCount()) ?? 0
-        var loopCount = 0
-        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { timer in
-            let mod = loopCount % 10
-            loopCount += 1
-            do {
-                switch mod {
-                case 0..<6:
-                    let data = Data("This is file #\(fileCount)".utf8)
-                    let fileName = UUID().uuidString + ".txt"
-                    let url = self.directory.url.appendingPathComponent(fileName)
-                    try NSFileCoordinator.JSBFS_write(data, to: url, filePresenter: nil)
-                    fileCount += 1
-                case 6..<8:
-                    let v = self.tableView.indexPathsForVisibleRows ?? []
-                    guard v.isEmpty == false else { return }
-                    let indexPath = v[Int.random(in: 0..<v.count)]
-                    let url = try self.directory.url(at: indexPath.row)
-                    try NSFileCoordinator.JSBFS_delete(url: url, filePresenter: nil)
-                case 8..<10:
-                    let v = self.tableView.indexPathsForVisibleRows ?? []
-                    guard v.isEmpty == false else { return }
-                    let indexPath = v[Int.random(in: 0..<v.count)]
-                    let data = Data("This file was modified".utf8)
-                    let url = try self.directory.url(at: indexPath.row)
-                    try NSFileCoordinator.JSBFS_write(data, to: url, filePresenter: nil)
-                default:
-                    fatalError()
-                }
-            } catch {
-                NSLog(String(describing:error))
-            }
-        }
+        // set up a timer to modify the underlying data for display
+        Timer.scheduledTimer(timeInterval: 1.0,
+                             target: self,
+                             selector: #selector(self.changeUnderlyingData(_:)),
+                             userInfo: nil,
+                             repeats: true)
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         do {
-            return try Int(self.directory.contentsCount())
+            return try self.directory.contentsCount()
         } catch {
             NSLog(String(describing: error))
             return 0
@@ -111,7 +85,8 @@ class ListTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let id = "MyCell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: id) ?? UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: id)
+        let cell = tableView.dequeueReusableCell(withIdentifier: id) ??
+            UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: id)
         cell.textLabel?.text = ""
         cell.detailTextLabel?.text = ""
         do {
@@ -124,5 +99,39 @@ class ListTableViewController: UITableViewController {
             NSLog(String(describing:error))
         }
         return cell
+    }
+
+    private var fileCount: Int = 0
+    private var loopCount = 0
+    @objc private func changeUnderlyingData(_ timer: Timer) {
+        let mod = self.loopCount % 10
+        self.loopCount += 1
+        do {
+            switch mod {
+            case 0..<6:
+                let data = Data("This is file #\(self.fileCount)".utf8)
+                let fileName = UUID().uuidString + ".txt"
+                let url = self.directory.url.appendingPathComponent(fileName)
+                try NSFileCoordinator.JSBFS_write(data, to: url, filePresenter: nil)
+                self.fileCount += 1
+            case 6..<8:
+                let v = self.tableView.indexPathsForVisibleRows ?? []
+                guard v.isEmpty == false else { return }
+                let indexPath = v[Int.random(in: 0..<v.count)]
+                let url = try self.directory.url(at: indexPath.row)
+                try NSFileCoordinator.JSBFS_delete(url: url, filePresenter: nil)
+            case 8..<10:
+                let v = self.tableView.indexPathsForVisibleRows ?? []
+                guard v.isEmpty == false else { return }
+                let indexPath = v[Int.random(in: 0..<v.count)]
+                let data = Data("This file was modified".utf8)
+                let url = try self.directory.url(at: indexPath.row)
+                try NSFileCoordinator.JSBFS_write(data, to: url, filePresenter: nil)
+            default:
+                fatalError()
+            }
+        } catch {
+            NSLog(String(describing:error))
+        }
     }
 }
