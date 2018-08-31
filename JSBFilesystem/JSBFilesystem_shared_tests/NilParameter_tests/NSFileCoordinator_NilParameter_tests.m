@@ -105,6 +105,38 @@
                                   @"");
 }
 
+- (void)testNSFCReadWriteTransformNilParameters;
+{
+    XCTAssertThrowsSpecificNamed([NSFileCoordinator JSBFS_readAndWriteDataAtURL:nil
+                                                    afterTransformdingWithBlock:nil
+                                                                  filePresenter:nil
+                                                                          error:nil],
+                                 NSException,
+                                 NSInternalInconsistencyException,
+                                 @"");
+    XCTAssertNoThrowSpecificNamed([NSFileCoordinator JSBFS_readAndWriteDataAtURL:[self nonNilURL]
+                                                     afterTransformdingWithBlock:
+                                   ^NSData*_Nonnull(NSData*_Nonnull data) { return nil; }
+                                                                   filePresenter:nil
+                                                                           error:nil],
+                                  NSException,
+                                  @"");
+    XCTAssertThrowsSpecificNamed([NSFileCoordinator JSBFS_readAndWriteFileWrapperAtURL:nil
+                                                           afterTransformdingWithBlock:nil
+                                                                         filePresenter:nil
+                                                                                 error:nil],
+                                 NSException,
+                                 NSInternalInconsistencyException,
+                                 @"");
+    XCTAssertNoThrowSpecificNamed([NSFileCoordinator JSBFS_readAndWriteFileWrapperAtURL:[self nonNilURL]
+                                                            afterTransformdingWithBlock:
+                                   ^NSFileWrapper*_Nonnull(NSFileWrapper*_Nonnull data) { return nil; }
+                                                                          filePresenter:nil
+                                                                                  error:nil],
+                                  NSException,
+                                  @"");
+}
+
 - (void)testNSFCDeleteNilParameters;
 {
     XCTAssertThrowsSpecificNamed([NSFileCoordinator JSBFS_deleteURL:nil

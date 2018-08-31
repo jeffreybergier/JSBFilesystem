@@ -183,6 +183,7 @@
         NSData* oldData = [NSData dataWithContentsOfURL:newReadingURL options:0 error:&opError];
         if (!oldData || opError) { return; }
         NSData* newData = transform(oldData);
+        NSParameterAssert(newData);
         success = [newData writeToURL:newWritingURL options:NSDataWritingAtomic error:&opError];
     }];
     if (coError) {
@@ -221,6 +222,7 @@
                                                              error:&opError];
          if (!oldFW || opError) { return; }
          NSFileWrapper* newFW = transform(oldFW);
+         NSParameterAssert(newFW);
          success = [newFW writeToURL:newWritingURL
                              options:NSFileWrapperWritingAtomic
                  originalContentsURL:newReadingURL
