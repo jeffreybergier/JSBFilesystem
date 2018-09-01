@@ -29,7 +29,84 @@
 //
 
 #import "NSFileCoordinator+DefaultParams.h"
+#import "NSFileCoordinator+JSBFS.h"
 
 @implementation NSFileCoordinator (DefaultParams)
+
++ (BOOL)JSBFS_writeData:(NSData*_Nonnull)data
+                  toURL:(NSURL*_Nonnull)url
+                  error:(NSError*_Nullable*)errorPtr;
+{
+    return [self JSBFS_writeData:data
+                           toURL:url
+                   filePresenter:nil
+                           error:errorPtr];
+}
+
++ (BOOL)JSBFS_writeFileWrapper:(NSFileWrapper*_Nonnull)fileWrapper
+                         toURL:(NSURL*_Nonnull)url
+                         error:(NSError*_Nullable*)errorPtr;
+{
+    return [self JSBFS_writeFileWrapper:fileWrapper
+                                  toURL:url
+                          filePresenter:nil
+                                  error:errorPtr];
+}
+
++ (NSData*_Nullable)JSBFS_readDataFromURL:(NSURL*_Nonnull)url
+                                    error:(NSError*_Nullable*)errorPtr;
+{
+    return [self JSBFS_readDataFromURL:url filePresenter:nil error:errorPtr];
+}
+
++ (NSFileWrapper* _Nullable)JSBFS_readFileWrapperFromURL:(NSURL* _Nonnull)url
+                                                   error:(NSError* _Nullable*)errorPtr;
+{
+    return [self JSBFS_readFileWrapperFromURL:url filePresenter:nil error:errorPtr];
+}
+
++ (BOOL)JSBFS_readAndWriteDataAtURL:(NSURL*_Nonnull)url
+        afterTransformdingWithBlock:(JSBFSDataTransformBlock NS_NOESCAPE _Nonnull)transform
+                              error:(NSError*_Nullable*)errorPtr;
+{
+    return [self JSBFS_readAndWriteDataAtURL:url
+                 afterTransformdingWithBlock:transform
+                               filePresenter:nil
+                                       error:errorPtr];
+}
+
++ (BOOL)JSBFS_readAndWriteFileWrapperAtURL:(NSURL*_Nonnull)url
+               afterTransformdingWithBlock:(JSBFSFileWrapperTransformBlock NS_NOESCAPE _Nonnull)transform
+                                     error:(NSError*_Nullable*)errorPtr;
+{
+    return [self JSBFS_readAndWriteFileWrapperAtURL:url
+                        afterTransformdingWithBlock:transform
+                                      filePresenter:nil
+                                              error:errorPtr];
+}
+
++ (BOOL)JSBFS_deleteURL:(NSURL*_Nonnull)url
+                  error:(NSError*_Nullable*)errorPtr;
+{
+    return [self JSBFS_deleteURL:url filePresenter:nil error:errorPtr];
+}
+
++ (BOOL)JSBFS_batchDeleteURLs:(NSArray<NSURL*>*_Nonnull)urls
+                        error:(NSError*_Nullable*)errorPtr;
+{
+    return [self JSBFS_batchDeleteURLs:urls filePresenter:nil error:errorPtr];
+}
+
++ (BOOL)JSBFS_createDirectoryAtURL:(NSURL*_Nonnull)url
+                             error:(NSError*_Nullable*)errorPtr;
+{
+    return [self JSBFS_createDirectoryAtURL:url filePresenter:nil error:errorPtr];
+}
+
++ (JSBFSDoubleBool*_Nullable)JSBFS_fileExistsAndIsDirectoryAtURL:(NSURL*_Nonnull)url
+                                                           error:(NSError*_Nullable*)errorPtr;
+{
+    return [self JSBFS_fileExistsAndIsDirectoryAtURL:url filePresenter:nil error:errorPtr];
+}
 
 @end

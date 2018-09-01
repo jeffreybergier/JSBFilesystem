@@ -37,6 +37,7 @@ FOUNDATION_EXPORT double JSBFilesystem_macOSVersionNumber;
 FOUNDATION_EXPORT const unsigned char JSBFilesystem_macOSVersionString[];
 
 #import <JSBFilesystem/NSFileCoordinator+JSBFS.h>
+#import <JSBFilesystem/NSFileCoordinator+DefaultParams.h>
 #import <JSBFilesystem/JSBFSObservedDirectory.h>
 #import <JSBFilesystem/JSBFSDirectoryChanges.h>
 #import <JSBFilesystem/JSBFSFileComparison.h>
