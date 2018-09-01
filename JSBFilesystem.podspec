@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'JSBFilesystem'
-  s.version          = '0.8.1'
+  s.version          = '0.8.2'
   s.summary          = 'Filesystem change notifications.'
 
   s.description      = <<-DESC
@@ -21,7 +21,7 @@ A small library that makes it easy to display data that exists as files on the d
   s.source           = { :git => 'https://github.com/jeffreybergier/JSBFilesystem.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '8.0'
-  s.osx.deployment_target = '10.10'
+  s.osx.deployment_target = '10.11'
 
   s.source_files = 'JSBFilesystem/JSBFilesystem_shared/**/*'
   s.public_header_files = 'JSBFilesystem/JSBFilesystem_shared/**/*.h'

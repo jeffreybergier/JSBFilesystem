@@ -1,4 +1,4 @@
-![Xcode: 10.0](https://img.shields.io/badge/Xcode-10.0-lightgrey.svg) ![Language: Objective C](https://img.shields.io/badge/Language-Objective%20C-lightgrey.svg) ![Annotations: for Swift](https://img.shields.io/badge/Annotations-for%20Swift-lightgrey.svg) ![iOS: 8.0+](https://img.shields.io/badge/iOS-8.0+-lightgrey.svg) ![macOS: 10.10+](https://img.shields.io/badge/macOS-10.10+-lightgrey.svg)
+![Xcode: 10.0](https://img.shields.io/badge/Xcode-10.0-lightgrey.svg) ![Language: Objective C](https://img.shields.io/badge/Language-Objective%20C-lightgrey.svg) ![Annotations: for Swift](https://img.shields.io/badge/Annotations-for%20Swift-lightgrey.svg) ![iOS: 8.0+](https://img.shields.io/badge/iOS-8.0+-lightgrey.svg) ![macOS: 10.11+](https://img.shields.io/badge/macOS-10.11+-lightgrey.svg)
 
 # JSBFilesystem
 
@@ -11,7 +11,7 @@ The library is 100% written in Objective-C. This was a conscious choice to reduc
   
 ## Sample App & Demonstration Video
 Included with the project is a small sample app. This app shows how easy it is to read, write, delete, and modify files while displaying them in a UITableView while animating changes appropriately. Take a look at how small the [code file](/JSBFilesystem/JSBFilesystem_sample_app/ListTableViewController.swift) is for this sample app.
-[![Play: Sample App Demonstration Video](README/demo-video-playbutton.png)](README/demo-video.mp4?raw=true)
+[![Play: Sample App Demonstration Video](README/demo-video-playbutton.png)](README/demo-video.mp4)
 
 ## Important Classes
 
