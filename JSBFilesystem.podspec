@@ -8,11 +8,12 @@
 
 Pod::Spec.new do |s|
   s.name             = 'JSBFilesystem'
-  s.version          = '0.8.0'
+  s.version          = '0.8.1'
   s.summary          = 'Filesystem change notifications.'
 
   s.description      = <<-DESC
-A small library that makes it easy to display data that exists as files on the disk of the local device. The library also makes it easy monitor additions, deletions, and modifications to the files so you can keep TableViews, CollectionViews, or any user interface up-to-date. This library uses NSFilePresenter for notifications from the operating system when files change and then uses IGListKit to diff the old and new contents.                       DESC
+A small library that makes it easy to display data that exists as files on the disk of the local device. The library also makes it easy monitor additions, deletions, and modifications to the files so you can keep TableViews, CollectionViews, or any user interface up-to-date. This library uses NSFilePresenter for notifications from the operating system when files change and then uses IGListKit to diff the old and new contents.
+                       DESC
 
   s.homepage         = 'https://github.com/jeffreybergier/JSBFilesystem'
   s.license          = { :type => 'MIT', :file => 'LICENSE.txt' }
