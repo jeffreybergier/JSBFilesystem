@@ -39,6 +39,7 @@ class ListTableViewController: UITableViewController {
         return navVC
     }
 
+    private var timer: Timer?
     private let directory: JSBFSObservedDirectory =
         try! JSBFSObservedDirectory(base: .documentDirectory,
                                     appendingPathComponent: "MyFiles_Deleted",
@@ -49,7 +50,7 @@ class ListTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.directory.updateDelay = 0.001
         // configure the change closure
         self.directory.changesObserved = { [unowned self] changes in
             // update the tableview
@@ -66,12 +67,16 @@ class ListTableViewController: UITableViewController {
             NSLog("%@", changes)
         }
         self.tableView.reloadData()
+        self.resetTimer()
+    }
+
+    private func resetTimer() {
         // set up a timer to modify the underlying data for display
-        Timer.scheduledTimer(timeInterval: 1.0,
-                             target: self,
-                             selector: #selector(self.changeUnderlyingData(_:)),
-                             userInfo: nil,
-                             repeats: true)
+        self.timer = Timer.scheduledTimer(timeInterval: 1.0,
+                                          target: self,
+                                          selector: #selector(self.changeUnderlyingData(_:)),
+                                          userInfo: nil,
+                                          repeats: true)
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -132,6 +137,21 @@ class ListTableViewController: UITableViewController {
             }
         } catch {
             NSLog(String(describing:error))
+        }
+    }
+
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        guard motion == .motionShake else {
+            super.motionEnded(motion, with: event)
+            return
+        }
+        if self.timer == nil {
+            self.title = "Resuming…"
+            self.resetTimer()
+        } else {
+            self.title = "Paused"
+            self.timer?.invalidate()
+            self.timer = nil
         }
     }
 }
