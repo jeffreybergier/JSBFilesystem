@@ -180,7 +180,7 @@
                                               error:(NSError*_Nullable*)errorPtr;
 {
     if ((!filters) || ([filters count] == 0)) { return allContents; }
-    NSMutableArray<NSURL*>* contents = [[NSMutableArray alloc] init];
+    NSMutableArray<NSURL*>* contents = [[NSMutableArray alloc] initWithCapacity:[allContents count]];
     NSError* coError = nil;
     NSFileCoordinator* c = [[NSFileCoordinator alloc] initWithFilePresenter:filePresenter];
     for (NSURL* oldURL in allContents) {
@@ -189,15 +189,17 @@
                                 error:&coError
                            byAccessor:^(NSURL*_Nonnull newURL)
          {
-             BOOL allFiltersPass = YES;
-             for (JSBFSDirectoryFilterBlock filter in filters) {
-                 // stop executing filters if one fails
-                 if (!allFiltersPass) { break; }
-                 allFiltersPass = filter(newURL);
-             }
-             // if they all pass, add the object for output
-             if (allFiltersPass) {
-                 [contents addObject:newURL];
+             @autoreleasepool {
+                 BOOL allFiltersPass = YES;
+                 for (JSBFSDirectoryFilterBlock filter in filters) {
+                     // stop executing filters if one fails
+                     if (!allFiltersPass) { break; }
+                     allFiltersPass = filter(newURL);
+                 }
+                 // if they all pass, add the object for output
+                 if (allFiltersPass) {
+                     [contents addObject:newURL];
+                 }
              }
          }];
     }

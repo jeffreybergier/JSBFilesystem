@@ -145,7 +145,7 @@ __attribute__((swift_error(nonnull_error)));
  *        This is done to make Swift Error handling better for this method.
  * @return Index of item or NSNotFound if there is an error.
  */
-- (NSInteger)indexOfItemWithURL:(NSURL*_Nonnull)rhs error:(NSError*_Nullable*)errorPtr
+- (NSInteger)indexOfItemWithURL:(NSURL*_Nonnull)url error:(NSError*_Nullable*)errorPtr
 __attribute__((swift_error(nonnull_error)));
 
 @end

@@ -39,8 +39,8 @@
 		504C1D6B2138384400097021 /* NSFileCoordinator+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 504C1D682138384400097021 /* NSFileCoordinator+Internal.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		504C1D6C2138384400097021 /* NSFileCoordinator+Internal.m in Sources */ = {isa = PBXBuildFile; fileRef = 504C1D692138384400097021 /* NSFileCoordinator+Internal.m */; };
 		504C1D6D2138384400097021 /* NSFileCoordinator+Internal.m in Sources */ = {isa = PBXBuildFile; fileRef = 504C1D692138384400097021 /* NSFileCoordinator+Internal.m */; };
-		505035AF213ADCEA00A71BCB /* NSFileCoordinator+DefaultParams.h in Headers */ = {isa = PBXBuildFile; fileRef = 505035AD213ADCEA00A71BCB /* NSFileCoordinator+DefaultParams.h */; };
-		505035B0213ADCEA00A71BCB /* NSFileCoordinator+DefaultParams.h in Headers */ = {isa = PBXBuildFile; fileRef = 505035AD213ADCEA00A71BCB /* NSFileCoordinator+DefaultParams.h */; };
+		505035AF213ADCEA00A71BCB /* NSFileCoordinator+DefaultParams.h in Headers */ = {isa = PBXBuildFile; fileRef = 505035AD213ADCEA00A71BCB /* NSFileCoordinator+DefaultParams.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		505035B0213ADCEA00A71BCB /* NSFileCoordinator+DefaultParams.h in Headers */ = {isa = PBXBuildFile; fileRef = 505035AD213ADCEA00A71BCB /* NSFileCoordinator+DefaultParams.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		505035B1213ADCEA00A71BCB /* NSFileCoordinator+DefaultParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 505035AE213ADCEA00A71BCB /* NSFileCoordinator+DefaultParams.m */; };
 		505035B2213ADCEA00A71BCB /* NSFileCoordinator+DefaultParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 505035AE213ADCEA00A71BCB /* NSFileCoordinator+DefaultParams.m */; };
 		506CC3F02135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 506CC3EF2135A952008A1D70 /* JSBFSDirectory_InitNilParameter_tests.m */; settings = {COMPILER_FLAGS = "-w"; }; };
