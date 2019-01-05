@@ -72,7 +72,7 @@ NS_SWIFT_NAME(JSBFS_readFileWrapper(from:));
  *             for the original method.
  */
 + (BOOL)JSBFS_readAndWriteDataAtURL:(NSURL*_Nonnull)url
-        afterTransformdingWithBlock:(JSBFSDataTransformBlock NS_NOESCAPE _Nonnull)transform
+         afterTransformingWithBlock:(JSBFSDataTransformBlock NS_NOESCAPE _Nonnull)transform
                               error:(NSError*_Nullable*)errorPtr
 NS_SWIFT_NAME(JSBFS_readAndWriteData(at:afterTransforming:));
 
@@ -81,7 +81,7 @@ NS_SWIFT_NAME(JSBFS_readAndWriteData(at:afterTransforming:));
  *             for the original method.
  */
 + (BOOL)JSBFS_readAndWriteFileWrapperAtURL:(NSURL*_Nonnull)url
-               afterTransformdingWithBlock:(JSBFSFileWrapperTransformBlock NS_NOESCAPE _Nonnull)transform
+                afterTransformingWithBlock:(JSBFSFileWrapperTransformBlock NS_NOESCAPE _Nonnull)transform
                                      error:(NSError*_Nullable*)errorPtr
 NS_SWIFT_NAME(JSBFS_readAndWriteFileWrapper(at:afterTransforming:));
 

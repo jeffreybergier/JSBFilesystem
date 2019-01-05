@@ -66,21 +66,21 @@
 }
 
 + (BOOL)JSBFS_readAndWriteDataAtURL:(NSURL*_Nonnull)url
-        afterTransformdingWithBlock:(JSBFSDataTransformBlock NS_NOESCAPE _Nonnull)transform
+         afterTransformingWithBlock:(JSBFSDataTransformBlock NS_NOESCAPE _Nonnull)transform
                               error:(NSError*_Nullable*)errorPtr;
 {
     return [self JSBFS_readAndWriteDataAtURL:url
-                 afterTransformdingWithBlock:transform
+                  afterTransformingWithBlock:transform
                                filePresenter:nil
                                        error:errorPtr];
 }
 
 + (BOOL)JSBFS_readAndWriteFileWrapperAtURL:(NSURL*_Nonnull)url
-               afterTransformdingWithBlock:(JSBFSFileWrapperTransformBlock NS_NOESCAPE _Nonnull)transform
+                afterTransformingWithBlock:(JSBFSFileWrapperTransformBlock NS_NOESCAPE _Nonnull)transform
                                      error:(NSError*_Nullable*)errorPtr;
 {
     return [self JSBFS_readAndWriteFileWrapperAtURL:url
-                        afterTransformdingWithBlock:transform
+                         afterTransformingWithBlock:transform
                                       filePresenter:nil
                                               error:errorPtr];
 }

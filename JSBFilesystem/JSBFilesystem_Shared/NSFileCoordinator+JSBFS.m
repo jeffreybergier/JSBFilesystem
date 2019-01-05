@@ -164,7 +164,7 @@
 }
 
 + (BOOL)JSBFS_readAndWriteDataAtURL:(NSURL*_Nonnull)url
-        afterTransformdingWithBlock:(JSBFSDataTransformBlock NS_NOESCAPE _Nonnull)transform
+         afterTransformingWithBlock:(JSBFSDataTransformBlock NS_NOESCAPE _Nonnull)transform
                       filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
                               error:(NSError*_Nullable*)errorPtr;
 {
@@ -201,7 +201,7 @@
 }
 
 + (BOOL)JSBFS_readAndWriteFileWrapperAtURL:(NSURL*_Nonnull)url
-               afterTransformdingWithBlock:(JSBFSFileWrapperTransformBlock NS_NOESCAPE _Nonnull)transform
+                afterTransformingWithBlock:(JSBFSFileWrapperTransformBlock NS_NOESCAPE _Nonnull)transform
                              filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
                                      error:(NSError*_Nullable*)errorPtr;
 {

@@ -106,7 +106,7 @@ NS_SWIFT_NAME(JSBFS_readFileWrapper(from:filePresenter:));
  * @return Success YES/NO.
  */
 + (BOOL)JSBFS_readAndWriteDataAtURL:(NSURL*_Nonnull)url
-        afterTransformdingWithBlock:(JSBFSDataTransformBlock NS_NOESCAPE _Nonnull)transform
+        afterTransformingWithBlock:(JSBFSDataTransformBlock NS_NOESCAPE _Nonnull)transform
                       filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
                               error:(NSError*_Nullable*)errorPtr
 NS_SWIFT_NAME(JSBFS_readAndWriteData(at:afterTransforming:filePresenter:));
@@ -124,7 +124,7 @@ NS_SWIFT_NAME(JSBFS_readAndWriteData(at:afterTransforming:filePresenter:));
  * @return Success YES/NO.
  */
 + (BOOL)JSBFS_readAndWriteFileWrapperAtURL:(NSURL*_Nonnull)url
-               afterTransformdingWithBlock:(JSBFSFileWrapperTransformBlock NS_NOESCAPE _Nonnull)transform
+               afterTransformingWithBlock:(JSBFSFileWrapperTransformBlock NS_NOESCAPE _Nonnull)transform
                              filePresenter:(id<NSFilePresenter>_Nullable)filePresenter
                                      error:(NSError*_Nullable*)errorPtr
 NS_SWIFT_NAME(JSBFS_readAndWriteFileWrapper(at:afterTransforming:filePresenter:));

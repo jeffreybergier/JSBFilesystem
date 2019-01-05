@@ -131,28 +131,28 @@
 - (void)testNSFCReadWriteTransformNilParameters;
 {
     XCTAssertThrowsSpecificNamed([NSFileCoordinator JSBFS_readAndWriteDataAtURL:nil
-                                                    afterTransformdingWithBlock:nil
+                                                     afterTransformingWithBlock:nil
                                                                   filePresenter:nil
                                                                           error:nil],
                                  NSException,
                                  NSInternalInconsistencyException,
                                  @"");
     XCTAssertNoThrowSpecificNamed([NSFileCoordinator JSBFS_readAndWriteDataAtURL:[self nonNilURL]
-                                                     afterTransformdingWithBlock:
+                                                      afterTransformingWithBlock:
                                    ^NSData*_Nonnull(NSData*_Nonnull data) { return nil; }
                                                                    filePresenter:nil
                                                                            error:nil],
                                   NSException,
                                   @"");
     XCTAssertThrowsSpecificNamed([NSFileCoordinator JSBFS_readAndWriteFileWrapperAtURL:nil
-                                                           afterTransformdingWithBlock:nil
+                                                            afterTransformingWithBlock:nil
                                                                          filePresenter:nil
                                                                                  error:nil],
                                  NSException,
                                  NSInternalInconsistencyException,
                                  @"");
     XCTAssertNoThrowSpecificNamed([NSFileCoordinator JSBFS_readAndWriteFileWrapperAtURL:[self nonNilURL]
-                                                            afterTransformdingWithBlock:
+                                                             afterTransformingWithBlock:
                                    ^NSFileWrapper*_Nonnull(NSFileWrapper*_Nonnull data) { return nil; }
                                                                           filePresenter:nil
                                                                                   error:nil],

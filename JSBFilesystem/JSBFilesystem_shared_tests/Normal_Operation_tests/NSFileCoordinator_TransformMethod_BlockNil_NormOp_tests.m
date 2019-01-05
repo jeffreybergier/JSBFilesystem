@@ -66,7 +66,7 @@
 {
     NSURL* fileURL = [[self directory] URLByAppendingPathComponent:[self fileName]];
     XCTAssertThrowsSpecificNamed([NSFileCoordinator JSBFS_readAndWriteDataAtURL:fileURL
-                                                    afterTransformdingWithBlock:
+                                                     afterTransformingWithBlock:
                                   ^NSData*_Nonnull(NSData*_Nonnull data) { return nil; }
                                                                   filePresenter:nil
                                                                           error:nil],
@@ -79,7 +79,7 @@
 {
     NSURL* fileURL = [[self directory] URLByAppendingPathComponent:[self fileName]];
     XCTAssertThrowsSpecificNamed([NSFileCoordinator JSBFS_readAndWriteFileWrapperAtURL:fileURL
-                                                           afterTransformdingWithBlock:
+                                                            afterTransformingWithBlock:
                                   ^NSFileWrapper*_Nonnull(NSFileWrapper*_Nonnull data) { return nil; }
                                                                          filePresenter:nil
                                                                                  error:nil],
