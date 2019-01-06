@@ -132,16 +132,14 @@
                                  orderedAscending:(BOOL)ascending
                                             error:(NSError*_Nullable*)errorPtr;
 {
-    BOOL sortRequired = [contents count] >= 2;
     __block NSError* error = nil;
-    __block BOOL lhsSuccess = sortRequired ? NO : YES;
-    __block BOOL rhsSuccess = sortRequired ? NO : YES;
     [contents sortUsingComparator:^NSComparisonResult(NSURL* _Nonnull lhs, NSURL* _Nonnull rhs) {
+        if (error != nil) { return NSOrderedSame; } // If an error was set, just bail, we're done
         if ([resourceKey isEqualToString:NSURLLocalizedNameKey]) {
             NSString* lhsName = nil;
             NSString* rhsName = nil;
-            lhsSuccess = [lhs getResourceValue:&lhsName forKey:resourceKey error:&error];
-            rhsSuccess = [rhs getResourceValue:&rhsName forKey:resourceKey error:&error];
+            BOOL lhsSuccess = [lhs getResourceValue:&lhsName forKey:resourceKey error:&error];
+            BOOL rhsSuccess = [rhs getResourceValue:&rhsName forKey:resourceKey error:&error];
             if (error || !lhsSuccess || !rhsSuccess || !lhsName || !rhsName) { return NSOrderedSame; }
             if (ascending) {
                 return [lhsName localizedCaseInsensitiveCompare:rhsName];
@@ -151,8 +149,8 @@
         } else if ([resourceKey isEqualToString:NSURLContentModificationDateKey] || [resourceKey isEqualToString:NSURLCreationDateKey]) {
             NSDate* lhsDate = nil;
             NSDate* rhsDate = nil;
-            lhsSuccess = [lhs getResourceValue:&lhsDate forKey:resourceKey error:&error];
-            rhsSuccess = [rhs getResourceValue:&rhsDate forKey:resourceKey error:&error];
+            BOOL lhsSuccess = [lhs getResourceValue:&lhsDate forKey:resourceKey error:&error];
+            BOOL rhsSuccess = [rhs getResourceValue:&rhsDate forKey:resourceKey error:&error];
             if (error || !lhsSuccess || !rhsSuccess || !lhsDate || !rhsDate) { return NSOrderedSame; }
             if (ascending) {
                 return [lhsDate compare:rhsDate];
@@ -165,9 +163,6 @@
     }];
     if (error) {
         if (errorPtr != NULL) { *errorPtr = error; }
-        return nil;
-    } else if (!lhsSuccess || !rhsSuccess) {
-        if (errorPtr != NULL) { *errorPtr = [NSError JSBFS_operationFailedButNoCocoaErrorThrown]; }
         return nil;
     } else {
         return [contents copy];
