@@ -68,6 +68,7 @@ class ListTableViewController: UITableViewController {
         }
         self.tableView.reloadData()
         self.resetTimer()
+        NSLog(self.directory.url.path)
     }
 
     private func resetTimer() {
