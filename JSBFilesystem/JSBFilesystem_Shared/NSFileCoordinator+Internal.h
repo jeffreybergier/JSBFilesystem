@@ -74,3 +74,11 @@ NS_SWIFT_NAME(JSBFS_contentsOfDirectory(at:sortedBy:filteredBy:filePresenter:));
 NS_SWIFT_NAME(JSBFS_comparableContentsOfDirectory(at:sortedBy:filteredBy:filePresenter:));
 
 @end
+
+@interface NSDate (Internal)
+- (NSComparisonResult)JSBFS_compare:(id)other;
+@end
+
+@interface NSString (Internal)
+- (NSComparisonResult)JSBFS_compare:(id)other;
+@end

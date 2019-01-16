@@ -86,8 +86,8 @@ class JSBFSObservedDirectory_Changes_NormOp_tests: XCTestCase {
         self.observer.changesObserved = { changes in
             let changes = changes as! JSBFSDirectoryChangesFull
             XCTAssert(changes.insertions.count == 2)
-            XCTAssert(changes.insertions.first! == 1)
-            XCTAssert(changes.insertions.last! == 11)
+            XCTAssert(changes.insertions.first! == 76)
+            XCTAssert(changes.insertions.last! == 101)
             XCTAssert(changes.deletions.isEmpty)
             XCTAssert(changes.updates.isEmpty)
             XCTAssert(changes.moves.isEmpty)
@@ -112,8 +112,8 @@ class JSBFSObservedDirectory_Changes_NormOp_tests: XCTestCase {
         self.observer.changesObserved = { changes in
             let changes = changes as! JSBFSDirectoryChangesFull
             XCTAssert(changes.deletions.count == 2)
-            XCTAssert(changes.deletions.first! == 18)
-            XCTAssert(changes.deletions.last! == 73)
+            XCTAssert(changes.deletions.first! == 25)
+            XCTAssert(changes.deletions.last! == 75)
             XCTAssert(changes.insertions.isEmpty)
             XCTAssert(changes.updates.isEmpty)
             XCTAssert(changes.moves.isEmpty)
@@ -137,8 +137,8 @@ class JSBFSObservedDirectory_Changes_NormOp_tests: XCTestCase {
         self.observer.changesObserved = { changes in
             let changes = changes as! JSBFSDirectoryChangesFull
             XCTAssert(changes.updates.count == 2)
-            XCTAssert(changes.updates.first! == 18)
-            XCTAssert(changes.updates.last! == 73)
+            XCTAssert(changes.updates.first! == 25)
+            XCTAssert(changes.updates.last! == 75)
             XCTAssert(changes.deletions.isEmpty)
             XCTAssert(changes.insertions.isEmpty)
             XCTAssert(changes.moves.isEmpty)

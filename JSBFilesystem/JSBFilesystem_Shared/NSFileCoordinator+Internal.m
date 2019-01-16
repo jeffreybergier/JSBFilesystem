@@ -135,30 +135,18 @@
     __block NSError* error = nil;
     [contents sortUsingComparator:^NSComparisonResult(NSURL* _Nonnull lhs, NSURL* _Nonnull rhs) {
         if (error != nil) { return NSOrderedSame; } // If an error was set, just bail, we're done
-        if ([resourceKey isEqualToString:NSURLLocalizedNameKey]) {
-            NSString* lhsName = nil;
-            NSString* rhsName = nil;
-            BOOL lhsSuccess = [lhs getResourceValue:&lhsName forKey:resourceKey error:&error];
-            BOOL rhsSuccess = [rhs getResourceValue:&rhsName forKey:resourceKey error:&error];
-            if (error || !lhsSuccess || !rhsSuccess || !lhsName || !rhsName) { return NSOrderedSame; }
-            if (ascending) {
-                return [lhsName localizedCaseInsensitiveCompare:rhsName];
-            } else {
-                return [rhsName localizedCaseInsensitiveCompare:lhsName];
-            }
-        } else if ([resourceKey isEqualToString:NSURLContentModificationDateKey] || [resourceKey isEqualToString:NSURLCreationDateKey]) {
-            NSDate* lhsDate = nil;
-            NSDate* rhsDate = nil;
-            BOOL lhsSuccess = [lhs getResourceValue:&lhsDate forKey:resourceKey error:&error];
-            BOOL rhsSuccess = [rhs getResourceValue:&rhsDate forKey:resourceKey error:&error];
-            if (error || !lhsSuccess || !rhsSuccess || !lhsDate || !rhsDate) { return NSOrderedSame; }
-            if (ascending) {
-                return [lhsDate compare:rhsDate];
-            } else {
-                return [rhsDate compare:lhsDate];
-            }
+        id lhsResource = nil;
+        id rhsResource = nil;
+        BOOL lhsSuccess = [lhs getResourceValue:&lhsResource forKey:resourceKey error:&error];
+        BOOL rhsSuccess = [rhs getResourceValue:&rhsResource forKey:resourceKey error:&error];
+        if (error || !lhsSuccess || !rhsSuccess || !lhsResource || !rhsResource)
+            { return NSOrderedSame; }
+        if (![lhsResource respondsToSelector:@selector(JSBFS_compare:)])
+            { @throw [NSException JSBFS_unsupportedURLResourceKey]; }
+        if (ascending) {
+            return [lhsResource JSBFS_compare:rhsResource];
         } else {
-            @throw [NSException JSBFS_unsupportedURLResourceKey];
+            return [rhsResource JSBFS_compare:lhsResource];
         }
     }];
     if (error) {
@@ -206,4 +194,18 @@
     }
 }
 
+@end
+
+@implementation NSDate (Internal)
+- (NSComparisonResult)JSBFS_compare:(id)other;
+{
+    return [self compare:other];
+}
+@end
+
+@implementation NSString (Internal)
+- (NSComparisonResult)JSBFS_compare:(id)other;
+{
+    return [self localizedStandardCompare:other];
+}
 @end
