@@ -132,20 +132,21 @@
 - (void)forceUpdate;
 {
     NSError* error = nil;
+    JSBFSObservedDirectoryChangeBlock block = [self changesObserved];
+    JSBFSObservedDirectoryChangeKind changeKind = [self changeKind];
     NSArray<JSBFSFileComparison*>* lhs = [self internalState];
     NSArray<JSBFSFileComparison*>* rhs =
-    [NSFileCoordinator JSBFS_comparableContentsOfDirectoryAtURL:[self url]
-                                                       sortedBy:[self sortedBy]
-                                                     filteredBy:[self filteredBy]
-                                                  filePresenter:nil
-                                                          error:&error];
+        [NSFileCoordinator JSBFS_comparableContentsOfDirectoryAtURL:[self url]
+                                                           sortedBy:[self sortedBy]
+                                                         filteredBy:[self filteredBy]
+                                                      filePresenter:nil
+                                                              error:&error];
     if (error) {
         NSLog(@"%@", error);
         rhs = [[NSArray alloc] init];
     }
     IGListIndexSetResult* result = IGListDiff(lhs, rhs, IGListDiffEquality);
-    JSBFSDirectoryChanges* changes = [result changeObjectForChangeKind:[self changeKind]];
-    JSBFSObservedDirectoryChangeBlock block = [self changesObserved];
+    JSBFSDirectoryChanges* changes = [result changeObjectForChangeKind:changeKind];
     [self setInternalState:rhs];
     if (changes && block) {
         dispatch_async(dispatch_get_main_queue(), ^{

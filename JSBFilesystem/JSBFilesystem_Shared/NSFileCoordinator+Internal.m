@@ -133,22 +133,23 @@
                                             error:(NSError*_Nullable*)errorPtr;
 {
     __block NSError* error = nil;
-    [contents sortUsingComparator:^NSComparisonResult(NSURL* _Nonnull lhs, NSURL* _Nonnull rhs) {
-        if (error != nil) { return NSOrderedSame; } // If an error was set, just bail, we're done
-        id lhsResource = nil;
-        id rhsResource = nil;
-        BOOL lhsSuccess = [lhs getResourceValue:&lhsResource forKey:resourceKey error:&error];
-        BOOL rhsSuccess = [rhs getResourceValue:&rhsResource forKey:resourceKey error:&error];
-        if (error || !lhsSuccess || !rhsSuccess || !lhsResource || !rhsResource)
+    [contents sortUsingComparator:^NSComparisonResult(NSURL*_Nonnull lhs, NSURL*_Nonnull rhs)
+     {
+         if (error != nil) { return NSOrderedSame; } // If an error was set, just bail, we're done
+         id lhsResource = nil;
+         id rhsResource = nil;
+         BOOL lhsSuccess = [lhs getResourceValue:&lhsResource forKey:resourceKey error:&error];
+         BOOL rhsSuccess = [rhs getResourceValue:&rhsResource forKey:resourceKey error:&error];
+         if (error || !lhsSuccess || !rhsSuccess || !lhsResource || !rhsResource)
             { return NSOrderedSame; }
-        if (![lhsResource respondsToSelector:@selector(JSBFS_compare:)])
+         if (![lhsResource respondsToSelector:@selector(JSBFS_compare:)])
             { @throw [NSException JSBFS_unsupportedURLResourceKey]; }
-        if (ascending) {
-            return [lhsResource JSBFS_compare:rhsResource];
-        } else {
-            return [rhsResource JSBFS_compare:lhsResource];
-        }
-    }];
+         if (ascending) {
+             return [lhsResource JSBFS_compare:rhsResource];
+         } else {
+             return [rhsResource JSBFS_compare:lhsResource];
+         }
+     }];
     if (error) {
         if (errorPtr != NULL) { *errorPtr = error; }
         return nil;
